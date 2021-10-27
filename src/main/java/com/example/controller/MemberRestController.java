@@ -13,10 +13,10 @@ public class MemberRestController {
     @GetMapping(value = "/one", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public MemberVO returnMember(){
         MemberVO member = new MemberVO();
-        member.setId("ubs4939");
-        member.setPasswd("ubs3541");
-        member.setName("유병수");
-        member.setEmail("ubs4939@naver.com");
+        member.setId("testing");
+        member.setPasswd("testpass");
+        member.setName("테스트");
+        member.setEmail("test@naver.com");
 
         return member;
     }
