@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mybatis.example.AttatchMapper">
+<mapper namespace="com.example.mapper.AttachMapper">
 	<!-- 간단한건 annotation으로 처리, 긴것등 xml로 표현 -->
 	<!--여러 첨부파일을 넣을때 첨부파일 한 게시글에 5개 까지 가능하다, -->
 	<!-- VALUES 공통 -->
