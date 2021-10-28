@@ -11,12 +11,13 @@ public class BoardVO {
 	private String mid; // 작성자 아이디
 	private String subject; // 게시글 제목
 	private String content; // 게시글 내용
+	private String secret;//비밀 글
 	private Integer readcount; // 게시글 조회수
 	private Date regDate; // 게시글 작성날짜
 	
 	// 댓글용
-	private Integer reRef;
-	private Integer reLev;
-	private Integer reSeq;
+	private Integer reRef;//주글이랑 답글  -> 글그룹번호
+	private Integer reLev;//들여쓰기
+	private Integer reSeq;//답글 구분 주글일 경우 re_seq는 0
 
 }
