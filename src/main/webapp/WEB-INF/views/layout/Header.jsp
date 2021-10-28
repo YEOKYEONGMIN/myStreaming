@@ -14,3 +14,5 @@
 	<link href="../resources/css/sidebar.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
+<jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>
+
