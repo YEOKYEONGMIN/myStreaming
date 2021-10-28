@@ -3,9 +3,49 @@
 }
 
 form{
-    margin: 15px 10%;
+    margin: 15px 40px;
 }
 
 .btn{
-    margin-bottom: 10px;
+    margin: 5px 0px;
 }
+
+.modal-footer{
+    display: block;
+    padding: 15px 0;
+    margin: 0px 56px;
+}
+
+/*소셜 로그인 */
+
+#socialLogin a:hover {
+    filter: brightness(0.8);
+    transition: 0.4s;
+}
+#socialLogin a {
+    width: 110px;
+    border-radius: 5px;
+
+}
+
+#googleLoginBtn{
+    box-shadow: 0px 1px 1px grey;
+    border: 1px solid #888;
+}
+
+
+#socialLogin img{
+    width:20px;
+    height:20px;
+    vertical-align: middle!important;
+}
+
+#socialLogin span{
+    padding-left: 3px;!important;
+}
+
+.modal-body .btn{
+    background-color: #b39ddb;
+    color: white;
+}
+
