@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mybatis.example.BoardMapper">
+<mapper namespace="com.example.mapper.BoardMapper">
 
 	<delete id="deleteBoardNyNum">
 		<!-- CDATA 안에 있는 쿼리문 내용중 괄호나 특수문자를 XML parser로 인식 하지 않고 문자열로 인식 -->
