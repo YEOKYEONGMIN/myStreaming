@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MemberMapper">
+	
+	<!-- 이후에 프로필사진 테이블과 조인으로 수정 -->
+	<select id="getMembers" resultMap="memberVO">
+		<![CDATA[
+			SELECT * FROM member
+		]]>
+	</select>
+	
+	
+	<select id="getMemberById" resultMap="memberVO">
+		<![CDATA[
+			SELECT * FROM member WHERE id = #{id}
+		]]>
+	</select>
+
+</mapper>

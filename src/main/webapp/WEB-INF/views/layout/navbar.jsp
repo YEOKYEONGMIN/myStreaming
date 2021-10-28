@@ -55,7 +55,7 @@
 
         <c:choose>
             <c:when test="${ sessionScope.userid eq null}">
-                <a class="btn btn-primary" href="/member/login">로그인</a>&nbsp; | &nbsp;
+                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>&nbsp; &nbsp;
                 <a class="btn btn-primary" href="/member/join">회원가입</a>
             </c:when>
             <c:otherwise>
