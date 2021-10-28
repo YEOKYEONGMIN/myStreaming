@@ -3,12 +3,13 @@
 <html>
 <head>
 	<title>Home</title>
+	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
 </head>
 <body>
 <h1>
 	Hello world!  
 </h1>
-
-<P>  The time on the server is ${serverTime}. </P>
+<button type="button" class="btn btn-primary">Primary</button>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 </body>
 </html>
