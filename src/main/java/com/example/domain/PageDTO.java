@@ -15,7 +15,7 @@ public class PageDTO {
 	private final int PAGE_BLOCK = 5; // 페이지블록 구성하는 최대 페이지갯수
 	
 	private int totalCount; // 전체 글갯수
-	private Criteria cri;   // 요청 페이지번호, 한페이지당 글갯수
+	private Criteria cri;// 요청 페이지번호, 한페이지당 글갯수
 	
 	public PageDTO(Criteria cri, int totalCount) {
 		this.cri = cri;
