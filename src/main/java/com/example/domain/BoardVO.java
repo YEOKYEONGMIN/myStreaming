@@ -11,7 +11,7 @@ public class BoardVO {
 	private String mid; // 작성자 아이디
 	private String subject; // 게시글 제목
 	private String content; // 게시글 내용
-	private boolean secret;//비밀 글
+	private boolean secret; //비밀 글
 	private Integer readcount; // 게시글 조회수
 	private Date regDate; // 게시글 작성날짜
 	
