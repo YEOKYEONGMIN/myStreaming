@@ -5,7 +5,8 @@
 	<title>Home</title>
 	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
 </head>
-<body>
+<body id="body-pd">
+	<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
 <h1>
 	Hello world!  
 </h1>
