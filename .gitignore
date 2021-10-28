@@ -25,3 +25,6 @@ rebel.xml
 **/target
  
 /example/
+
+# 부트로컬 파일(유병수)
+/src/main/webapp/resources/bootstrap
