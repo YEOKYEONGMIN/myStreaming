@@ -6,8 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% session.setAttribute("id", "tel");%>
+
+<meta name="google-signin-client_id"
+      content="1061393167955-p6mipsnaoecrmefmsji5tujmh4kad0sd.apps.googleusercontent.com">
+
 <link href="/resources/css/modal.css" rel="stylesheet"/>
+<%--구글 버튼--%>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -45,14 +50,45 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary col-12">로그인</button>
-                    <a class="btn btn-primary col-12" role="button" href="/" >회원가입</a>
+                    <button type="submit" class="btn col-12">로그인</button>
+                    <a class="btn col-12" role="button" href="/">회원가입</a>
                 </form>
 
             </div>
             <div class="modal-footer">
-<%--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--%>
+
+
+                <div class="row justify-content-between" id="socialLogin">
+                    <%-- 트위치 --%>
+                    <div>
+                        <a href="#!" class="btn" type="submit" id="twitchLoginBtn"
+                           style="background-color:#6441a4; color: white">
+                            <img class="img" src="/resources/images/twitchSymbol.svg" alt="">
+                            <span>로그인</span>
+                        </a>
+                    </div>
+                    <%-- 카카오 --%>
+                    <div>
+                        <a href="#!" class="btn" type="submit" id="kakaoLoginBtn"
+                           style="background-color:#FEE500; color:#191919;">
+                            <img class="img" src="/resources/images/kakaoSymbol.svg" alt="">
+                            <span>로그인</span>
+                        </a>
+                    </div>
+                    <%-- 구글 --%>
+                    <div>
+                        <a href="#!;" class="btn" type="submit" id="googleLoginBtn" style="background-color:#FFFFFF; color:black;">
+                            <img class="img" src="/resources/images/googleSymbol.png" alt="">
+                            <span>로그인</span>
+                        </a>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<script src="../resources/js/modal.js"></script>
+<script>startApp();</script>
