@@ -15,18 +15,14 @@
 
 
 <!-- Button trigger modal -->
-<button id="loginButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-	로그인
-</button>
+
 
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
 
-$('#loginButton').on("click",function () {
-	console.log("클릭")
-})
+
 
 </script>
 
