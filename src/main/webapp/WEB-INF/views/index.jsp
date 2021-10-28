@@ -14,6 +14,8 @@
 </h1>
 
 
+
+
 <!-- Button trigger modal -->
 
 
@@ -21,7 +23,9 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
-
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
 
 
 </script>
