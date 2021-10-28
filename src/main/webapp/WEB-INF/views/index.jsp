@@ -1,0 +1,16 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html>
+<head>
+	<title>Home</title>
+	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
+</head>
+<body id="body-pd">
+	<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
+<h1>
+	Hello world!  
+</h1>
+<button type="button" class="btn btn-primary">Primary</button>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</body>
+</html>
