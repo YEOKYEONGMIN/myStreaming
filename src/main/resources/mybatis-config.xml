@@ -11,7 +11,7 @@
 		<!-- 동일한 select문이 또 요청되는 경우, 기존 캐시된 내용으로 가져옴. 속도향상 -->
 		<setting name="cacheEnabled" value="true" />
 
-		<!-- 테이블의 컬럼명과 VO 객체의 setter명의 연결 규칙을 설정 -->
+		<!-- 테이블의 컬럼명과 VO 객체의 setter명의 연결 규칙을 설정    -->
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 
