@@ -31,8 +31,8 @@
 	<!-- 주글 쓰기 -->
 	<insert id="addBoard">
  	<![CDATA[
- 		INSERT INTO board(num,mid,subject,content,readcount,reg_date,re_ref,re_lev,re_seq)
- 		VALUES(#{num}, #{mid}, #{subject}, #{content}, #{readcount}, #{regDate}, #{reRef}, #{reLev}, #{reSeq})
+ 		INSERT INTO board(num,mid,subject,content,secret,readcount,reg_date,re_ref,re_lev,re_seq)
+ 		VALUES(#{num}, #{mid}, #{subject}, #{content}, #{secret},#{readcount}, #{regDate}, #{reRef}, #{reLev}, #{reSeq})
  		
  	]]>
 	</insert>
@@ -125,5 +125,40 @@
 		WHERE num = #{num} 
 		]]>
 	</select>
-
+	
+	<!--join쿼리문으로 글번호에 해당하는 게시글한개과 첨부파일 리스트 모두 가져오기 , resultMap은 mapping 정보-->
+	<!-- resultType을 boardVO로 할 경우attachVO를 받지 못함 !!(주의) -->
+	<select id="getBoardAndAttaches" resultMap="boardAndAttaches">
+  	<![CDATA[
+  		SELECT b.num, b.mid, b.subject, b.content, b.secret, b.readcount, b.reg_date, b.re_ref, b.re_lev, b.re_seq,
+				a.uuid, a.uploadpath, a.filename, a.filetype, a.bno
+		FROM board b LEFT OUTER JOIN attach a
+		ON b.num = a.bno
+		WHERE b.num = #{num}
+  	]]>
+  </select>
+  
+	
+	<!-- resultMap 정보 => 각각의 컬럼을 어떻게 담아라 -->
+ 	<resultMap type="boardVO" id="boardAndAttaches">
+  		<id column="num" property="num"/><!-- 기본키만 아이디로 쓸것! -->
+  		<result column="mid" property="mid"/>
+  		<result column="subject" property="subject"/>
+  		<result column="content" property="content"/>
+  		<result column="secret" property="secret"/>
+  		<result column="readcount" property="readcount"/>
+  		<result column="reg_date" property="regDate"/>
+  		<result column="re_ref" property="reRef"/>
+  		<result column="re_lev" property="reLev"/>
+  		<result column="re_seq" property="reSeq"/>
+  		<!-- list 타입 객체 만든다, 구성요소는 attachVO -->
+  		<!-- 1:N요소는 N 요소(collection)  -->
+  		<collection property="attachList" javaType="list" ofType="attachVO">
+  			<id column="uuid" property="uuid" />
+  			<result column="uploadpath" property="uploadpath" />
+  			<result column="filename" property="filename" />
+  			<result column="filetype" property="filetype" />
+  			<result column="bno" property="bno" />
+  		</collection>
+  	</resultMap>
 </mapper>

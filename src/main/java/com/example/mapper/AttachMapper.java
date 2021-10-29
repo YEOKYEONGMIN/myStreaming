@@ -40,7 +40,8 @@ public interface AttachMapper {
 	// uuid에 해당하는 첨부파일 한개 삭제하기
 	@Delete("DELETE FROM attach WHERE uuid = #{uuid} ")
 	void deleteAttachByUuid(String uuid);
-
+	
+	//여러개의 uuid에 해당하는 첨부파일 삭제
 	int deleteAttachesByUuids(List<String> uuidList);
 
 }
