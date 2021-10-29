@@ -38,4 +38,13 @@ public interface MemberMapper {
 	// 회원정보 하나 조회
 	MemberVO getMemberById(String id);
 	
+	// 아이디와 일치하는 회원 수
+	int getMemberCount(String id);
+	
+	// 모든 회원정보와 프로필사진 정보 조인해서 가져오기
+	List<MemberVO> getMembersAndProfilepics();
+	
+	// 아이디와 일치하는 회원정보와 프로필사진 정보 조인해서 가져오기
+	MemberVO getMemberAndProfilepic(String id);
+	
 }

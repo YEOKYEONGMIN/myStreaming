@@ -4,7 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.MemberMapper">
 	
-	<!-- 이후에 프로필사진 테이블과 조인으로 수정 -->
 	<select id="getMembers" resultMap="memberVO">
 		<![CDATA[
 			SELECT * FROM member
@@ -17,5 +16,65 @@
 			SELECT * FROM member WHERE id = #{id}
 		]]>
 	</select>
-
+	
+	
+	<select id="getMemberCount" resultMap="int">
+		<![CDATA[
+			SELECT COUNT(*) count FROM member WHERE id = #{id}
+		]]>
+	</select>
+	
+	
+	
+	<!-- 회원 한명당 프사 하나로 하기 때문에 1:1조인 -->
+	<!-- 프사 여러개 할 경우 1:N 조인인 collection으로 수정 -->
+	<select id="getMembersAndProfilepics" resultMap="membersAndprofilepics">
+		<![CDATA[
+			SELECT * FROM member m left join profilepic p
+			ON m.id = p.mid
+		]]>
+	</select>
+	<resultMap type="memberVO" id="membersAndprofilepics">
+		<id column="id" property="id" />
+		<result column="passwd" property="passwd" />
+		<result column="name" property="name" />
+		<result column="nickname" property="nickname" />
+		<result column="birthday" property="birthday" />
+		<result column="gender" property="gender" />
+		<result column="email" property="email" />
+		<result column="reg_Date" property="regDate" />
+		
+		<association property="profilepicVO" javaType="profilepicVO">
+			<id column="id" property="id" />
+			<result column="uuid" property="uuid" />
+			<result column="uploadpath" property="uploadpath" />
+			<result column="filename" property="filename" />
+		</association>
+	</resultMap>
+	
+	<select id="getMemberAndProfilepic" resultMap="memberAndProfilepic">
+		<![CDATA[
+			SELECT * FROM member m left join profilepic p
+			ON m.id = p.mid
+			WHERE m.id = #{id}
+		]]>
+	</select>
+	<resultMap type="memberVO" id="getMemberAndProfilepic">
+		<id column="id" property="id" />
+		<result column="passwd" property="passwd" />
+		<result column="name" property="name" />
+		<result column="nickname" property="nickname" />
+		<result column="birthday" property="birthday" />
+		<result column="gender" property="gender" />
+		<result column="email" property="email" />
+		<result column="reg_Date" property="regDate" />
+		
+		<association property="profilepicVO" javaType="profilepicVO">
+			<id column="id" property="id" />
+			<result column="uuid" property="uuid" />
+			<result column="uploadpath" property="uploadpath" />
+			<result column="filename" property="filename" />
+		</association>
+	</resultMap>
+	
 </mapper>

@@ -15,11 +15,11 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 
 <!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,15 +27,16 @@
             <div class="modal-body">
 
                 <!-- ID input -->
-                <form>
+                <form id="loginForm">
 
                     <div class="form-group col-12">
-                        <input type="email" class="form-control" id="loginId" placeholder="아이디">
+                        <input type="text" class="form-control" id="loginId" placeholder="아이디">
                     </div>
 
-                    <div class="form-group col-12">
+                    <div class="form-group pass_show col-12">
                         <input type="password" class="form-control" id="loginPassword" placeholder="비밀번호">
                     </div>
+
 
                     <div class="d-flex justify-content-between">
                         <div>
@@ -48,10 +49,11 @@
                             <input type="checkbox" class="form-check-input" id="loginRememberMe">
                             <label class="form-check-label" for="loginRememberMe">로그인 유지</label>
                         </div>
+
                     </div>
 
-                    <button type="submit" class="btn col-12">로그인</button>
-                    <a class="btn col-12" role="button" href="/">회원가입</a>
+                    <button type="submit" class="btn background-purple text-white col-12">로그인</button>
+                    <a class="btn background-purple text-white col-12" role="button" href="/">회원가입</a>
                 </form>
 
             </div>
@@ -90,5 +92,6 @@
     </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="../resources/js/modal.js"></script>
-<script>startApp();</script>

@@ -19,8 +19,6 @@ public class MemberService {
 	public int register(MemberVO memberVO) {
 		return memberMapper.addMember(memberVO);
 	} // register
-	
-	
 
 	public int deleteById(String id) {
 		return memberMapper.deleteMemberById(id);
@@ -31,7 +29,6 @@ public class MemberService {
 		return memberMapper.deleteMembers();
 	} // deleteMembers
 	
-	
 	// 멤버 수정 (아이디 비밀번호를 제외한 정보들 수정)
 	public void updateById(MemberVO memberVO) {
 		memberMapper.updateMemberById(memberVO);
@@ -41,13 +38,30 @@ public class MemberService {
 	public void changePasswd(MemberVO memberVO) {
 		memberMapper.updatePasswd(memberVO);
 	} // updatePasswd
-
 	
+	// 모든 회원정보 조회
 	public List<MemberVO> getMembers() {
 		return memberMapper.getMembers();
 	} // getMembers
 
+	// 회원정보 하나 조회
 	public MemberVO getMemberById(String id) {
 		return memberMapper.getMemberById(id);
-	}
+	} // getMemberById
+	
+	// 아이디와 일치하는 회원 수
+	public int getMemberCount(String id) {
+		return memberMapper.getMemberCount(id);
+	} // getMemberCount
+	
+	// 모든 회원정보와 프로필사진 정보 조인해서 가져오기
+	public List<MemberVO> getMembersAndProfilepics() {
+		return memberMapper.getMembersAndProfilepics();
+	} // getMembersAndProfilepics
+	
+	// 아이디와 일치하는 회원정보와 프로필사진 정보 조인해서 가져오기
+	public MemberVO getMemberAndProfilepic(String id) {
+		return memberMapper.getMemberAndProfilepic(id);
+	} // getMemberAndProfilepic
+	
 }
