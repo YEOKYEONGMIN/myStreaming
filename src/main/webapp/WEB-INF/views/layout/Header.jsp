@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
 	<link href="../resources/css/sidebar.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>
