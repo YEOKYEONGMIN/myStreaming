@@ -1,8 +1,14 @@
+
+/*로그인 모달 CSS*/
+#loginModal .modal-dialog{
+    max-width: 460px!important;
+}
+
 .form-group{
     padding: 0!important;
 }
 
-form{
+#loginForm{
     margin: 15px 40px;
 }
 
@@ -44,8 +50,36 @@ form{
     padding-left: 3px;!important;
 }
 
-.modal-body .btn{
+
+.background-purple{
     background-color: #b39ddb;
+}
+
+.white{
     color: white;
 }
 
+#loginModal .btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;!important;
+}
+#loginModal .btn:hover {
+    filter: brightness(0.8);
+    transition: 0.4s;
+}
+
+/*비밀번호 보이기*/
+.pass_show{position: relative}
+
+.pass_show .ptxt {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    z-index: 1;
+    color: black;
+    margin-top: -8px;
+    cursor: pointer;
+    transition: .3s ease all;
+}
+
+/*=================================로그인 모달 끝*=================================*/
