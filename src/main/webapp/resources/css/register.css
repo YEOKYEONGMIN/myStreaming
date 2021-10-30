@@ -6,10 +6,26 @@
     padding: 0;
 }
 
-.join-header .col-5{
+.join-header .col-6{
     padding: 0!important;
 }
 .form-group .row button{
     width: 100%;
     margin:0!important;
+}
+
+.carousel-inner{
+    padding-left: 0px;
+}
+
+.join-outline{
+    display: flex;
+    justify-content: center;
+}
+
+.join-container{
+    display: flex!important;
+    flex-direction: column;
+    justify-content: center!important;
+    width: 500px;
 }
