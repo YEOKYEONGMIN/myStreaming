@@ -9,10 +9,7 @@
 </head>
 <body id="body-pd">
 	<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
-<h1>
-	Hello world!  
-</h1>
-
+	<jsp:include page="/WEB-INF/views/layout/carousel.jsp" />
 
 
 
@@ -23,9 +20,7 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
-	$(function () {
-	  $('[data-toggle="tooltip"]').tooltip()
-	})
+
 
 
 </script>
