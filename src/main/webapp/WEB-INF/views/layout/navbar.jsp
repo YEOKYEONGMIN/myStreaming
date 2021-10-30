@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<nav
-        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<%--<% session.setAttribute("id", "id"); %>--%>
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <a class="navbar-brand" href="#"><img
             src="/resources/images/logo_transparent.png" alt="Logo"
             style="width: 100px;"></a>
@@ -13,12 +12,11 @@
     </button>
 
     <!-- Topbar Search -->
-    <form
-            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small"
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search justify-content-center ">
+        <div class="input-group ">
+            <input type="text" class="form-control bg-light border-0 small "
                    placeholder="Search for..." aria-label="Search"
-                   aria-describedby="basic-addon2">
+                   aria-describedby="basic-addon2" id="search1">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button">
                     <i class="fas fa-search fa-sm"></i>
@@ -28,7 +26,7 @@
     </form>
 
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-md-5">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none"><a
@@ -54,9 +52,9 @@
             </div></li>
 
         <c:choose>
-            <c:when test="${ sessionScope.userid eq null}">
+            <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
                 <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>&nbsp; &nbsp;
-                <a class="btn btn-primary" href="/member/join">회원가입</a>
+                <a class="btn btn-primary" href="/member/register">회원가입</a>
             </c:when>
             <c:otherwise>
                 <!-- Nav Item - Alerts -->
@@ -173,9 +171,8 @@
                 <li class="nav-item dropdown no-arrow"><a
                         class="nav-link dropdown-toggle" href="#" id="userDropdown"
                         role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"> <span
-                        class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas
-							McGee</span>
+                        aria-expanded="false"> <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                 </a> <!-- Dropdown - User Information -->
                     <div
                             class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -199,3 +196,32 @@
         </c:choose>
     </ul>
 </nav>
+
+<div class="modal fade" id="searchModal" role="dialog">
+    <div class="modal-dialog">    
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Selected Students</h4>
+        </div>
+        <div class="modal-body">
+          <p>Harry and Chris cleared the entrance exam.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+      
+
+<script>
+$(document).ready(function(){
+    $("#search1").click(function(){
+      $("#searchModal").modal("show");
+    });
+    $("#searchModal").on('show.bs.modal', function () {
+    });
+});
+</script>
