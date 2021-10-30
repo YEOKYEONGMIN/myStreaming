@@ -13,6 +13,8 @@
 <%--부트스트랩 아이콘--%>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 	<link href="../resources/css/sidebar.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link href="../resources/css/carousel.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	
 
 
 <jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>
