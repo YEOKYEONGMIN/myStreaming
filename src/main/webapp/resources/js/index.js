@@ -1,7 +1,9 @@
+$('.carousel').carousel({
+	interval: 0
+});
+
+
 // 방송 리스트
-
-
-
 
 	$.ajax({
 	    url: '/api/twitch/liveList',
