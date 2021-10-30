@@ -62,7 +62,7 @@
 	<update id="updateBoard">
 	<![CDATA[
 		UPDATE board
-		SET subject =  #{subject}, content = #{content} 
+		SET subject =  #{subject}, content = #{content} , #{secret}
 		WHERE num = #{num}
 	]]>
 	</update>
@@ -138,7 +138,6 @@
   	]]>
   </select>
   
-	
 	<!-- resultMap 정보 => 각각의 컬럼을 어떻게 담아라 -->
  	<resultMap type="boardVO" id="boardAndAttaches">
   		<id column="num" property="num"/><!-- 기본키만 아이디로 쓸것! -->

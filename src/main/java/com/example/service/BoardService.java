@@ -108,7 +108,7 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 			}
 		} // addBoardAndAttaches
 		
-		@Transactional
+		@Transactional	// attach와 board테이블 내용 삭제 - 한개의 트랜잭션 단위로 처리
 		public void deleteBoardAndAttaches(int num) {
 			// 외래키 관계가 있다면 삭제 순서는 외래키로 참조하는 테이블부터 삭제함에 유의!
 			attachMapper.deleteAttachesByBno(num);
@@ -116,14 +116,38 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 		} // deleteBoardAndAttaches
 		
 		
+		@Transactional//글번호에 해당하는 게시글 수정, 첨부파일 정보 수정(insert,delete ) - 트랜잭션처리
+		public void updateBoardAndInsertAttachesAndDeleteAttaches(BoardVO boardVO, List<AttachVO> newAttachList, List<String> deletUuidList) {
+			if (newAttachList != null && newAttachList.size() > 0) {
+				attachMapper.addAttaches(newAttachList);
+			}
+			if (deletUuidList != null && deletUuidList.size() > 0) {
+				attachMapper.deleteAttachesByUuids(deletUuidList);
+			}
+			boardMapper.updateBoard(boardVO);
+		} // updateBoardAndInsertAttachesAndDeleteAttaches
 		
-	
 		
 		
+		// 답글쓰기 메소드(게시글 정보와 첨부파일정보를 한개의 트랜잭션으로 처리)
+		@Transactional
+		public void addReplyAndAttaches(BoardVO boardVO) {
+			// 답글을 남길 대상글과 같은 글그룹(reRef) 안에서
+			// 대상글의 순번(reSeq)보다 큰 글들의 순번을 1씩 증가(UPDATE)
+			boardMapper.updateReSeqPlusOne(boardVO.getReRef(), boardVO.getReSeq());
+			
+			// insert할 답글 re값으로 수정
+			boardVO.setReLev(boardVO.getReLev() + 1);
+			boardVO.setReSeq(boardVO.getReSeq() + 1);
+			
+			// 답글 insert 하기
+			boardMapper.addBoard(boardVO);
+			
+			// 첨부파일 정보 insert하기
+			List<AttachVO> attachList = boardVO.getAttachList();
+			if (attachList != null && attachList.size() > 0) {
+				attachMapper.addAttaches(attachList);
+			}
+		} // addReplyAndAttaches
 		
-		
-		
-		
-		
-
 }

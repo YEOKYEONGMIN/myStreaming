@@ -22,14 +22,17 @@ public class AttachService {
 	
 	}
 	
+	//여러개 묶어서 파일 가져오기
 	public List<AttachVO> getAttachesByUuids(List<String> uuidList) {
 		return attachMapper.getAttachesByUuids(uuidList);
 	}
 
+	//여러개 묶어서 첨부파일 업로드
 	public List<AttachVO> getAttachesByUploadpath(String uploadpath) {
 		return attachMapper.getAttachesByUploadpath(uploadpath);
 	}
 	
+	//첨부파일 삭제
 	public int deleteAttachesByUuids(List<String> uuidList) {
 		return attachMapper.deleteAttachesByUuids(uuidList);
 	}
