@@ -7,10 +7,10 @@
 	<!--여러 첨부파일을 넣을때 첨부파일 한 게시글에 5개 까지 가능하다, -->
 	<!-- VALUES 공통 -->
 	<insert id="addAttaches">
-<![CDATA[
-	INSERT INTO attach(uuid,uploadpath,filename,filetype,bno)
-	VALUES
-]]>
+	<![CDATA[
+		INSERT INTO attach(uuid,uploadpath,filename,filetype,bno)
+		VALUES
+	]]>
 		<!-- 반복문 -->
 		<foreach collection="list" item="attach" separator=",">
 			(#{attach.uuid},#{attach.uploadpath},#{attach.filename},#{attach.filetype},#{attach.bno})
@@ -21,11 +21,11 @@
 
 	<!-- 여러개 묶어서 파일 가져오기 -->
 	<select id="getAttachesByUuids" resultType="attachVO">
-<![CDATA[
-	SELECT*
-	FROM attach
-	WHERE uuid IN
-]]>
+	<![CDATA[
+		SELECT*
+		FROM attach
+		WHERE uuid IN
+	]]>
 		<foreach collection="list" item="uuid" open="(" separator=","
 			close=")">
 			#{uuid}
@@ -33,7 +33,7 @@
 
 	</select>
 
-
+	<!-- 여러개의 uuid에 해당하는 첨부파일 삭제 -->
 	<delete id="deleteAttachesByUuids">
 		<![CDATA[
 			DELETE
@@ -47,7 +47,7 @@
 		<!-- foreach로 돌리면 ('10','30','uuid',....) 이러한 형태의 uuid가 나온다 -->
 	</delete>
 
-
+	<!--  특정 게시글에 포함된 첨부파일 정보 가져오기 -->
 	<select id="getAttachesByBno" resultType="attachVO">
 		<![CDATA[
 			SELECT *
@@ -56,40 +56,4 @@
 			ORDER BY filetype, filename
 		]]>
 	</select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </mapper>

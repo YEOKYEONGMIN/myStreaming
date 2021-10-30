@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -20,4 +21,6 @@ public class BoardVO {
 	private Integer reLev;//들여쓰기
 	private Integer reSeq;//답글 구분 주글일 경우 re_seq는 0
 
+	
+	private List<AttachVO> attachList;		// SQL문 -> JOIN쿼리에서 1:N의 관계
 }
