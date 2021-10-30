@@ -60,12 +60,16 @@
                         <label for="joinEmail">이메일</label>
                         <input type="email" class="form-control" id="joinEmail" placeholder="example@naver.com">
                     </div>
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+                    <div class="col-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary mb-2">이메일 인증</button>
                     </div>
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="joinName">이름</label>
+                <input type="email" class="form-control" id="joinName">
+            </div>
 
             <div class="form-group">
                 <label for="joinGender">성별</label>
@@ -110,6 +114,9 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 
+    $('.carousel').carousel({
+        interval: 3000
+    })
 
 </script>
 

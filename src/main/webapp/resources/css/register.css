@@ -9,3 +9,7 @@
 .join-header .col-5{
     padding: 0!important;
 }
+.form-group .row button{
+    width: 100%;
+    margin:0!important;
+}
