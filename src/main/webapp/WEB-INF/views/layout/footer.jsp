@@ -13,4 +13,4 @@
 	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 	<script src="../resources/js/sidebar.js"></script>
 	<script src="../resources/js/init.js"></script>
-	<script src="../resources/js/index.js"></script>
+
