@@ -18,12 +18,8 @@
 
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+	<script src="../resources/js/index.js"></script>
 
-<script>
-
-
-
-</script>
 
 </body>
 </html>
