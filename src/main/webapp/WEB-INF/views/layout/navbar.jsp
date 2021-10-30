@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<% session.setAttribute("id", "id"); %>
+<%--<% session.setAttribute("id", "id"); %>--%>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <a class="navbar-brand" href="#"><img
             src="/resources/images/logo_transparent.png" alt="Logo"
@@ -52,9 +52,9 @@
             </div></li>
 
         <c:choose>
-            <c:when test="${ sessionScope.id eq null}">
+            <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
                 <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>&nbsp; &nbsp;
-                <a class="btn btn-primary" href="/member/join">회원가입</a>
+                <a class="btn btn-primary" href="/member/register">회원가입</a>
             </c:when>
             <c:otherwise>
                 <!-- Nav Item - Alerts -->

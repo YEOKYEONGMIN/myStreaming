@@ -3,7 +3,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>myStreaming</title>
 	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
 	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
 </head>

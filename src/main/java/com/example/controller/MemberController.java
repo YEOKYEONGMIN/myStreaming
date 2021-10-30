@@ -32,7 +32,7 @@ public class MemberController {
 	
 	// 회원가입 화면
 	@GetMapping("/register")
-	public void regiterForm() {
+	public void registerForm() {
 		// 호출 확인용
 		System.out.println("회원가입 화면 호출 확인....");
 		
