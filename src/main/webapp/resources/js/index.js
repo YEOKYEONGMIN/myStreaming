@@ -29,7 +29,7 @@
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i].user_name}</h5>
 	                        <p class="card-text">${data.data[i].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i].user_login}" id="btn_link">방송보러 가기</a>
+	                        <a href="https://www.twitch.tv/${data.data[i].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    </div>
 	                </div>
 	                <div class="card">
@@ -40,7 +40,7 @@
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i+1].user_name}</h5>
 	                        <p class="card-text">${data.data[i+1].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i+1].user_login}" id="btn_link">방송보러 가기</a>
+	                        <a href="https://www.twitch.tv/${data.data[i+1].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    </div>
 	                </div>
 	                <div class="card">
@@ -51,7 +51,7 @@
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i+2].user_name}</h5>
 	                        <p class="card-text">${data.data[i+2].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link">방송보러 가기</a>
+	                        <a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    </div>
 	                </div>
 	            </div>
@@ -60,10 +60,10 @@
 			"https://static-cdn.jtvnw.net/previews-ttv/live_user_tmxk319-{width}x{height}.jpg"
 			let thumbnailWidth = str.replaceAll('{width}',300);
 			let thumbnailHeight = thumbnailWidth.replaceAll('{height}',300);
-			console.log(thumbnailHeight);
-			console.log($('.carousel-inner'));
-			$('.carousel-inner').append(str);
+			$('.carousel-inner').append(thumbnailHeight);
 		}
+		let item = $('.carousel-inner').children('div').first();
+		item.addClass('active');
 	}
 	
 	
