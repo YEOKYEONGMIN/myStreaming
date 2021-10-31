@@ -20,7 +20,7 @@
 			</div>
 			
 			<div class="nav__list">
-				<a href="#" class="nav__link active"> <ion-icon
+				<a href="#" class="nav__link nav_active"> <ion-icon
 						name="home-outline" class="nav__icon"></ion-icon> <span
 					class="nav_name">Dashboard</span>
 				</a> <a href="#" class="nav__link"> <ion-icon

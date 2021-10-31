@@ -28,4 +28,32 @@
 	<!-- 컨트롤러 패키지 scan -->
 	<context:component-scan base-package="com.example.controller" />
 	
+	
+	
+	
+	
+	<!-- 인터셉터 : 스프링이 관리 -->
+	<interceptors>
+		<interceptor>
+			<mapping path = "/**"/><!-- 모든경로 포함 -->
+			<beans:bean class = "com.example.interceptor.RememberIdInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/member/*"/>
+			<mapping path="/board/*"/>
+			<exclude-mapping path="/member/login ?"/>
+			<exclude-mapping path="/member/join ?"/>
+			<exclude-mapping path="/member/join ?"/>
+			<exclude-mapping path="/board/list ?"/><!-- 글목록 -->
+			<exclude-mapping path="/board/content ?"/><!-- 상세보기 -->
+			<beans:bean class = "com.example.interceptor.LoginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
+	
+	
+	
+	
 </beans:beans>

@@ -214,8 +214,8 @@
       
     </div>
   </div>
-      
 
+<script src="../../../resources/js/jquery-3.6.0.js"></script>
 <script>
 $(document).ready(function(){
     $("#search1").click(function(){
