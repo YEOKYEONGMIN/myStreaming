@@ -36,7 +36,7 @@ public class MemberController {
 	// ========================= GET 요청 모음 =========================
 	
 	// 회원가입 화면
-	@GetMapping("/register")
+	@GetMapping("/register" )
 	public void registerForm() {
 		// 호출 확인용
 		System.out.println("회원가입 화면 호출 확인....");

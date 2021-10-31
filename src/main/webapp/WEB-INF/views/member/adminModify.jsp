@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>회원정보수정하기</title>
+	<title>회원정보수정하기 </title>
 	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
 	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
 </head>

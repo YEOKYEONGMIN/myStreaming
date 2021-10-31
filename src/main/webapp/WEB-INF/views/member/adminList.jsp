@@ -3,7 +3,7 @@
 
 <html>
 <head>
-	<title>회원정보목록</title>
+	<title>회원정보목록 </title>
 	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
 	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
 </head>
