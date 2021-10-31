@@ -20,14 +20,11 @@
 	
 	<select id="getMemberCount" resultMap="int">
 		<![CDATA[
-			SELECT COUNT(*) count FROM member WHERE id = #{id}
+			SELECT COUNT(*) FROM member WHERE id = #{id}
 		]]>
 	</select>
 	
 	
-	
-	<!-- 회원 한명당 프사 하나로 하기 때문에 1:1조인 -->
-	<!-- 프사 여러개 할 경우 1:N 조인인 collection으로 수정 -->
 	<select id="getMembersAndProfilepics" resultMap="membersAndprofilepics">
 		<![CDATA[
 			SELECT * FROM member m left join profilepic p
