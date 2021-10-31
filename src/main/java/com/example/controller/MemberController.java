@@ -1,6 +1,9 @@
 package com.example.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,10 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.example.domain.MemberVO;
 import com.example.service.MemberService;
 import com.example.util.JScript;
+
 
 @Controller
 @RequestMapping("/member/*")
@@ -44,6 +49,8 @@ public class MemberController {
 		System.out.println("로그인 화면 호출 확인....");
 		
 	} // loginForm
+	
+	
 	
 	
 	@GetMapping("/logout")
@@ -97,6 +104,35 @@ public class MemberController {
 	} // removeForm
 	
 	
+	@GetMapping("/adminModify")//관리자 변경 화면 
+	public String adminModifyForm(HttpSession session, Model model) {
+		System.out.println("관리자 변경 화면 호출확인~");
+		
+		
+		//선택한 고객의 정보를 DB에서 조회해온 후
+		//수정 화면에 출력할 수있도록 Model에 담는다
+		String id =(String)session.getAttribute("id");
+		List<MemberVO> member = memberService.getMembers();
+		model.addAttribute("member",member);
+		
+		return "/member/adminModify";
+		
+	}//adminModifyForm
+	
+	
+	
+	@GetMapping("/adminDetail")//고객 상세 화면 요청
+	public String detail(int id, Model model) {
+		//선택한 고객 정보를 DB에 조회해와서
+		List<MemberVO> memberVO = memberService.getMembers();
+		//화면에 출력할 수 있도록 Model에 담는다.
+		//원래는 string타입으로 담겨야하지만 스프링에서는 자동으로 형변환이 되서 int타입으로 담긴다.
+		
+		model.addAttribute("memberVO", memberVO);
+		return "member/adminDetail";
+	}
+	
+	
 	// ========================== GET 요청 끝 ==========================
 	
 	
@@ -141,7 +177,84 @@ public class MemberController {
 	
 	// 로그인은 MemberRestController에서 처리
 	
+	//관리자 기능
+	@PostMapping("/login")
+	public ResponseEntity<String> login(String id, String passwd, String rememberMe, 
+			HttpSession session, HttpServletResponse response) {
+		
+		MemberVO memberVO = memberService.getMemberById(id);
+		
+		boolean isPasswdSame = false;
+		String message = "";
+		
+		
+		if (memberVO.getId() == "admin") {
+			isPasswdSame = BCrypt.checkpw(passwd, memberVO.getPasswd());
+			
+			if (isPasswdSame == false) { // 비밀번호 일치하지 않음
+				message = "비밀번호가 일치하지 않습니다.";
+			}//if
+		} //if
+		
+		// 로그인 실패시 비밀번호 틀렸을때
+		if ( isPasswdSame == false) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Type", "text/html; charset=UTF-8");
+			
+			String str = JScript.back(message);
+			
+			return new ResponseEntity<String>(str, headers, HttpStatus.OK);
+		}
+		
+		// 로그인 성공시, 로그인 인증하기
+		session.setAttribute("id", id);
+		
 	
+		// 로그인 상태유지가 체크되었으면
+		if (rememberMe != null) {
+			Cookie cookie = new Cookie("id", id); // 로그인 아이디로 쿠키정보 생성
+			cookie.setPath("/");
+			cookie.setMaxAge(60 * 10); // 초단위. 60초 * 10 -> 10분
+			
+			response.addCookie(cookie); // 응답객체에 쿠키를 추가해놓으면 최종응답시 쿠키를 클라이언트에게 전송해줌
+		}
+		
+		
+		
+		//관리자가 썸네일 필요 한가?
+//		// 썸네일
+//		ProfilePicVO profilePicVO =  profilePicService.getProfilePic(id);
+//		// 로그인 성공시 썸네일
+//		session.setAttribute("profilePicVO", profilePicVO);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "text/html; charset=UTF-8");
+		
+		String str = JScript.href("관리자 입장!", "/member/adminlist");
+		
+		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
+	} // login
+	
+	
+		@PostMapping("/adminModify")//고객 정보 수정 저장 처리 요청
+		public String adminModify(MemberVO memberVO) {
+			//화면에서 수정 입력한 정보를 DB에 저장한 후
+			memberService. updateById(memberVO);
+			
+			//화면으로 연결
+			return "redirect:/member/adminDetail?id="+memberVO.getId();
+			
+		}
+		
+		
+		
+		@PostMapping("/adminRemove")//고객 정보 삭제 처리 요청
+		public String delete(String id) {
+			//선택한 고객 정보를 DB에서 삭제한 후
+			memberService.deleteById(id);
+			//목록 화면으로 연결
+			return "redirect:list.cu";
+		}
 	// ========================== POST 요청 끝 ==========================
 	
 	
