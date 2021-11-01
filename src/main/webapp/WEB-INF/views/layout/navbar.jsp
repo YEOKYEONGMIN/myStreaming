@@ -50,7 +50,11 @@
                     </div>
                 </form>
             </div></li>
-
+        <c:if test="${sessionScope.id eq 'admin'}">
+            <div>
+                <a class="btn btn-primary" href="/admin/main" >관리자 페이지</a>
+            </div>
+        </c:if>
         <c:choose>
             <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
                 <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>&nbsp; &nbsp;
@@ -117,7 +121,7 @@
                         <h6 class="dropdown-header">Message Center</h6>
                         <a class="dropdown-item d-flex align-items-center" href="#">
                             <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                <img class="rounded-circle" src=""
                                      alt="...">
                                 <div class="status-indicator bg-success"></div>
                             </div>
@@ -128,7 +132,7 @@
                             </div>
                         </a> <a class="dropdown-item d-flex align-items-center" href="#">
                         <div class="dropdown-list-image mr-3">
-                            <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                            <img class="rounded-circle" src=""
                                  alt="...">
                             <div class="status-indicator"></div>
                         </div>
@@ -139,7 +143,7 @@
                         </div>
                     </a> <a class="dropdown-item d-flex align-items-center" href="#">
                         <div class="dropdown-list-image mr-3">
-                            <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                            <img class="rounded-circle" src=""
                                  alt="...">
                             <div class="status-indicator bg-warning"></div>
                         </div>
