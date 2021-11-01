@@ -1,15 +1,9 @@
 package com.example.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.nio.file.Files;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,16 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.example.domain.MemberVO;
-import com.example.domain.ProfilepicVO;
 import com.example.service.MemberService;
-import com.example.service.ProfilepicService;
 import com.example.util.JScript;
 
-import lombok.Data;
-import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @RequestMapping("/member/*")
@@ -41,14 +31,12 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
-	@Autowired
-	private ProfilepicService profilepicService;
 	
 	
 	// ========================= GET 요청 모음 =========================
 	
 	// 회원가입 화면
-	@GetMapping("/register")
+	@GetMapping("/register" )
 	public void registerForm() {
 		// 호출 확인용
 		System.out.println("회원가입 화면 호출 확인....");
@@ -63,12 +51,15 @@ public class MemberController {
 	} // loginForm
 	
 	
+	
+	
 	@GetMapping("/logout")
 	public String logoutForm(HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		session.invalidate();
+		session.invalidate(); // 세션 비우기 (로그인 정보 비우기)
 		
+		// 로그인 유지용 쿠키값 가져오기
 		Cookie[] cookies = request.getCookies();
 		
 		if (cookies != null) {
@@ -76,8 +67,8 @@ public class MemberController {
 				// 쿠키이름은 userId로
 				if (c.getName().equals("userId")) {
 					c.setMaxAge(0);
-					c.setPath("/");
-					response.addCookie(c);
+					c.setPath("/"); // 모든 경로에서 접근가능 하도록 설정
+					response.addCookie(c); // 응답객체에 설정한 쿠키 유효시간 넣기
 				}
 			} // for
 		} // if
@@ -90,12 +81,11 @@ public class MemberController {
 	public void modifyForm(HttpSession session, Model model) {
 		System.out.println("회원정보 변경 화면 호출 확인...");
 		
+		// 회원수정 화면에 필요시 정보 넘겨줄 용도
 		String id = (String) session.getAttribute("id");
-		MemberVO member = memberService.getMemberAndProfilepic(id);
-		ProfilepicVO profilepic = member.getProfilepicVO();
+		MemberVO member = memberService.getMemberById(id);
 		
 		model.addAttribute("member", member);
-		model.addAttribute("profilepic", profilepic);
 		
 	} // modifyForm
 	
@@ -114,72 +104,157 @@ public class MemberController {
 	} // removeForm
 	
 	
+	@GetMapping("/adminModify")//관리자 변경 화면 
+	public String adminModifyForm(HttpSession session, Model model) {
+		System.out.println("관리자 변경 화면 호출확인~");
+		
+		
+		//선택한 고객의 정보를 DB에서 조회해온 후
+		//수정 화면에 출력할 수있도록 Model에 담는다
+		String id =(String)session.getAttribute("id");
+		List<MemberVO> member = memberService.getMembers();
+		model.addAttribute("member",member);
+		
+		return "/member/adminModify";
+		
+	}//adminModifyForm
+	
+	
+	
+	@GetMapping("/adminDetail")//고객 상세 화면 요청
+	public String detail(int id, Model model) {
+		//선택한 고객 정보를 DB에 조회해와서
+		List<MemberVO> memberVO = memberService.getMembers();
+		//화면에 출력할 수 있도록 Model에 담는다.
+		//원래는 string타입으로 담겨야하지만 스프링에서는 자동으로 형변환이 되서 int타입으로 담긴다.
+		
+		model.addAttribute("memberVO", memberVO);
+		return "member/adminDetail";
+	}
+	
+	
 	// ========================== GET 요청 끝 ==========================
 	
 	
 	// ========================= POST 요청 모음 =========================
 	// 회원가입 처리
 	@PostMapping("/register")
-	public ResponseEntity<String> register(MemberVO memberVO) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
+	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 		
 		int memberCount = memberService.getMemberCount(memberVO.getId());
-		String msg = "회원가입을 완료하였습니다.";
+		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
+		
+		// 필수정보 입력 확인 (일치하지 않을시)
+		// 임의로 아이디, 비밀번호, 비밀번호 확인란만 필수정보로 입력했습니다. 필수정보 추가시 수정예정
+		if (memberVO.getId() == "" || memberVO.getPasswd() == "" || passwd2 == "") {
+			msg = "필수 회원정보를 입력해주세요.";
+			return pageBack(msg);
+		}
+		
+		// 비밀번호란과 비밀번호 확인란 일치 여부 확인 (일치하지 않을시)
+		if (!memberVO.getPasswd().equals(passwd2)) {
+			msg = "입력하신 두개의 비밀번호가 일치하지 않습니다.";
+			return pageBack(msg);
+		}
+		
+		// 아이디 중복 여부 확인 (회원정보 있을시)
+		if (memberCount == 1) {
+			msg = "이미 존재하는 아이디입니다.";
+			return pageBack(msg);
+		}
 		
 		// 회원가입 처리
+		// 비밀번호 암호화 후 객체에 넣기
 		String passwd = memberVO.getPasswd();
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
-		memberVO.setRegDate(new Date());
 		
 		memberService.register(memberVO);
 		
-		return pageRedirect(msg, "/");
+		return pageRedirect(msg, "/login");
 		
 	} // register
 	
 	// 로그인은 MemberRestController에서 처리
 	
-	@PostMapping("/modify")
-	public ResponseEntity<String> modify(MultipartFile file, MemberVO memberVO) throws IOException {
-		MemberVO member = memberService.getMemberAndProfilepic(memberVO.getId());
-		ProfilepicVO profilepic = member.getProfilepicVO();
+	//관리자 기능
+	@PostMapping("/login")
+	public ResponseEntity<String> login(String id, String passwd, String rememberMe, 
+			HttpSession session, HttpServletResponse response) {
 		
-		String msg = "회원정보를 수정하였습니다.";
+		MemberVO memberVO = memberService.getMemberById(id);
 		
-		if (memberVO.getPasswd().length() == 0) {
-			msg = "비밀번호를 입력해주세요.";
-			return pageBack(msg);
+		boolean isPasswdSame = false;
+		String message = "";
+		
+		
+		if (memberVO.getId() == "admin") {
+			isPasswdSame = BCrypt.checkpw(passwd, memberVO.getPasswd());
+			
+			if (isPasswdSame == false) { // 비밀번호 일치하지 않음
+				message = "비밀번호가 일치하지 않습니다.";
+			}//if
+		} //if
+		
+		// 로그인 실패시 비밀번호 틀렸을때
+		if ( isPasswdSame == false) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Type", "text/html; charset=UTF-8");
+			
+			String str = JScript.back(message);
+			
+			return new ResponseEntity<String>(str, headers, HttpStatus.OK);
 		}
 		
-		if (!BCrypt.checkpw(memberVO.getPasswd(), member.getPasswd())) {
-			msg = "비밀번호가 틀립니다.";
-			return pageBack(msg);
+		// 로그인 성공시, 로그인 인증하기
+		session.setAttribute("id", id);
+		
+	
+		// 로그인 상태유지가 체크되었으면
+		if (rememberMe != null) {
+			Cookie cookie = new Cookie("id", id); // 로그인 아이디로 쿠키정보 생성
+			cookie.setPath("/");
+			cookie.setMaxAge(60 * 10); // 초단위. 60초 * 10 -> 10분
+			
+			response.addCookie(cookie); // 응답객체에 쿠키를 추가해놓으면 최종응답시 쿠키를 클라이언트에게 전송해줌
 		}
 		
-		if (!file.isEmpty()) {
-			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, member.getId());
-			
-			if (map.get("result").toString().equals("failed")) {
-				msg = "프로필 사진은 이미지 파일로 업로드 해주세요.";
-				return pageBack(msg);
-			}
-			
-			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepicVO");
-			
-			if (profilepic == null) {
-				profilepicService.insertProfilepic(newProfilepic);
-			} else {
-				profilepicService.updateProfilepic(newProfilepic);
-			}
-		} // if (!file.isEmpty())
 		
-		memberService.updateById(memberVO);
 		
-		return pageRedirect(msg, "/");
+		//관리자가 썸네일 필요 한가?
+//		// 썸네일
+//		ProfilePicVO profilePicVO =  profilePicService.getProfilePic(id);
+//		// 로그인 성공시 썸네일
+//		session.setAttribute("profilePicVO", profilePicVO);
 		
-	} // modify
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "text/html; charset=UTF-8");
+		
+		String str = JScript.href("관리자 입장!", "/member/adminlist");
+		
+		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
+	} // login
 	
 	
+		@PostMapping("/adminModify")//고객 정보 수정 저장 처리 요청
+		public String adminModify(MemberVO memberVO) {
+			//화면에서 수정 입력한 정보를 DB에 저장한 후
+			memberService. updateById(memberVO);
+			
+			//화면으로 연결
+			return "redirect:/member/adminDetail?id="+memberVO.getId();
+			
+		}
+		
+		
+		
+		@PostMapping("/adminRemove")//고객 정보 삭제 처리 요청
+		public String delete(String id) {
+			//선택한 고객 정보를 DB에서 삭제한 후
+			memberService.deleteById(id);
+			//목록 화면으로 연결
+			return "redirect:list.cu";
+		}
 	// ========================== POST 요청 끝 ==========================
 	
 	
@@ -197,7 +272,6 @@ public class MemberController {
 		return new ResponseEntity<String>(code, headers, HttpStatus.OK);
 	} // pageBack
 	
-	
 	// 페이지 리다이렉트 처리 메소드
 	private ResponseEntity<String> pageRedirect(String msg, String url) {
 		HttpHeaders headers = new HttpHeaders();
@@ -208,55 +282,7 @@ public class MemberController {
 	} // pageRedirect
 	
 	
-	// 이미지 파일 확인 메소드
-	private boolean checkImageFile(File file) throws IOException {
-		
-		String fileType = Files.probeContentType(file.toPath());
-		
-		return fileType.startsWith("image");
-	} // checkImageFile
-	
-	
-	// 프로필 사진 파일 업로드 및 정보 가져오는 메소드
-	private Map<String, Object> uploadProfilepicAndGetProfilepic(MultipartFile pic, String id) throws IOException {
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		String path = "C:/project_mystreaming/profilepic_" + id;
-		
-		File uploadPath = new File(path);
-		
-		if (!uploadPath.exists()) {
-			uploadPath.mkdirs();
-		}
-
-		String orginalFilename = pic.getOriginalFilename();
-		UUID uuid = UUID.randomUUID();
-		String uploadFilename = uuid.toString() + "_" + orginalFilename;
-		
-		File uploadFile = new File(uploadPath, uploadFilename);
-		
-		if (!checkImageFile(uploadFile)) {
-			resultMap.put("result", "failed");
-			return resultMap;
-		}
-		
-		pic.transferTo(uploadFile);
-		
-		File thumbPath = new File(uploadPath, "s_" + uploadFilename);
-		Thumbnailator.createThumbnail(uploadFile, thumbPath, 200, 300);
-		
-		ProfilepicVO profilepicVO = new ProfilepicVO();
-		profilepicVO.setUuid(uuid.toString());
-		profilepicVO.setUploadpath("profilepic_" + id);
-		profilepicVO.setFilename(orginalFilename);
-		profilepicVO.setMid(id);
-		
-		resultMap.put("result", "succes");
-		resultMap.put("profilepicVO", profilepicVO);
-		
-		return resultMap;
-	} // uploadProfilepic
+	// 생년월일 
 	
 	
 	
