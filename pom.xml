@@ -243,15 +243,6 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--		임시-->
-
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk</artifactId>
-				<version>1.12.90</version>
-			</dependency>
-
-
 	</dependencies>
 
 
