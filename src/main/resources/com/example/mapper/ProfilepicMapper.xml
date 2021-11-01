@@ -11,14 +11,14 @@
 		]]>
 	</insert>
 	
-	<delete id="deleteProfilepic">
+	<delete id="deleteProfilepicById">
 		<![CDATA[
 			DELETE FROM profilepic
 			WHERE mid = #{id}
 		]]>
 	</delete>
 	
-	<update id="updateProfilepic">
+	<update id="updateProfilepicById">
 		<![CDATA[
 			UPDATE profilepic
 			SET uuid=#{uuid}, uploadpath=#{uploadpath}, filename=#{filename}
@@ -26,13 +26,13 @@
 		]]>
 	</update>
 	
-	<select id="getProfilepicById" resultMap="profilepicVO">
+	<select id="getProfilepicById" resultType="profilepicVO">
 		<![CDATA[
 			SELECT * FROM profilepic WHERE mid = #{id}
 		]]>
 	</select>
 	
-	<select id="getProfilepics" resultMap="profilepicVO">
+	<select id="getProfilepics" resultType="profilepicVO">
 		<![CDATA[
 			SELECT * FROM profilepic WHERE mid = #{id}
 			ORDER BY mid ASC

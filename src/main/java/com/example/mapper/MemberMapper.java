@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.domain.MemberVO;
@@ -11,8 +12,8 @@ import com.example.domain.MemberVO;
 public interface MemberMapper {
 	
 	// 회원 하나 추가
-	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email"
-			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email})")
+	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date) "
+			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate})")
 	int addMember(MemberVO memberVO);
 	
 	// 회원 하나 삭제
@@ -46,5 +47,9 @@ public interface MemberMapper {
 	
 	// 아이디와 일치하는 회원정보와 프로필사진 정보 조인해서 가져오기
 	MemberVO getMemberAndProfilepic(String id);
+
+	// 회원 갯수
+	@Select("SELECT count(*) AS cnt FROM member")
+	int getCountAllMembers();
 	
 }

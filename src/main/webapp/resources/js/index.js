@@ -19,7 +19,7 @@ $('.carousel').carousel({
 	});
 	
 	function createCard(data){
-		for(let i=0;i<18;i+=3){	
+		for(let i=0;i<19;i+=4){	
 			let str = `
 				<div class="carousel-item">
 	            <div class="cards-wrapper">
@@ -56,10 +56,20 @@ $('.carousel').carousel({
 	                        <a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    </div>
 	                </div>
+	                <div class="card">
+	                    <img src="${data.data[i+3].thumbnail_url}"
+	                        class="card-img-top" alt="...">
+	                    <span class="live">생방송</span>
+	                    <span class="viewer_count">시청자 ${data.data[i+3].viewer_count}명</span>
+	                    <div class="card-body">
+	                        <h5 class="card-title">${data.data[i+3].user_name}</h5>
+	                        <p class="card-text">${data.data[i+3].title}</p>
+	                        <a href="https://www.twitch.tv/${data.data[i+3].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                    </div>
+	                </div>
 	            </div>
 	        </div>
 			`
-			"https://static-cdn.jtvnw.net/previews-ttv/live_user_tmxk319-{width}x{height}.jpg"
 			let thumbnailWidth = str.replaceAll('{width}',300);
 			let thumbnailHeight = thumbnailWidth.replaceAll('{height}',300);
 			$('.carousel-inner').append(thumbnailHeight);

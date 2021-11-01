@@ -3,7 +3,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mybatis.example.BlogMapper">
+<mapper namespace="com.example.mapper.BookmarkMapper">
   
   
   <!-- 글번호 가져오기 -->
@@ -16,7 +16,7 @@
   
   
   <!-- 모든북마크 가져오기 -->
-  <select id="getBookmarksAll" resultMap="bookmarkVO">
+  <select id="getBookmarksAll" resultType="bookmarkVO">
   	<![CDATA[
   		SELECT * FROM bookmark
   		
@@ -33,7 +33,7 @@
   </insert>
   
   <!-- 북마크 아이디로 조회하기 -->
-  <select id="getBookmarkById" resultMap="bookmarkVO">
+  <select id="getBookmarkById" resultType="bookmarkVO">
 		<![CDATA[
 			SELECT * FROM bookmark WHERE mid = #{mid}
 		]]>

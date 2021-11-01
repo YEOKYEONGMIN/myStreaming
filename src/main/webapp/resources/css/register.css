@@ -29,3 +29,22 @@
     justify-content: center!important;
     width: 500px;
 }
+fieldset {
+    padding: 20px;
+    border: 1px solid;
+    margin-bottom: 10px
+}
+
+legend{
+	width: 130px;
+	font-size: 1.2rem;
+}
+#btnEmailChk, #btnEmailCodeCheck{
+	padding-right: 7px;
+}
+#Optional{
+	display: none;
+}
+#emailCodeCheckDiv{
+	display: none;
+}
