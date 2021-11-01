@@ -157,7 +157,7 @@
   			<result column="uploadpath" property="uploadpath" />
   			<result column="filename" property="filename" />
   			<result column="filetype" property="filetype" />
-  			<result column="bno" property="bno" />
+  			<result column="bno" property="bno"/>
   		</collection>
   	</resultMap>
 </mapper>
