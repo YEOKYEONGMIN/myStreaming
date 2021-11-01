@@ -156,7 +156,7 @@
   			<id column="uuid" property="uuid" />
   			<result column="uploadpath" property="uploadpath" />
   			<result column="filename" property="filename" />
-  			<result column="filetype" property="filetype" />
+  			<result column="filetype" property="filetype"/>
   			<result column="bno" property="bno"/>
   		</collection>
   	</resultMap>
