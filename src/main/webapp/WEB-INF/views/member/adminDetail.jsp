@@ -1,14 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>회원관리 상세보기 </title>
 	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
-	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
+<%--	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>--%>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
+<%--<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />--%>
 
 <div id="detailContent">
 	<h3>[ ${memberVO.name} ]고객 정보</h3>
