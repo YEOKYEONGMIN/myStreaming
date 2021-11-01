@@ -45,15 +45,17 @@ public class MemberRestController {
 	} // getMembers
 	
 	// 아이디와 일치하는 회원정보 가져오기
-	@GetMapping(value = "/member/{id}",
+	@GetMapping(value = "/members/{id}",
 			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Map<String, Object>> getMember(@PathVariable("id") String id) {
 		
 		MemberVO member = memberService.getMemberById(id);
+		int count = memberService.getMemberCount(id);
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("member", member);
+		map.put("count", count);
 		
 		return new ResponseEntity<Map<String, Object>> (map, HttpStatus.OK);
 		
