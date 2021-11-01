@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class MemberRestController {
 	
 	// 모든 멤버 가져오기
 	@GetMapping(value = "/members", 
-			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<List<MemberVO>> getMembers() {
 		
 		List<MemberVO> memberList = memberService.getMembers();
@@ -46,32 +47,36 @@ public class MemberRestController {
 	
 	// 아이디와 일치하는 회원정보 가져오기
 	@GetMapping(value = "/member/{id}",
-			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<Map<String, Object>> getMember(@PathVariable("id") String id) {
 		
 		MemberVO member = memberService.getMemberById(id);
+		int count = memberService.getMemberCount(id);
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("member", member);
+		map.put("count", count);
 		
 		return new ResponseEntity<Map<String, Object>> (map, HttpStatus.OK);
 		
 	} // getMember
 	
 	
-	@PostMapping(value = "/member/login")
-	public ResponseEntity<String> login(MemberVO memberVO,
+	@PostMapping(value = "/member/login", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<Map<String, Object>> login(@RequestBody MemberVO memberVO,
 			@RequestParam(required = false, defaultValue = "false") boolean rememberId,
 			HttpSession session, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		String id = memberVO.getId();
 		String passwd = memberVO.getPasswd();
 		String msg="";
-		
+		System.out.println("id: " + id +" passwd : "+ passwd  );
 		// 비밀번호 비교를 위해 들고오기
 		MemberVO member = memberService.getMemberById(id);
-		
+		System.out.println(member);
 		int memberCount = memberService.getMemberCount(id);
+		System.out.println(memberCount);
 		boolean checkPasswd = false;
 		
 		// 일치하는 회원정보가 있으면
@@ -88,11 +93,8 @@ public class MemberRestController {
 		
 		// 회원정보가 없거니 비밀번호가 일치하지 않을시
 		if (memberCount == 0 || !checkPasswd) {
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-Type", "text/html; charset=UTF-8");
-			
-			String code = JScript.back(msg);
-			return new ResponseEntity<String>(code, headers, HttpStatus.OK);
+			map.put("msg", msg);
+			return new ResponseEntity<Map<String, Object>> (map, HttpStatus.OK);
 		}
 		
 		// 아이디가 존재하고 비밀번호 일치시
@@ -104,11 +106,9 @@ public class MemberRestController {
 			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "/"); // 홈으로 리다이렉트
-		// 리다이렉트로 보낼때는 HttpStatus.FOUND
-		return new ResponseEntity<String>(headers, HttpStatus.FOUND);
+		msg = "로그인 성공.";
+		map.put("msg", msg);
+		return new ResponseEntity<Map<String, Object>> (map, HttpStatus.OK);
 		
 	} // login
 }

@@ -30,11 +30,11 @@
                 <form id="loginForm">
 
                     <div class="form-group col-12">
-                        <input type="text" class="form-control" id="loginId" placeholder="아이디">
+                        <input type="text" class="form-control" id="loginId" placeholder="아이디" name="id">
                     </div>
 
                     <div class="form-group pass_show col-12">
-                        <input type="password" class="form-control" id="loginPassword" placeholder="비밀번호">
+                        <input type="password" class="form-control" id="loginPassword" placeholder="비밀번호" name="passwd">
                     </div>
 
 
@@ -52,7 +52,7 @@
 
                     </div>
 
-                    <button type="submit" class="btn background-purple text-white col-12">로그인</button>
+                    <button type="button" class="btn background-purple text-white col-12" id="btnLogin">로그인</button>
                     <a class="btn background-purple text-white col-12" role="button" href="/">회원가입</a>
                 </form>
 

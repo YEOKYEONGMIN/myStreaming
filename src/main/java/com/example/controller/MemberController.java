@@ -2,7 +2,9 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.nio.file.Files;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,6 +32,7 @@ import com.example.service.MemberService;
 import com.example.service.ProfilepicService;
 import com.example.util.JScript;
 
+import lombok.Data;
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
@@ -117,34 +120,16 @@ public class MemberController {
 	// ========================= POST 요청 모음 =========================
 	// 회원가입 처리
 	@PostMapping("/register")
-	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
+	public ResponseEntity<String> register(MemberVO memberVO) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 		
 		int memberCount = memberService.getMemberCount(memberVO.getId());
 		String msg = "회원가입을 완료하였습니다.";
-		
-		// 필수정보 입력 확인 (일치하지 않을시)
-		// 임의로 아이디, 비밀번호, 비밀번호 확인란만 필수정보로 입력했습니다. 필수정보 추가시 수정예정
-		if (memberVO.getId() == "" || memberVO.getPasswd() == "" || passwd2 == "") {
-			msg = "필수 회원정보를 입력해주세요.";
-			return pageBack(msg);
-		}
-		
-		// 비밀번호란과 비밀번호 확인란 일치 여부 확인 (일치하지 않을시)
-		if (!memberVO.getPasswd().equals(passwd2)) {
-			msg = "입력하신 두개의 비밀번호가 일치하지 않습니다.";
-			return pageBack(msg);
-		}
-		
-		// 아이디 중복 여부 확인 (회원정보 있을시)
-		if (memberCount == 1) {
-			msg = "이미 존재하는 아이디입니다.";
-			return pageBack(msg);
-		}
 		
 		// 회원가입 처리
 		String passwd = memberVO.getPasswd();
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
+		memberVO.setRegDate(new Date());
 		
 		memberService.register(memberVO);
 		

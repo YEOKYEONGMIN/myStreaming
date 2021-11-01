@@ -26,13 +26,13 @@
 		]]>
 	</update>
 	
-	<select id="getProfilepicById" resultMap="profilepicVO">
+	<select id="getProfilepicById" resultType="profilepicVO">
 		<![CDATA[
 			SELECT * FROM profilepic WHERE mid = #{id}
 		]]>
 	</select>
 	
-	<select id="getProfilepics" resultMap="profilepicVO">
+	<select id="getProfilepics" resultType="profilepicVO">
 		<![CDATA[
 			SELECT * FROM profilepic WHERE mid = #{id}
 			ORDER BY mid ASC
