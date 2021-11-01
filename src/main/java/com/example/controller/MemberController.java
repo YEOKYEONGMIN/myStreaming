@@ -1,5 +1,12 @@
 package com.example.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +22,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.MemberVO;
+import com.example.domain.ProfilepicVO;
 import com.example.service.MemberService;
+import com.example.service.ProfilepicService;
 import com.example.util.JScript;
+
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @RequestMapping("/member/*")
@@ -26,6 +38,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private ProfilepicService profilepicService;
 	
 	
 	// ========================= GET 요청 모음 =========================
@@ -50,9 +64,8 @@ public class MemberController {
 	public String logoutForm(HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		session.invalidate(); // 세션 비우기 (로그인 정보 비우기)
+		session.invalidate();
 		
-		// 로그인 유지용 쿠키값 가져오기
 		Cookie[] cookies = request.getCookies();
 		
 		if (cookies != null) {
@@ -60,8 +73,8 @@ public class MemberController {
 				// 쿠키이름은 userId로
 				if (c.getName().equals("userId")) {
 					c.setMaxAge(0);
-					c.setPath("/"); // 모든 경로에서 접근가능 하도록 설정
-					response.addCookie(c); // 응답객체에 설정한 쿠키 유효시간 넣기
+					c.setPath("/");
+					response.addCookie(c);
 				}
 			} // for
 		} // if
@@ -74,11 +87,12 @@ public class MemberController {
 	public void modifyForm(HttpSession session, Model model) {
 		System.out.println("회원정보 변경 화면 호출 확인...");
 		
-		// 회원수정 화면에 필요시 정보 넘겨줄 용도
 		String id = (String) session.getAttribute("id");
-		MemberVO member = memberService.getMemberById(id);
+		MemberVO member = memberService.getMemberAndProfilepic(id);
+		ProfilepicVO profilepic = member.getProfilepicVO();
 		
 		model.addAttribute("member", member);
+		model.addAttribute("profilepic", profilepic);
 		
 	} // modifyForm
 	
@@ -106,7 +120,7 @@ public class MemberController {
 	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 		
 		int memberCount = memberService.getMemberCount(memberVO.getId());
-		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
+		String msg = "회원가입을 완료하였습니다.";
 		
 		// 필수정보 입력 확인 (일치하지 않을시)
 		// 임의로 아이디, 비밀번호, 비밀번호 확인란만 필수정보로 입력했습니다. 필수정보 추가시 수정예정
@@ -128,18 +142,57 @@ public class MemberController {
 		}
 		
 		// 회원가입 처리
-		// 비밀번호 암호화 후 객체에 넣기
 		String passwd = memberVO.getPasswd();
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
 		
 		memberService.register(memberVO);
 		
-		return pageRedirect(msg, "/login");
+		return pageRedirect(msg, "/");
 		
 	} // register
 	
 	// 로그인은 MemberRestController에서 처리
+	
+	@PostMapping("/modify")
+	public ResponseEntity<String> modify(MultipartFile file, MemberVO memberVO) throws IOException {
+		MemberVO member = memberService.getMemberAndProfilepic(memberVO.getId());
+		ProfilepicVO profilepic = member.getProfilepicVO();
+		
+		String msg = "회원정보를 수정하였습니다.";
+		
+		if (memberVO.getPasswd().length() == 0) {
+			msg = "비밀번호를 입력해주세요.";
+			return pageBack(msg);
+		}
+		
+		if (!BCrypt.checkpw(memberVO.getPasswd(), member.getPasswd())) {
+			msg = "비밀번호가 틀립니다.";
+			return pageBack(msg);
+		}
+		
+		if (!file.isEmpty()) {
+			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, member.getId());
+			
+			if (map.get("result").toString().equals("failed")) {
+				msg = "프로필 사진은 이미지 파일로 업로드 해주세요.";
+				return pageBack(msg);
+			}
+			
+			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepicVO");
+			
+			if (profilepic == null) {
+				profilepicService.insertProfilepic(newProfilepic);
+			} else {
+				profilepicService.updateProfilepic(newProfilepic);
+			}
+		} // if (!file.isEmpty())
+		
+		memberService.updateById(memberVO);
+		
+		return pageRedirect(msg, "/");
+		
+	} // modify
 	
 	
 	// ========================== POST 요청 끝 ==========================
@@ -159,6 +212,7 @@ public class MemberController {
 		return new ResponseEntity<String>(code, headers, HttpStatus.OK);
 	} // pageBack
 	
+	
 	// 페이지 리다이렉트 처리 메소드
 	private ResponseEntity<String> pageRedirect(String msg, String url) {
 		HttpHeaders headers = new HttpHeaders();
@@ -169,7 +223,55 @@ public class MemberController {
 	} // pageRedirect
 	
 	
-	// 생년월일 
+	// 이미지 파일 확인 메소드
+	private boolean checkImageFile(File file) throws IOException {
+		
+		String fileType = Files.probeContentType(file.toPath());
+		
+		return fileType.startsWith("image");
+	} // checkImageFile
+	
+	
+	// 프로필 사진 파일 업로드 및 정보 가져오는 메소드
+	private Map<String, Object> uploadProfilepicAndGetProfilepic(MultipartFile pic, String id) throws IOException {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		String path = "C:/project_mystreaming/profilepic_" + id;
+		
+		File uploadPath = new File(path);
+		
+		if (!uploadPath.exists()) {
+			uploadPath.mkdirs();
+		}
+
+		String orginalFilename = pic.getOriginalFilename();
+		UUID uuid = UUID.randomUUID();
+		String uploadFilename = uuid.toString() + "_" + orginalFilename;
+		
+		File uploadFile = new File(uploadPath, uploadFilename);
+		
+		if (!checkImageFile(uploadFile)) {
+			resultMap.put("result", "failed");
+			return resultMap;
+		}
+		
+		pic.transferTo(uploadFile);
+		
+		File thumbPath = new File(uploadPath, "s_" + uploadFilename);
+		Thumbnailator.createThumbnail(uploadFile, thumbPath, 200, 300);
+		
+		ProfilepicVO profilepicVO = new ProfilepicVO();
+		profilepicVO.setUuid(uuid.toString());
+		profilepicVO.setUploadpath("profilepic_" + id);
+		profilepicVO.setFilename(orginalFilename);
+		profilepicVO.setMid(id);
+		
+		resultMap.put("result", "succes");
+		resultMap.put("profilepicVO", profilepicVO);
+		
+		return resultMap;
+	} // uploadProfilepic
 	
 	
 	

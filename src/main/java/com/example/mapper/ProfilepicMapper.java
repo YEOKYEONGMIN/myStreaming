@@ -11,7 +11,7 @@ public interface ProfilepicMapper {
 	
 	int deleteProfilepicById(String id);
 	
-	void updateProfilepic(ProfilepicVO profilepicVO);
+	void updateProfilepicById(ProfilepicVO profilepicVO);
 	
 	ProfilepicVO getProfilepicById(String id);
 	
