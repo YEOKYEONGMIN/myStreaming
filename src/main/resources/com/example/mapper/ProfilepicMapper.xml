@@ -11,14 +11,14 @@
 		]]>
 	</insert>
 	
-	<delete id="deleteProfilepic">
+	<delete id="deleteProfilepicById">
 		<![CDATA[
 			DELETE FROM profilepic
 			WHERE mid = #{id}
 		]]>
 	</delete>
 	
-	<update id="updateProfilepic">
+	<update id="updateProfilepicById">
 		<![CDATA[
 			UPDATE profilepic
 			SET uuid=#{uuid}, uploadpath=#{uploadpath}, filename=#{filename}

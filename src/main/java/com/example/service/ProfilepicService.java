@@ -26,7 +26,7 @@ public class ProfilepicService {
 	
 	// 프로필 사진 수정
 	public void updateProfilepic(ProfilepicVO profilepicVO) {
-		profilepicMapper.updateProfilepic(profilepicVO);
+		profilepicMapper.updateProfilepicById(profilepicVO);
 	} // updateProfilepic
 
 	// 회원 하나의 프로필 사진 가져오기
