@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label for="joinPassword2">비밀번호 확인</label>
                     <input type="password" class="form-control" id="joinPassword2">
-                    <small id="passwdHelp" class="form-text"></small>
+                    <small id="passwdHelp2" class="form-text"></small>
                 </div>
 
                 <div class="form-group">
@@ -188,33 +188,43 @@
 		let passType = /^[a-zA-Z0-9~!@#$%^&*(_+|<>?:{}]{6,16}$/;
 		let passType2 = /(.)\1{2,}/
 		let passwd = $('#joinPassword').val();
+		let passwd2 = $('#joinPassword2').val();
 		let $span = $(this).closest('div.form-group').find('small.form-text');
+		let $span2 = $('small#passwdHelp2');
+		console.log($span2);
 		console.log(passwd);
 		console.log(passType.test(passwd));
 		console.log(passType2.test(passwd));
-		 if (passwd != '') { // 빈칸 아닐때
-	            if (passType.test(passwd)) { // 타입 1 통과
-	                if (passType2.test(passwd)) {
-	                	passwdChk = false;
-
-	                    $span.html('연속된문자를 3자연속 쓰시면 안됩니다.').css('color', 'red');
-	                } else {
-	                	
-	                    // 성공 표시
-	                    passwdChk = true;
-	                    $span.html('좋은 비밀번호네요').css('color', 'green');
-	                }
-
-	            } else { // 타입 1 불통
-	            	passwdChk = false;
-	                $span.html('비밀번호는 6~16사이로 작성해주세요').css('color', 'red');
-	            }
-	        } else { // 빈칸일때
-	        	passwdChk = false;
-	            $span.html('')
-	        }	
-		 });
+		 
+		if (passwd != '') { // 빈칸 아닐때
+			if (passType.test(passwd)) { // 타입 1 통과
+				if (passType2.test(passwd)) {
+					passwdChk = false;
 	
+					$span.html('연속된문자를 3자연속 쓰시면 안됩니다.').css('color', 'red');
+				} else {
+	
+						// 성공 표시
+					passwdChk = true;
+					$span.html('좋은 비밀번호네요').css('color', 'green');
+				}
+	
+			} else { // 타입 1 불통
+				passwdChk = false;
+				$span.html('비밀번호는 6~16사이로 작성해주세요').css('color', 'red');
+			}
+			if(passwd != passwd2){
+				$span2.html('비밀번호 불일치함').css('color', 'red');
+				passwdChk2 = false;
+			}
+		
+	
+		} else { // 빈칸일때
+			passwdChk = false;
+			$span.html('')
+		}
+	});
+
 	// 비밀번호와 비밀번호 확인 일치체크
 	$('input#joinPassword2').on('focusout', function() {
 		let passwd = $('input#joinPassword').val();
@@ -222,11 +232,11 @@
 		console.log(passwd);
 		console.log(passwd2);
 		let $span = $(this).closest('div.form-group').find('small.form-text');
-		
+
 		if (passwd == passwd2) {
 			$span.html('비밀번호 일치함').css('color', 'green');
 			passwdChk2 = true;
-			if(passwd2 ==''){
+			if (passwd2 == '') {
 				$span.html('');
 				passwdChk2 = false;
 			}
@@ -272,7 +282,7 @@
 
 		let emailCode = $('#EmailCodeCheck').val();
 		let $span = $(this).closest('div.form-group').find('small.form-text');
-		
+
 		if (emailChkCode == emailCode) {
 			emailChk = true;
 			$span.html('이메일 인증성공!!').css('color', 'green');
@@ -281,23 +291,22 @@
 		}
 
 	});
-	
-	$('#btnSubmit').on("click", function(){
-		if(!idChk){
+
+	$('#btnSubmit').on("click", function() {
+		if (!idChk) {
 			event.preventDefault();
 			alert("아이디를 확인해주세요.");
-		}else if(!passwdChk){
+		} else if (!passwdChk) {
 			event.preventDefault();
 			alert("비밀번호를 확인해주세요.");
-		}else if(!passwdChk2){
+		} else if (!passwdChk2) {
 			event.preventDefault();
 			alert("비밀번호 확인을 확인해주세요.");
-		}else if(!emailChk){
+		} else if (!emailChk) {
 			event.preventDefault();
 			alert("이메일 인증을 확인해주세요.");
 		}
 	});
-	
 </script>
 
 </body>

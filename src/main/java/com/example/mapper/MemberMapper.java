@@ -12,7 +12,7 @@ public interface MemberMapper {
 	
 	// 회원 하나 추가
 	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date) "
-			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email} #{regDate)")
+			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate})")
 	int addMember(MemberVO memberVO);
 	
 	// 회원 하나 삭제
