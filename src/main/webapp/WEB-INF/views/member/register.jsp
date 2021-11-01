@@ -40,13 +40,13 @@
 
         <div class="join-body">
 
-            <form>
+            <form action="/member/register" method="POST">
             	<fieldset> 
             	<legend>필수 입력란</legend>
 
                 <div class="form-group">
                     <label for="joinId">아이디</label>
-                    <input type="email" class="form-control" id="joinId" name="id">
+                    <input type="text" class="form-control" id="joinId" name="id">
                     <small id="idHelp" class="form-text"></small>
                 </div>
 
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 </fieldset>
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary" id="btnSubmit">Sign in</button>
                 
             </form>
 
@@ -163,18 +163,19 @@
 		
 		// ajax 함수 호출
 		$.ajax({
-			url: '/api/members/' + id,
+			url: '/api/member/' + id,
 			method: 'GET',
 			success: function (data) {
 				console.log(data);
+				console.log(data.count);
 				console.log(typeof data);
 				
 				if (data.count == 0) {
 					$span.html('사용가능한 아이디 입니다').css('color', 'green');
-					$inputId.removeClass('invalid').addClass('valid');
+					idChk = true;
 				} else { // data.count == 1
 					$span.html('이미 사용중인 아이디 입니다').css('color', 'red');
-					$inputId.removeClass('valid').addClass('invalid');
+					idChk = false;
 				}
 			} // success
 		});
@@ -198,6 +199,7 @@
 
 	                    $span.html('연속된문자를 3자연속 쓰시면 안됩니다.').css('color', 'red');
 	                } else {
+	                	
 	                    // 성공 표시
 	                    passwdChk = true;
 	                    $span.html('좋은 비밀번호네요').css('color', 'green');
@@ -279,6 +281,23 @@
 		}
 
 	});
+	
+	$('#btnSubmit').on("click", function(){
+		if(!idChk){
+			event.preventDefault();
+			alert("아이디를 확인해주세요.");
+		}else if(!passwdChk){
+			event.preventDefault();
+			alert("비밀번호를 확인해주세요.");
+		}else if(!passwdChk2){
+			event.preventDefault();
+			alert("비밀번호 확인을 확인해주세요.");
+		}else if(!emailChk){
+			event.preventDefault();
+			alert("이메일 인증을 확인해주세요.");
+		}
+	});
+	
 </script>
 
 </body>
