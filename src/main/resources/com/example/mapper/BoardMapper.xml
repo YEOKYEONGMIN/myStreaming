@@ -135,6 +135,7 @@
 		FROM board b LEFT OUTER JOIN attach a
 		ON b.num = a.bno
 		WHERE b.num = #{num}
+		
   	]]>
   </select>
   
