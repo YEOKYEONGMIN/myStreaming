@@ -115,6 +115,7 @@
 		<![CDATA[
 			ORDER BY re_ref DESC, re_seq ASC 
 			LIMIT #{startRow}, #{amount} 
+			
 		]]>
 	</select>
 
