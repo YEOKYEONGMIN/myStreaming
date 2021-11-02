@@ -4,10 +4,9 @@ import lombok.Data;
 
 @Data
 public class BookmarkVO {
-	private String num; //북마크 번호
 	private String mid; // 북마크 작성자 아이디
-	private String name; // 북마크명
-	private String type; // 일단 Youtube는 'Y', 아프리카TV는 'A', 트위치는 'T'로 받아올 예정
-	private String url; // 북마크 url주소
+	private String streamerId; // 스트리머 ID값
+	private String streamerName; // 스트리머 이름
+	private String profile_image_url; // 스트리머 프로필 이미지
 	
 }

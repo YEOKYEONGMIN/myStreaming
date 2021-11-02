@@ -31,7 +31,11 @@ $('.carousel').carousel({
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i].user_name}</h5>
 	                        <p class="card-text">${data.data[i].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                        <div class="card_link">
+	                        	<a href="https://www.twitch.tv/${data.data[i].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i].user_id}"
+	                    		onclick="Bookmark('${data.data[i].user_id}', '${data.data[i].user_name}');"></i>
+                            </div>
 	                    </div>
 	                </div>
 	                <div class="card">
@@ -42,7 +46,11 @@ $('.carousel').carousel({
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i+1].user_name}</h5>
 	                        <p class="card-text">${data.data[i+1].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i+1].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                        <div class="card_link">
+	                        	<a href="https://www.twitch.tv/${data.data[i+1].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+1].user_id}"
+	                    		onclick="Bookmark('${data.data[i+1].user_id}', '${data.data[i+1].user_name}');"></i>
+                            </div>
 	                    </div>
 	                </div>
 	                <div class="card">
@@ -53,7 +61,11 @@ $('.carousel').carousel({
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i+2].user_name}</h5>
 	                        <p class="card-text">${data.data[i+2].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                        <div class="card_link">
+	                        	<a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+2].user_id}"
+	                    		onclick="Bookmark('${data.data[i+2].user_id}', '${data.data[i+2].user_name}');"></i>
+                            </div>
 	                    </div>
 	                </div>
 	                <div class="card">
@@ -64,14 +76,18 @@ $('.carousel').carousel({
 	                    <div class="card-body">
 	                        <h5 class="card-title">${data.data[i+3].user_name}</h5>
 	                        <p class="card-text">${data.data[i+3].title}</p>
-	                        <a href="https://www.twitch.tv/${data.data[i+3].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                        <div class="card_link">
+	                        	<a href="https://www.twitch.tv/${data.data[i+3].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
+	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+3].user_id}"
+	                    		onclick="Bookmark('${data.data[i+3].user_id}', '${data.data[i+3].user_name}');"></i>
+                            </div>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
 			`
-			let thumbnailWidth = str.replaceAll('{width}',300);
-			let thumbnailHeight = thumbnailWidth.replaceAll('{height}',300);
+			let thumbnailWidth = str.replaceAll('{width}',1600);
+			let thumbnailHeight = thumbnailWidth.replaceAll('{height}',900);
 			$('.carousel-inner').append(thumbnailHeight);
 		}
 		let item = $('.carousel-inner').children('div').first();
@@ -79,3 +95,59 @@ $('.carousel').carousel({
 	}
 	
 	
+	function Bookmark( streamerId, streamerName){
+		let $i = $('#bookmark'+streamerId);
+		
+		if($i.hasClass("far fa-star") === true){
+    		$i.removeClass('far fa-star').addClass('fas fa-star');
+    	}else{
+    		$i.removeClass('fas fa-star').addClass('far fa-star');
+    	}
+    	
+		$.ajax({
+	    url: '/api/twitch/user/'+streamerId,
+	    dataType:"JSON",
+	    method: 'GET',
+	    success: function (data) {
+	        console.log("데이터")
+	        console.log(data);
+	        
+	        addOrDeleteBookmark(streamerId,streamerName, data.data[0].profile_image_url);
+	    	}
+		});
+		
+		/*if(mid==null){
+			$('#loginModal').modal(show);
+			return;
+		}*/
+		
+	}
+	function addOrDeleteBookmark(streamerId, streamerName, profile_image_url){
+		
+		console.log(streamerId);
+		console.log(streamerName);
+		console.log(profile_image_url);
+		let profileUrl= encodeURIComponent(profile_image_url);
+		
+
+        let bookmarkValue = JSON.stringify({
+            streamerId: streamerId,
+            streamerName:streamerName,
+            profile_image_url: profileUrl
+        })
+      
+		
+		$.ajax({
+	    url: '/api/bookmark/'+bookmarkValue,
+	    contentType: 'application/json; charset=UTF-8',
+	    method: 'POST',
+	    success: function (data) {
+	        console.log("데이터")
+	        console.log(data);
+	        
+	        
+	    	}
+		});
+		
+	}
+		

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+	<c:if test="${empty sessionScope.id }">
+		<c:set var="id" value=""/>
+	</c:if>
         <div class="carousel-inner">
             
         </div>
