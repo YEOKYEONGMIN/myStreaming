@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 	<link href="../resources/css/sidebar.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link href="../resources/css/carousel.css" type="text/css" rel="stylesheet" media="screen,projection" />
-	
+
+<%--파비콘--%>
+    <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.ico" />
+
 
 
 <jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>

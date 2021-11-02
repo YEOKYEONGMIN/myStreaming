@@ -42,7 +42,7 @@
 		<result column="reg_Date" property="regDate" />
 		
 		<association property="profilepicVO" javaType="profilepicVO">
-			<id column="id" property="id" />
+			<id column="mid" property="mid" />
 			<result column="uuid" property="uuid" />
 			<result column="uploadpath" property="uploadpath" />
 			<result column="filename" property="filename" />
@@ -67,7 +67,7 @@
 		<result column="reg_Date" property="regDate" />
 		
 		<association property="profilepicVO" javaType="profilepicVO">
-			<id column="id" property="id" />
+			<id column="mid" property="mid" />
 			<result column="uuid" property="uuid" />
 			<result column="uploadpath" property="uploadpath" />
 			<result column="filename" property="filename" />

@@ -10,9 +10,7 @@
 <meta name="google-signin-client_id"
       content="1061393167955-p6mipsnaoecrmefmsji5tujmh4kad0sd.apps.googleusercontent.com">
 
-<link href="/resources/css/modal.css" rel="stylesheet"/>
-<%--구글 버튼--%>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
 
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -93,5 +91,3 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="../resources/js/modal.js"></script>
