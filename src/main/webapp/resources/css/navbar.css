@@ -1,0 +1,43 @@
+.navbar-header{
+    display: flex;
+}
+.navbar-header-search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navbar-header-search .input-icon{
+    flex: 1;
+}
+.navbar-brand{
+    font-size: 1.5rem;
+}
+
+.logo{
+    display: flex;
+    align-items: center
+}
+.logo img{
+    object-fit: cover;
+    height: 40px
+}
+
+@media screen and (max-width: 630px) {
+    .logo span{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .navbar-header-btn {
+        display: none; } }
+
+.navbarMemberMenu{
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .navbarMemberMenu{
+        display: list-item!important;
+    }
+}
