@@ -16,6 +16,9 @@
 	<link href="../resources/css/carousel.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
+<%--파비콘--%>
+    <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.ico" />
+
 
 <jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>
 

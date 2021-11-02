@@ -4,7 +4,7 @@
     max-width: 460px!important;
 }
 
-.form-group{
+#loginModal .form-group{
     padding: 0!important;
 }
 
@@ -12,11 +12,11 @@
     margin: 15px 40px;
 }
 
-.btn{
+#loginModal .btn{
     margin: 5px 0px;
 }
 
-.modal-footer{
+#loginModal .modal-footer{
     display: block;
     padding: 15px 0;
     margin: 0px 56px;
@@ -83,3 +83,48 @@
 }
 
 /*=================================로그인 모달 끝*=================================*/
+/*=================================검색 모달 시작*=================================*/
+#searchModal .modal-dialog{
+    width: 100%!important;
+    max-width: 100%;
+    position: absolute;
+    margin: 0;
+}
+
+#searchModal .modal-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 135px!important;
+}
+
+#searchModal .input-group-append{
+
+    border: 0!important;
+}
+
+.input-icon{position: relative}
+
+.input-icon .append-icon{
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    z-index: 1;
+    color: black;
+    margin-top: -8px;
+    cursor: pointer;
+    transition: .3s ease all;
+
+}
+
+.input-icon input{
+    background-color: rgb(245,245,244);
+    border-radius: 20px;
+    border: 0;
+}
+
+.input-icon input:focus,input:active {
+    background-color: rgb(245,245,244);
+    outline: none !important;
+    box-shadow: none;!important;
+}
