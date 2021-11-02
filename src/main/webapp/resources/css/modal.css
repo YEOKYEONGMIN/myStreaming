@@ -83,3 +83,19 @@
 }
 
 /*=================================로그인 모달 끝*=================================*/
+/*=================================검색 모달 시작*=================================*/
+#searchModal .modal-dialog{
+    width: 100%!important;
+    max-width: 100%;
+    position: absolute;
+    margin: 0;
+}
+
+#searchModal .modal-header{
+    height: 135px!important;
+}
+
+#searchModal .input-group-append{
+
+    border: 0!important;
+}
