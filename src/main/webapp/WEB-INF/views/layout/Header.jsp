@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 	<link href="../resources/css/sidebar.css" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link href="../resources/css/carousel.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <%--파비콘--%>
     <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.ico" />
-
 
 
 <jsp:include page="/WEB-INF/views/layout/navbar.jsp"/>

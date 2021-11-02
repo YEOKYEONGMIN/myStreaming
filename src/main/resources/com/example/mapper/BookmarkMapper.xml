@@ -6,49 +6,29 @@
 <mapper namespace="com.example.mapper.BookmarkMapper">
   
   
-  <!-- 글번호 가져오기 -->
-	<select id="getNextNum" resultType="int">
- 	<![CDATA[
- 		SELECT IFNULL(MAX(num),0) + 1 AS nextnum
- 		FROM bookmark
- 	]]>
-	</select>
+ 
   
-  
-  <!-- 모든북마크 가져오기 -->
+  <!-- 북마크 가져오기 -->
   <select id="getBookmarksAll" resultType="bookmarkVO">
   	<![CDATA[
-  		SELECT * FROM bookmark
-  		
+  		SELECT * FROM bookmark WHERE mid = #{mid)
   	]]>
   </select>
   
   <!-- 북마크 하나 추가하기 -->
   <insert id="addBookmark">
   	<![CDATA[
- 		INSERT INTO bookmark(num,mid,name,type,url)
- 		VALUES(#{num}, #{mid}, #{name}, #{type}, #{url})
- 		
+ 		INSERT INTO bookmark(mid, streamerId, streamerName, profile_image_url)
+ 		VALUES(#{mid}, #{streamerId}, #{streamerName}, #{profile_image_url})
  	]]>
   </insert>
   
-  <!-- 북마크 아이디로 조회하기 -->
-  <select id="getBookmarkById" resultType="bookmarkVO">
-		<![CDATA[
-			SELECT * FROM bookmark WHERE mid = #{mid}
-		]]>
-</select>
+  <select id="getCountbyIdAndStreamerId" resultType="int">
+  	<![CDATA[
+ 		SELECT count(*) FROM bookmark WHERE mid = #{mid} AND streamerId = #{streamerId}
+ 	]]>
+  </select>
 
-
-
-	
-	
-  
-  
-  
-  
-  
-  
   
   
 </mapper>
