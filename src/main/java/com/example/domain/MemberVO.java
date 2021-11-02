@@ -13,8 +13,8 @@ public class MemberVO {
 	private String birthday; // 생일
 	private String gender; // 성별
 	private String email; // 이메일
+	// private String recv_email; // 이메일 수신여부 (보류)
 	private Date regDate;
-	// String recv_email; // 이메일 수신여부 (딱히 필요성을 못느껴서 일단 보류)
 	
 	private ProfilepicVO profilepicVO;
 }
