@@ -1,7 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<% session.setAttribute("id", "id"); %>--%>
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+
+<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
+<jsp:include page="/WEB-INF/views/layout/modal/searchModal.jsp"/>
+
+<link href="/resources/css/modal.css" rel="stylesheet"/>
+<%--구글 버튼--%>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="height: 135px;">
     <a class="navbar-brand" href="#"><img
             src="/resources/images/logo_transparent.png" alt="Logo"
             style="width: 100px;"></a>
@@ -16,7 +25,7 @@
         <div class="input-group ">
             <input type="text" class="form-control bg-light border-0 small "
                    placeholder="Search for..." aria-label="Search"
-                   aria-describedby="basic-addon2" id="search1">
+                   aria-describedby="basic-addon2" id="search">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button">
                     <i class="fas fa-search fa-sm"></i>
@@ -49,15 +58,17 @@
                         </div>
                     </div>
                 </form>
-            </div></li>
+            </div>
+        </li>
         <c:if test="${sessionScope.id eq 'admin'}">
             <div>
-                <a class="btn btn-primary" href="/admin/main" >관리자 페이지</a>
+                <a class="btn btn-primary" href="/admin/main">관리자 페이지</a>
             </div>
         </c:if>
         <c:choose>
             <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
-                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>&nbsp; &nbsp;
+                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>
+                &nbsp; &nbsp;
                 <a class="btn btn-primary" href="/member/register">회원가입</a>
             </c:when>
             <c:otherwise>
@@ -106,7 +117,8 @@
                         </div>
                     </a> <a class="dropdown-item text-center small text-gray-500" href="#">Show
                         All Alerts</a>
-                    </div></li>
+                    </div>
+                </li>
 
                 <!-- Nav Item - Messages -->
                 <li class="nav-item dropdown no-arrow mx-1"><a
@@ -127,7 +139,8 @@
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">Hi there! I am wondering if you
-                                    can help me with a problem I've been having.</div>
+                                    can help me with a problem I've been having.
+                                </div>
                                 <div class="small text-gray-500">Emily Fowler · 58m</div>
                             </div>
                         </a> <a class="dropdown-item d-flex align-items-center" href="#">
@@ -138,7 +151,8 @@
                         </div>
                         <div>
                             <div class="text-truncate">I have the photos that you
-                                ordered last month, how would you like them sent to you?</div>
+                                ordered last month, how would you like them sent to you?
+                            </div>
                             <div class="small text-gray-500">Jae Chun · 1d</div>
                         </div>
                     </a> <a class="dropdown-item d-flex align-items-center" href="#">
@@ -150,7 +164,8 @@
                         <div>
                             <div class="text-truncate">Last month's report looks
                                 great, I am very happy with the progress so far, keep up the
-                                good work!</div>
+                                good work!
+                            </div>
                             <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                         </div>
                     </a> <a class="dropdown-item d-flex align-items-center" href="#">
@@ -162,12 +177,14 @@
                         <div>
                             <div class="text-truncate">Am I a good boy? The reason I
                                 ask is because someone told me that people say this to all
-                                dogs, even if they aren't good...</div>
+                                dogs, even if they aren't good...
+                            </div>
                             <div class="small text-gray-500">Chicken the Dog · 2w</div>
                         </div>
                     </a> <a class="dropdown-item text-center small text-gray-500" href="#">Read
                         More Messages</a>
-                    </div></li>
+                    </div>
+                </li>
 
                 <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -176,7 +193,7 @@
                         class="nav-link dropdown-toggle" href="#" id="userDropdown"
                         role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false"> <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                 </a> <!-- Dropdown - User Information -->
                     <div
                             class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -195,37 +212,13 @@
                                 class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a>
-                    </div></li>
+                    </div>
+                </li>
             </c:otherwise>
         </c:choose>
     </ul>
 </nav>
 
-<div class="modal fade" id="searchModal" role="dialog">
-    <div class="modal-dialog">    
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Selected Students</h4>
-        </div>
-        <div class="modal-body">
-          <p>Harry and Chris cleared the entrance exam.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
 
-<script src="../../../resources/js/jquery-3.6.0.js"></script>
-<script>
-$(document).ready(function(){
-    $("#search1").click(function(){
-      $("#searchModal").modal("show");
-    });
-    $("#searchModal").on('show.bs.modal', function () {
-    });
-});
-</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="../../../resources/js/modal.js"></script>

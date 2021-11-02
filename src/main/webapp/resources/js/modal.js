@@ -16,6 +16,17 @@ $(document).on('click', '.pass_show .ptxt', function () {
 
 });
 
+/*=================================검색 모달 시작=================================*/
+
+
+let searchModal = $('#search');
+
+searchModal.on("focus", function () {
+    console.log("클릭")
+    $('#searchModal').modal('show')
+
+})
+
 
 
 
