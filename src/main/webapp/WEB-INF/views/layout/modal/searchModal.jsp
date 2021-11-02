@@ -5,23 +5,11 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <div class="cumstom-input-group" style="display: flex; border: solid 1px black">
-                    <div style="flex: 1">
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                               aria-describedby="addon-wrapping" style="border: 0!important;">
-                    </div>
-                    <div style="display: flex;align-items: center">
-                        <span style="display: flex;align-content: center">
-                            <i class="bi bi-search"></i>
-                        </span>
-                    </div>
+                <div class="input-icon col-4">
+                    <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?" name="search">
+                    <span class="append-icon"><i class="bi bi-search"></i></span>
                 </div>
 
-
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 ...
