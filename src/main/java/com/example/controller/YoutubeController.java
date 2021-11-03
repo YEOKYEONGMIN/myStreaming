@@ -76,7 +76,7 @@ public class YoutubeController {
 
         return jsonInString;
 
-    } //getTwitchLiveList
+    } // getYoutubeLiveList
 
     
     @GetMapping(value = "/channelId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
