@@ -19,7 +19,7 @@ jquery-3.5.1
 
 ### 맡은 역할 밑 사용중 브런치
 유병수 - navbar admin API twitch, join ,login, 전체적인 정검 (navbar 브런치 사용중)
-여경민 - 
+여경민 - sidebar twitch API bookmark (bookmark 브런치 사용중)
 이충헌 - 
 이지율 -
 이다현 -
