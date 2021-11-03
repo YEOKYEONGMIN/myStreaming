@@ -50,10 +50,10 @@
 			<beans:bean class = "com.example.interceptor.LoginCheckInterceptor"/>
 		</interceptor>
 	</interceptors>
+
 	
-	
-	
-	
-	
-	
+
+
+
+
 </beans:beans>
