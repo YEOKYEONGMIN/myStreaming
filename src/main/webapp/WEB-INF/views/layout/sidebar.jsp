@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="l-navbar" id="navbar">
 	<nav class="nav">
 		<div>
@@ -9,8 +8,8 @@
 			</div>
 			<c:if test="${not empty id }">
 				<div>
-					<span class="nav__title"> <ion-icon name="heart-outline" 
-					class="nav__icon" data-toggle="tooltip" data-placement="right" title="팔로우 중인 채널"></ion-icon> 
+					<span class="nav__title"> <ion-icon name="heart-outline"
+					class="nav__icon" data-toggle="tooltip" data-placement="right" title="팔로우 중인 채널"></ion-icon>
 					<span class="nav_name">팔로우 중인 채널</span>
 					</span>
 				</div>
@@ -18,22 +17,20 @@
                 	<c:when test="${ not empty bookmarkList }">
                 		<div class="nav__bookmark">
                 		<c:forEach var="bookmark" items="${ bookmarkList }">
-                			
-								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow"> <img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
+
+								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow" id="nav__follow${bookmark.streamerId}">
+								 <img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
 								class="nav_name">${ bookmark.streamerName }</span>
-								</a> 
+								</a>
                 		</c:forEach>
                 		</div>
                 	</c:when>
                 	<c:otherwise>
-                		
+
                 	</c:otherwise>
                 </c:choose>
-				
-				
-				
 			</c:if>
-			
+
 			
 			<div class="nav__list">
 				<a href="#" class="nav__link nav_active"> <ion-icon
