@@ -31,7 +31,7 @@ function createCard(data){
 	                        <div class="card_link">
 	                        	<a href="https://www.twitch.tv/${data.data[i].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i].user_id}"
-	                    		onclick="Bookmark('${data.data[i].user_id}', '${data.data[i].user_name}');"></i>
+	                    		onclick="Bookmark('${data.data[i].user_id}', '${data.data[i].user_name}', '${data.data[i].user_name}');"></i>
                             </div>
 	                    </div>
 	                </div>
@@ -46,7 +46,7 @@ function createCard(data){
 	                        <div class="card_link">
 	                        	<a href="https://www.twitch.tv/${data.data[i+1].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+1].user_id}"
-	                    		onclick="Bookmark('${data.data[i+1].user_id}', '${data.data[i+1].user_name}');"></i>
+	                    		onclick="Bookmark('${data.data[i+1].user_id}', '${data.data[i+1].user_name}', '${data.data[i+1].user_name}');"></i>
                             </div>
 	                    </div>
 	                </div>
@@ -61,7 +61,7 @@ function createCard(data){
 	                        <div class="card_link">
 	                        	<a href="https://www.twitch.tv/${data.data[i+2].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+2].user_id}"
-	                    		onclick="Bookmark('${data.data[i+2].user_id}', '${data.data[i+2].user_name}');"></i>
+	                    		onclick="Bookmark('${data.data[i+2].user_id}', '${data.data[i+2].user_name}', '${data.data[i+2].user_name}');"></i>
                             </div>
 	                    </div>
 	                </div>
@@ -76,7 +76,7 @@ function createCard(data){
 	                        <div class="card_link">
 	                        	<a href="https://www.twitch.tv/${data.data[i+3].user_login}" id="btn_link" target="_blank">방송보러 가기</a>
 	                    		<i class="far fa-star bookmark" id="bookmark${data.data[i+3].user_id}"
-	                    		onclick="Bookmark('${data.data[i+3].user_id}', '${data.data[i+3].user_name}');"></i>
+	                    		onclick="Bookmark('${data.data[i+3].user_id}', '${data.data[i+3].user_name}', '${data.data[i+3].user_name}');"></i>
                             </div>
 	                    </div>
 	                </div>
@@ -94,7 +94,7 @@ function createCard(data){
 
 
 
-function Bookmark( streamerId, streamerName){
+function Bookmark( streamerId, streamerName, streamerLogin){
     let $i = $('#bookmark'+streamerId);
     let $a = $('#nav__follow'+streamerId);
 
@@ -157,6 +157,26 @@ function addOrDeleteBookmark(streamerId, streamerName, profile_image_url){
         }
     });
 
+}
+function  bookmarkChk(){
+	
+	  $.ajax({
+        url: '/api/bookmark',
+        dataType:"JSON",
+    	method: 'GET',
+        success: function (data) {
+            console.log("겟 데이터")
+            console.log(data);
+			if(data.msg != 'Id null'){
+				for(let i=0; i<data.bookmarkList.length; i++){
+					let $i = $('#bookmark'+data.bookmarkList[i].streamerId);
+					console.log($i);
+					$i.removeClass('far fa-star').addClass('fas fa-star');
+				}
+			}
+
+        }
+    });
 }
 
 
