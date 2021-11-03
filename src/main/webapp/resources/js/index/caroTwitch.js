@@ -8,10 +8,10 @@ $.ajax({
     success: function (data) {
         console.log("데이터")
         console.log(data);
-
+		
         createCard(data);
-        bookmarkChk();
-
+        twitchbookmarkChk();
+        
     }
 });
 
@@ -103,14 +103,15 @@ function Bookmark( streamerId, streamerName, streamerLogin){
         dataType:"JSON",
         method: 'GET',
         success: function (data) {
-            console.log("데이터")
+            console.log("프로필 데이터")
             console.log(data);
-
+			
             addOrDeleteBookmark(streamerId,streamerName, streamerLogin, data.data[0].profile_image_url);
             let str = `
 		    	<a href="https://www.twitch.tv/${streamerLogin}" class="nav__follow" id="nav__follow${streamerId}" target="_blank">
 				<img class="nav__img" alt="사진" src="${data.data[0].profile_image_url }"> <span
-				class="nav_name">${ streamerName }</span> 
+				class="nav_name">${ streamerName }</span>
+				<span class="twitchIs_live" id="isLive${streamerId}"></span>
 		   	 `
 		    if($i.hasClass("far fa-star") === true){
 		        $i.removeClass('far fa-star').addClass('fas fa-star');
@@ -119,7 +120,7 @@ function Bookmark( streamerId, streamerName, streamerLogin){
 		        $i.removeClass('fas fa-star').addClass('far fa-star');
 		       	$a.remove();
 		    }
-
+			twitchIsLive(streamerId, streamerName);
         }
     });
 
@@ -130,7 +131,7 @@ function Bookmark( streamerId, streamerName, streamerLogin){
 
 }
 function addOrDeleteBookmark(streamerId, streamerName, streamerLogin, profileImageUrl){
-
+	let $i = $('#bookmark'+streamerId);
     console.log(streamerId);
     console.log(streamerName);
     console.log(profileImageUrl);
@@ -151,15 +152,17 @@ function addOrDeleteBookmark(streamerId, streamerName, streamerLogin, profileIma
         data:bookmarkValue,
         method: 'POST',
         success: function (data) {
-            console.log("데이터")
+            console.log("북마크 메세지")
             console.log(data);
-
+			if(data.msg == 'failed'){
+				 $i.removeClass('fas fa-star').addClass('far fa-star');
+			}
 
         }
     });
 
 }
-function  bookmarkChk(){
+function  twitchbookmarkChk(){
 	
 	  $.ajax({
         url: '/api/bookmark',
@@ -173,11 +176,36 @@ function  bookmarkChk(){
 					let $i = $('#bookmark'+data.bookmarkList[i].streamerId);
 					console.log($i);
 					$i.removeClass('far fa-star').addClass('fas fa-star');
+					console.log(data.bookmarkList[i].streamerLogin);
+					if(data.bookmarkList[i].streamerLogin != null){
+						twitchIsLive(data.bookmarkList[i].streamerId, data.bookmarkList[i].streamerName);
+					}
 				}
 			}
 
         }
     });
 }
-
+function twitchIsLive(streamerId, streamerLogin){
+	
+	$.ajax({
+        url: '/api/twitch/isLive/'+streamerLogin,
+        dataType:"JSON",
+    	method: 'GET',
+        success: function (data) {
+            console.log("라이브 데이터")
+            console.log(data);
+            
+			let span = $('#isLive'+streamerId);
+			console.log(span);
+			if(data.data[0].is_live){
+				span.html('live').css('color', 'red');
+				span.addClass('liveTrue').removeClass('liveFalse');
+			}else{
+				span.html('offline').css('color', 'grey');
+				span.addClass('liveFalse').removeClass('liveTrue');
+			}
+        }
+    });
+}
 
