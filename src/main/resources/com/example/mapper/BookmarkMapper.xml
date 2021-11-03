@@ -9,17 +9,19 @@
  
   
   <!-- 북마크 가져오기 -->
-  <select id="getBookmarksAll" resultType="bookmarkVO">
+  <select id="getBookmarkById" resultType="bookmarkVO">
   	<![CDATA[
-  		SELECT * FROM bookmark WHERE mid = #{mid)
+  		SELECT * FROM bookmark WHERE mid = #{mid}
   	]]>
   </select>
+  
+  
   
   <!-- 북마크 하나 추가하기 -->
   <insert id="addBookmark">
   	<![CDATA[
- 		INSERT INTO bookmark(mid, streamerId, streamerName, profile_image_url)
- 		VALUES(#{mid}, #{streamerId}, #{streamerName}, #{profile_image_url})
+ 		INSERT INTO bookmark(mid, streamerId, streamerName, streamerLogin, profileImageUrl)
+ 		VALUES(#{mid}, #{streamerId}, #{streamerName}, #{streamerLogin}, #{profileImageUrl})
  	]]>
   </insert>
   
