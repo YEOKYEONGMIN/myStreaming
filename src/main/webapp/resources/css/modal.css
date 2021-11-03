@@ -173,7 +173,7 @@
     margin: 15px 0;
     font-size: 14px;
 }
-#searchModal .search-result-one:nth-child(1):hover{
+#searchModal .search-result-one .search-value:hover{
     font-weight: 590;
     cursor: pointer;
 }
