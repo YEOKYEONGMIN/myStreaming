@@ -73,7 +73,7 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 		
 		//새로운 insert글번호
 		public int getNextNum() {
-			return boardMapper.getNextnum();
+			return boardMapper.getNextNum();
 			
 		}
 		
@@ -130,22 +130,23 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 		
 		
 		// 답글쓰기 메소드(게시글 정보와 첨부파일정보를 한개의 트랜잭션으로 처리)
+		
 		@Transactional
 		public void addReplyAndAttaches(BoardVO boardVO) {
-			// 답글을 남길 대상글과 같은 글그룹(reRef) 안에서
-			// 대상글의 순번(reSeq)보다 큰 글들의 순번을 1씩 증가(UPDATE)
+			// 답글을 남길 대상글과 같은 글 (reRef) 그룹 안에서
+			// 대상들의 순번보다 큰 글들의 순번을 1씩 증가(UPDATE)
 			boardMapper.updateReSeqPlusOne(boardVO.getReRef(), boardVO.getReSeq());
 			
-			// insert할 답글 re값으로 수정
+			// insert 할 답글 re 값으로 수정
 			boardVO.setReLev(boardVO.getReLev() + 1);
 			boardVO.setReSeq(boardVO.getReSeq() + 1);
 			
 			// 답글 insert 하기
 			boardMapper.addBoard(boardVO);
 			
-			// 첨부파일 정보 insert하기
+			// 첨부파일 정보 insert 하기
 			List<AttachVO> attachList = boardVO.getAttachList();
-			if (attachList != null && attachList.size() > 0) {
+			if( attachList != null && attachList.size() > 0 ) {
 				attachMapper.addAttaches(attachList);
 			}
 		} // addReplyAndAttaches
