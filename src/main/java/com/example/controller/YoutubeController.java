@@ -79,7 +79,7 @@ public class YoutubeController {
     } //getTwitchLiveList
 
     
-    @GetMapping(value = "/channelId/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(value = "/channelId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getYoutubeProfilepic(@PathVariable("id") String id) {
     	System.out.println("youtube profilepic 접근...");
     	
