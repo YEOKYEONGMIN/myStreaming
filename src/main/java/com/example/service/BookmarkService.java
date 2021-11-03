@@ -21,7 +21,7 @@ public class BookmarkService {
 	}//deleteAll 
 
 	//북마크 넘버로 삭제하기
-	public void deleteBoardByNum(String mid, String streamerId) {
+	public void deleteBoardByIdAndStreamerID(String mid, String streamerId) {
 		bookmarkMapper.deleteBoardByMidAndStramerId(mid, streamerId);
 		
 	}//deleteBoardByNum
