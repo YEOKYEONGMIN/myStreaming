@@ -1,17 +1,17 @@
 
 // 유튜브 방송리스트
-$.ajax({
-    url: '/api/youtube/liveList',
-    dataType:"JSON",
-    method: 'GET',
-    success: function (data) {
-        console.log("youtube 데이터")
-        console.log(data);
-
-        createYoutubeCard(data);
-
-    }
-});
+// $.ajax({
+//     url: '/api/youtube/liveList',
+//     dataType:"JSON",
+//     method: 'GET',
+//     success: function (data) {
+//         console.log("youtube 데이터")
+//         console.log(data);
+//
+//         createYoutubeCard(data);
+//
+//     }
+// });
 
 function createYoutubeCard(data){
     for(let i=0;i<19;i+=4){
