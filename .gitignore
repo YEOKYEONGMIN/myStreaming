@@ -19,7 +19,28 @@
 ### gen
 ### build
 ### rebel.xml
+=======
+# ### Java template
+# *.class
  
+# # Package Files #
+# *.jar
+# *.war
+# *.ear
+ 
+# ### macOS template
+# *.DS_Store
+# .AppleDouble
+# .LSOverride
+ 
+# # IntelliJ project files
+# .idea
+# .idea/*.xml
+# *.iml
+# out
+# gen
+# build
+# rebel.xml
 # Compliled files
 /target/
 **/target
