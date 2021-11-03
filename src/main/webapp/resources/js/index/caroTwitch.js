@@ -96,12 +96,8 @@ function createCard(data){
 
 function Bookmark( streamerId, streamerName, streamerLogin){
     let $i = $('#bookmark'+streamerId);
-    if($i.hasClass("far fa-star") === true){
-        $i.removeClass('far fa-star').addClass('fas fa-star');
-    }else{
-        $i.removeClass('fas fa-star').addClass('far fa-star');
-    }
-
+    let $a = $('#nav__follow'+streamerId);
+    
     $.ajax({
         url: '/api/twitch/user/'+streamerId,
         dataType:"JSON",
@@ -111,6 +107,19 @@ function Bookmark( streamerId, streamerName, streamerLogin){
             console.log(data);
 
             addOrDeleteBookmark(streamerId,streamerName, streamerLogin, data.data[0].profile_image_url);
+            let str = `
+		    	<a href="https://www.twitch.tv/${streamerLogin}" class="nav__follow" id="nav__follow${streamerId}">
+				<img class="nav__img" alt="사진" src="${data.data[0].profile_image_url }"> <span
+				class="nav_name">${ streamerName }</span> 
+		   	 `
+		    if($i.hasClass("far fa-star") === true){
+		        $i.removeClass('far fa-star').addClass('fas fa-star');
+		        $('.nav__bookmark').append(str);
+		    }else{
+		        $i.removeClass('fas fa-star').addClass('far fa-star');
+		       	$a.remove();
+		    }
+
         }
     });
 

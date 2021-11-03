@@ -19,7 +19,8 @@
                 		<div class="nav__bookmark">
                 		<c:forEach var="bookmark" items="${ bookmarkList }">
                 			
-								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow"> <img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
+								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow" id="nav__follow${bookmark.streamerId}">
+								 <img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
 								class="nav_name">${ bookmark.streamerName }</span>
 								</a> 
                 		</c:forEach>
@@ -29,9 +30,6 @@
                 		
                 	</c:otherwise>
                 </c:choose>
-				
-				
-				
 			</c:if>
 			
 			
