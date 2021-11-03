@@ -21,8 +21,8 @@ public class BookmarkService {
 	}//deleteAll 
 
 	//북마크 넘버로 삭제하기
-	public void deleteBoardByNum(int num) {
-		bookmarkMapper.deleteBoardByNum(num);
+	public void deleteBoardByIdAndStreamerID(String mid, String streamerId) {
+		bookmarkMapper.deleteBoardByMidAndStramerId(mid, streamerId);
 		
 	}//deleteBoardByNum
 	
@@ -32,22 +32,10 @@ public class BookmarkService {
 	
 	}//updateBookmark
 	
-	//북마크 아이디로 삭제하기
-	public int deleteBookmarkById(String mid) {
-		return bookmarkMapper.deleteBookmarkById(mid);
-	
-	}//deleteBookmarkById
-	
-	//글번호 만들어서 가져오기
-	public int getNextNum() {
-		return bookmarkMapper.getNextNum();
-	
-	}//getNextNum
 	
 	//모든북마크 가져오기
-	public List<BookmarkVO>getBookmarksAll(){
-		return bookmarkMapper.getBookmarksAll();
-	
+	public List<BookmarkVO>getBookmarkById(String mid){
+		return bookmarkMapper.getBookmarkById(mid);
 	}//getBookmarksAll
 	
 	//북마크 추가하기
@@ -56,11 +44,10 @@ public class BookmarkService {
 	
 	}//addBookmark
 	
-	//북마크 아이디로 조회하기
-	public BookmarkVO getBookmarkById(String mid) {
-		return bookmarkMapper.getBookmarkById(mid);
+	public int getCountbyIdAndStreamerId(String mid, String streamerId) {
+		return bookmarkMapper.getCountbyIdAndStreamerId(mid, streamerId);
+	}
 	
-	}//getBookmarkById
-	
+
 
 }

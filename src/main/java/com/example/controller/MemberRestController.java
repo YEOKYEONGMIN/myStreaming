@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.domain.BookmarkVO;
 import com.example.domain.MemberVO;
+import com.example.service.BookmarkService;
 import com.example.service.MemberService;
 import com.example.util.JScript;
 
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +35,8 @@ public class MemberRestController {
 
 	@Autowired
 	private MemberService memberService;
-	
+	@Autowired
+	private BookmarkService bookmarkService;
 	
 	// 모든 멤버 가져오기
 	@GetMapping(value = "/members", 
@@ -99,6 +103,12 @@ public class MemberRestController {
 		
 		// 아이디가 존재하고 비밀번호 일치시
 		session.setAttribute("id", id); 
+		
+		List<BookmarkVO> bookmarkList = bookmarkService.getBookmarkById(id);
+		System.out.println(bookmarkList);
+		if(bookmarkList != null) {
+			session.setAttribute("bookmarkList", bookmarkList);
+		}
 		
 		if (rememberId) {
 			Cookie cookie = new Cookie("userId", id);

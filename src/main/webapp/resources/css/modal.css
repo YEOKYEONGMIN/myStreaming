@@ -93,17 +93,20 @@
 
 #searchModal .modal-header{
     display: flex;
-    justify-content: center;
+    /*justify-content: space-between;*/
     align-items: center;
     height: 135px!important;
+    border: 0;
 }
 
 #searchModal .input-group-append{
-
     border: 0!important;
 }
 
-.input-icon{position: relative}
+.input-icon{
+    position: relative;
+    flex: 1;
+}
 
 .input-icon .append-icon{
     position: absolute;
@@ -127,4 +130,20 @@
     background-color: rgb(245,245,244);
     outline: none !important;
     box-shadow: none;!important;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center
+}
+
+.modal-close-span{
+    margin-left: 10px;
+    color: lightgray;
+    cursor: pointer;
+}
+
+#searchModal .modal-body{
+    display: flex;
+    flex-direction: column;
 }
