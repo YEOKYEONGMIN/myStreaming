@@ -1,5 +1,6 @@
 
 // 유튜브 방송리스트
+
 $.ajax({
     url: '/api/youtube/liveList',
     dataType:"JSON",

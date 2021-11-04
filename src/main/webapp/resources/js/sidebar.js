@@ -6,9 +6,13 @@ const showMenu = (toggleId, navbarId, bodyId) => {
 
     if (toggle && navbar) {
         toggle.addEventListener('click', () => {
-            navbar.classList.toggle('expander');
-
-            bodypadding.classList.toggle('body-pd')
+            if(window.outerWidth>1000){
+                navbar.classList.toggle('expander');
+                bodypadding.classList.toggle('body-pd')
+            } else {
+                navbar.classList.remove('expander');
+                bodypadding.classList.remove('body-pd')
+            }
         })
     }
 }
