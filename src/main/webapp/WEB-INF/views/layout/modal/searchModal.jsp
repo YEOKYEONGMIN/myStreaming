@@ -14,7 +14,7 @@
                     <div class="offset-1 col-4 search-bar">
                         <div class="input-icon">
                             <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?" name="search">
-                            <span class="append-icon"><i class="bi bi-search"></i></span>
+                            <a class="append-icon" id="search-button"><i class="bi bi-search"></i></a>
                         </div>
                         <div>
                             <span class="modal-close-span" data-dismiss="modal">취소</span>
@@ -31,10 +31,7 @@
                         <span class="delete-span">전체 삭제</span>
                     </div>
                     <div class="search-results">
-                        <div class="search-result-one">
-                            <span>검색기록 1입니다.</span>
-                            <span class="delete-span"><i class="bi bi-x"></i></span>
-                        </div>
+
                     </div>
                 </div>
 
