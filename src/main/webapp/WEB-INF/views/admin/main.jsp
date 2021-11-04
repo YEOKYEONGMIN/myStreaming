@@ -25,12 +25,6 @@
     <a class="btn btn-primary" href="/admin/list">회원 전체 조회</a>
 </div>
 <div class="admin-menu d-flex justify-content-center">
-    <a class="btn btn-primary" href="">회원 삭제</a>
-</div>
-<div class="admin-menu d-flex justify-content-center">
-    <a class="btn btn-primary" href="">회원 정보 수정</a>
-</div>
-<div class="admin-menu d-flex justify-content-center">
     <a class="btn btn-primary" href="">회원에게 메일 보내기</a>
 </div>
 
