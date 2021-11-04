@@ -53,27 +53,28 @@ public class BoardController {
 		// board 테이블에서 전체글 리스트로 가져오기 
 		List<BoardVO> boardList = boardService.getBoards(cri);
 		
+		
 		// ================================ 게시글 추가 부분 =========================================
 		// 게시글 없으면 100개 넣기 (테스트 진행을 위해서 임시로 추가)
-		if (boardList.isEmpty()) { // 게시글 하나도 없을 경우
-			for (int i=1; i<=100; i++) {
-				// insert할 새 글번호 가져오기
-				int num = boardService.getNextNum();
-				
-				BoardVO boardVO = new BoardVO();
-				boardVO.setNum(i);
-				boardVO.setMid("테스트");
-				boardVO.setSubject(i + "번글");
-				boardVO.setContent("테스트 내용 " + i);
-				boardVO.setSecret(false);
-				boardVO.setRegDate(new Date(System.currentTimeMillis()));
-				boardVO.setReRef(num);
-				boardVO.setReLev(0);
-				boardVO.setReSeq(0);
-				boardService.addBoard(boardVO);
-			}
-			
-		} // if
+//		if (boardList.isEmpty()) { // 게시글 하나도 없을 경우
+//			for (int i=1; i<=100; i++) {
+//				// insert할 새 글번호 가져오기
+//				int num = boardService.getNextNum();
+//				
+//				BoardVO boardVO = new BoardVO();
+//				boardVO.setNum(i);
+//				boardVO.setMid("테스트");
+//				boardVO.setSubject(i + "번글");
+//				boardVO.setContent("테스트 내용 " + i);
+//				boardVO.setSecret(0);
+//				boardVO.setRegDate(new Date(System.currentTimeMillis()));
+//				boardVO.setReRef(num);
+//				boardVO.setReLev(0);
+//				boardVO.setReSeq(0);
+//				boardService.addBoard(boardVO);
+//			}
+//			
+//		} // if
 		
 		boardList = boardService.getBoards(cri); // 게시글 추가될시 새로 불러옴
 		
@@ -99,7 +100,7 @@ public class BoardController {
 		
 		
 		
-		if(boardVO.isSecret() == true) {//비밀글일
+		if(boardVO.getSecret() == 1) {//비밀글일
 			if(boardVO.getMid() == "admin" || session.getId() == boardVO.getMid()) {
 				// 조회수 1 증가시키기
 				boardService.updateReadcount(num);
@@ -249,8 +250,21 @@ public class BoardController {
 
 	// 첨부파일 업로드와 함께 주글쓰기 처리
 	@PostMapping("/write")
-	public String write(List<MultipartFile> files, BoardVO boardVO, HttpServletRequest request, RedirectAttributes rttr)
+	public String write(List<MultipartFile> files, BoardVO boardVO, HttpServletRequest request, RedirectAttributes rttr,
+			@RequestParam(name = "secret1", required = false) boolean secret1)
 			throws IllegalStateException, IOException { // 배열로 받아도 된다.(MultipartFile[] multipartFile)
+		
+		//비밀
+				if(secret1) {
+					
+					boardVO.setSecret(1);//true
+					
+				}else {
+					boardVO.setSecret(0);
+				}
+				
+		
+		
 		
 		System.out.println("post write call...");
 		// 스프링(mvc 모듈) 웹에서는 클라이언트(사용자)로부터 넘어오는 file 타입 input 요소의 갯수만큼
@@ -267,7 +281,7 @@ public class BoardController {
 		// 때문에 제외!
 		boardVO.setNum(num); // 글 번호, 위에 int num으로 설정해놨기 때문에 그냥 그거 받으면 된다!
 		boardVO.setReadcount(0);// 새글은 0
-		boardVO.setSecret(boardVO.isSecret());//booelan은 get이 아니라 is로 받을
+		boardVO.setSecret(boardVO.getSecret());//booelan은 get이 아니라 is로 받을
 		boardVO.setRegDate(new Date());
 		boardVO.setReRef(num); // 주글일 경우 글그룹 번호는 글번호와 동일함
 		boardVO.setReLev(0); // 주글일 경우 들여쓰기 레벨은 0
@@ -285,7 +299,7 @@ public class BoardController {
 		// 이렇게만 적으면 된다.
 		rttr.addAttribute("num", boardVO.getNum());// key = num, value= baordVO.getNum()
 		rttr.addAttribute("pageNum", 1);// 새글 쓰는것이기 때문에 1
-		rttr.addAttribute("secret", boardVO.isSecret());//비밀글설정
+		rttr.addAttribute("secret", boardVO.getSecret());//비밀글설정
 		
 
 		return "redirect:/board/content";
@@ -356,14 +370,18 @@ public class BoardController {
 
 	@PostMapping("/modify")
 	public String modify(List<MultipartFile> files, BoardVO boardVO, String pageNum,
-			@RequestParam(name = "delfile", required = false),List<String> delUuidList,
+			@RequestParam(name = "delfile", required = false) List<String> delUuidList,
+			@RequestParam(name = "secret1", required = false) boolean secret1,
 			HttpServletRequest request, RedirectAttributes rttr ) throws IllegalStateException, IOException {
 		
-		if(boardVO == true) {
+		//비밀
+		if(secret1) {
 			
-			boardVO.isSecret();
+			boardVO.setSecret(1);//true
 			
-		}//if
+		}else {
+			boardVO.setSecret(0);
+		}
 		
 		
 		
@@ -424,8 +442,20 @@ public class BoardController {
 	// 답글쓰기
 	@PostMapping("/reply")
 	public String reply(List<MultipartFile> files, BoardVO boardVO, String pageNum,
-			HttpServletRequest request, RedirectAttributes rttr) 
+			HttpServletRequest request, RedirectAttributes rttr,@RequestParam(name = "secret1", required = false) boolean secret1
+			) 
 			throws IllegalStateException, IOException {
+		
+		//비밀
+				if(secret1) {
+					
+					boardVO.setSecret(1);//true
+					
+				}else {
+					boardVO.setSecret(0);
+				}
+		
+		
 		
 		// insert할 새 글번호 가져오기
 		int num = boardService.getNextNum();
@@ -437,7 +467,7 @@ public class BoardController {
 		
 		boardVO.setNum(num);
 		boardVO.setReadcount(0);
-		boardVO.isSecret();
+		boardVO.setSecret(0);
 		boardVO.setRegDate(new Date());
 		boardVO.setAttachList(attachList); // 첨부파일 정보 리스트 저장
 		

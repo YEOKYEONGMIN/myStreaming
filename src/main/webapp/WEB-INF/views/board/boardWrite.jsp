@@ -32,12 +32,12 @@
       
          <div class="form-group">
             <label for="comment">내용:</label>
-            <textarea class="form-control" id ="content" name = "content" rows="15" id="comment"></textarea>
+            <textarea class="form-control" id="content" name="content" rows="15" id="cotent"></textarea>
          </div>
      
       <br>
       <div class="checkbox">
-         <label><input type="checkbox" value="true" id="secret" name="secret"> 비밀글</label>
+         <label><input type="checkbox" value="false" id="secret" name="secret1"> 비밀글</label>
       </div>
       <div>
          <button type="button" class="btn btn-primary my-3 btnAddFile" id="btnAddFile">파일추가</button>

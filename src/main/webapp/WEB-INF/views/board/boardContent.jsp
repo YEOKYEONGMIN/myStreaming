@@ -9,8 +9,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Q&A상세보기</title>
 <jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
+
+<link href="../resources/css/board.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body id="boay-pd">
 	
@@ -18,10 +20,10 @@
 	<jsp:include page="/WEB-INF/views/layout/carousel.jsp" />
 
 	<div class="container">
-	<h3 class="text-center" style="margin-bottom: 30px;">Q&A 상세보기</h3>
+	<h3 class="text-center board-title">Q&A 상세보기</h3>
 	
 	<table class="table">
-			
+		
 				<tr>
 					 <th class="text-center">작성자</th>
 					<td>${ board.mid }</td>
@@ -41,7 +43,7 @@
 				<tr>
 					 <th class="text-center">내용</th>
 					<td colspan="10">
-						<pre>${board.content}</pre>
+						${board.content}
 					</td>
 				</tr>
 				<tr>
@@ -91,19 +93,19 @@
 	 	<%--로그인 아이디와 글 작성자 아이디가 같을때 --%>
 	 	
 	 
-	 	 <button type="button" class="btn btn-primary ml-3" onclick="location.href='/board/modify?num=${ board.num }&pageNum=${ pageNum }';">
+	 	 <button type="button" class="btn ml-3 background-purple text-white" onclick="location.href='/board/modify?num=${ board.num }&pageNum=${ pageNum }';">
             <i class="bi bi-pencil-square"></i>
            <span class="align-middle">글수정</span>
         </button>
 	 	
-       <button class="btn btn-primary" type="button" onClick="remove(event)"><i class="bi bi-trash"></i>글삭제</button>
+       <button class="btn ml-3 background-purple text-white" type="button" onClick="remove(event)"><i class="bi bi-trash"></i>글삭제</button>
        
-       <button type="button" class="btn btn-primary ml-3" onclick="location.href='/board/reply?reRef=${ board.reRef }&reLev=${ board.reLev }&reSeq=${board.reSeq}&pageNum=${ pageNum }';">
+       <button type="button" class="btn ml-3 background-purple text-white" onclick="location.href='/board/reply?reRef=${ board.reRef }&reLev=${ board.reLev }&reSeq=${board.reSeq}&pageNum=${ pageNum }';">
             <i class="bi bi-reply"></i>
            <span class="align-middle">답글</span>
         </button>
          
-         <button type="button" class="btn btn-primary ml-3" onclick="location.href='/board/list?pageNum=${ pageNum }';">
+         <button type="button" class="btn ml-3 background-purple text-white" onclick="location.href='/board/list?pageNum=${ pageNum }';">
             <i class="bi bi-card-checklist"></i>
            <span class="align-middle">글목록</span>
         </button>

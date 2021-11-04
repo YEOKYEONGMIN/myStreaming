@@ -19,10 +19,10 @@
       <div class="text-left">
          <h5>게시판 글목록 (글개수: ${ pageMaker.totalCount })</h5>
 
-         <%--아이디 세션 필z --%>
+         <%--아이디 세션 필드 --%>
       
             <!-- 새글쓰기 버튼 -->
-              <button type="button" class="btn btn-primary btn-sm float-right my-3" onclick="location.href = '/board/write?pageNum=${ pageMaker.cri.pageNum }';">
+              <button type="button" class="btn btn ml-3 background-purple text-white float-right my-3" onclick="location.href = '/board/write?pageNum=${ pageMaker.cri.pageNum }';">
                  <span class="align-middle">새글쓰기</span>
               </button>
          
@@ -33,7 +33,7 @@
       
        <!-- 글목록 테이블 -->
          <table class="table table-hover" id="board">
-            <thead>
+            <thead class="thead-dark">
                <tr>
                   <th scope="col" class="text-center">번호</th>
                   <th scope="col" class="text-center">제목</th>
@@ -44,47 +44,36 @@
              </thead>
              <tbody>
              <c:choose>
-                 <c:when test="${ pageMaker.totalCount gt 0 }"><%--gt는 ">" --%>
+                 <c:when test="${ pageMaker.totalCount gt 0 }"><%--gt는 ">" --%> 
+                   
                     <c:forEach var="board" items="${ boardList }">
                        <tr>
-                        <td class="text-center">${ board.num }</td>
+                          <td class="text-center">${ board.num }</td>
                         
-                          
-                          
-                          <c:if test="${sessionScope.id != board.mid  and board.secret eq false}">
-                          	<i class="bi bi-shield-lock-fill"></i>
                           <c:choose>
-                          	<c:when test="${ sessionScope.id eq board.mid and board.secret eq true }"><%-- 자신의 비밀글일 경우 --%>
-                          		<td>
-                          			<a class="align-middle" href="/board/content?num=${ board.num }&pageNum=${ pageMaker.cri.pageNum }">${ board.subject }</a>	
-                          		</td>
-                          		
-                          	</c:when>
-                          	<c:otherwise>
-                          		비밀글은 작성자와 관리자만 볼 수 있습니다.
-                          	</c:otherwise>
+                              <c:when test="${ (board.secret eq 0) or ((sessionScope.id eq board.mid and board.secret eq 1) or (sessionScope.id eq 'admin')) }"><%-- 공개글이거나 내가 작성한 비밀글일 경우 --%>
+                              	<td>
+	                                <c:if test="${ board.reLev gt 0 }"><%-- 답글이면 --%><!-- 붙여 쓰기, 비밀글은 안들어감  -->
+	                                   <span>
+	                                      	<i class="bi bi-arrow-return-right"></i>
+	                                       <span style="display: inline-block; width: ${ board.reLev * 15 }px"></span>
+	                                   </span>
+	                                </c:if>
+                                
+                                   <a class="align-middle" href="/board/content?num=${ board.num }&pageNum=${ pageMaker.cri.pageNum }">${ board.subject }</a>   
+                                </td>
+                                <td class="text-center">${ board.mid }</td>
+                                <td class="text-center"><fmt:formatDate value="${ board.regDate }" pattern="yyyy.MM.dd" /></td>
+                                <td class="text-center"><span><i class="bi bi-eye"></i></span>  ${ board.readcount }</td>
+                              </c:when>
+                              <c:when test="${ (sessionScope.id ne board.mid) and board.secret eq 1 }"><%-- 다른사람이 작성한 비밀글일 경우 --%>
+                              	 <td colspan="4" class="table-active">
+                                    <i class="bi bi-shield-lock-fill"></i>비밀글입니다.
+                                 </td>
+                          	  </c:when>
                           </c:choose>
-                          </c:if>
-                          <c:if test="${ board.secret  eq false}"><%--비밀글이 아닐때  --%>
-                          	<td>
-                          <c:if test="${ board.reLev gt 0 }"><%-- 답글이면 --%>
-                          	<span>
-                          	<i class="bi bi-arrow-return-right"></i>
-                          	 <span style="display: inline-block; width: ${ board.reLev * 15 }px"></span>
-                          	</span>
-                          </c:if>
-                          	<a class="align-middle" href="/board/content?num=${ board.num }&pageNum=${ pageMaker.cri.pageNum }">${ board.subject }</a>	
-                          </td>
                           
-                          	<td class="text-center">${ board.mid }</td>
-                        	<td class="text-center"><fmt:formatDate value="${ board.regDate }" pattern="yyyy.MM.dd" /></td>
-                       		<td class="text-center"><span><i class="bi bi-eye"></i></span>  ${ board.readcount }</td>
-                          </c:if>
-                          
-                         </tr>
-                       
-                        
-                     
+                       </tr>
                     </c:forEach>
                  
                  </c:when>
@@ -105,27 +94,26 @@
               
               <%-- 이전 --%>
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
-                 <a class="page-link" href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
+                 <a class="page-link " href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
               </li>
               
               <%-- 시작페이지 번호 ~ 끝페이지 번호 --%>
               <c:forEach var="i" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"><%--step = 1은 증가 --%>
                  <li class="page-item ${ (pageMaker.cri.pageNum eq i) ? 'active' : '' }">
-                    <a class="page-link" href="/board/list?pageNum=${ i }&type=${ pageMaker.cri.type }&keyword=${ pageMaker.cri.keyword }#board">${ i }</a>
+                    <a class="page-link " href="/board/list?pageNum=${ i }&type=${ pageMaker.cri.type }&keyword=${ pageMaker.cri.keyword }#board">${ i }</a>
                  </li>
               </c:forEach>
               
               <%-- 다음 --%>
               <li class="page-item ${ (pageMaker.next) ? '' : 'disabled' }">
-                 <a class="page-link" href="${ (pageMaker.next) ? '/board/list?pageNum=' += (pageMaker.endPage + 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">다음</a>
+                 <a class="page-link " href="${ (pageMaker.next) ? '/board/list?pageNum=' += (pageMaker.endPage + 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">다음</a>
               </li>
 
               </ul>
             </nav>
          
 
-            
-			<div class="container">
+         <div class="container">
             <form class="form-inline justify-content-center my-4" action="/board/list?#board" method="get" id="frm">
           
                  <div class="form-group mx-3">
@@ -133,7 +121,7 @@
                       <select class="form-control mx-2" id="searchType" name="type">
                           <option value="" disabled selected>--</option>
                             <option value="subject" ${ (pageMaker.cri.type eq 'subject') ? 'selected' : '' }>제목</option>
-                          <option value="content" ${ (pageMaker.cri.type eq 'content') ? 'selected' : '' }>내용</option>
+                          	<option value="content" ${ (pageMaker.cri.type eq 'content') ? 'selected' : '' }>내용</option>
                             <option value="mid" ${ (pageMaker.cri.type eq 'mid') ? 'selected' : '' }>작성자</option>
                       </select>
                  </div>
@@ -172,10 +160,5 @@
    </script>
   
  
-</body>
-</html>
-  
- 
-
 </body>
 </html>

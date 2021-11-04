@@ -8,15 +8,16 @@
 <meta charset="UTF-8">
 <title>QnA답글쓰기</title>
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
-<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp" />
+
+<link href="../resources/css/board.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-   <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
-
+    <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
+	<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp" />
   
    <hr>
    <div class="container">
-      <h2>QnA답글달기</h2>
+      <h3 class="board-title">QnA답글달기</h3>
 
       <hr class="featurette-divider">
 
@@ -47,11 +48,11 @@
          
          <br>
          <div class="checkbox">
-            <label><input type="checkbox" value="true" id="secret" name="secret">
+            <label><input type="checkbox" value="true" id="secret" name="secret1">
                비밀글</label>
          </div>
          <div>
-            <button type="button" class="btn btn-primary my-3" id="btnAddFile">파일추가</button>
+            <button type="button" class="btn my-3 background-purple text-white" id="btnAddFile">파일추가</button>
          </div>
          <div>
             <span>첨부 파일</span>
@@ -60,7 +61,7 @@
 
             <div class="my-2">
                <input type="file" name="files" multiple>
-               <button type="button" class="btn btn-primary btn-sm delete-file">
+               <button type="button" class="btn btn-sm delete-file background-purple text-white">
                   <i class="bi bi-calendar2-x"></i> <span class="align-middle">삭제</span>
                </button>
             </div>
@@ -69,13 +70,13 @@
 
 
          <div class="my-4 text-center">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn background-purple text-white">
                <i class="bi bi-arrow-up-square"></i> <span class="align-middle">새글등록</span>
             </button>
-            <button type="reset" class="btn btn-primary ml-3">
+            <button type="reset" class="btn background-purple text-white ml-3">
                <i class="bi bi-x-octagon-fill"></i> <span class="align-middle">초기화</span>
             </button>
-            <button type="button" class="btn btn-primary ml-3"
+            <button type="button" class="btn background-purple text-white ml-3"
                onclick="location.href = '/board/list?pageNum=${ pageNum }';">
                <i class="bi bi-card-checklist"></i> <span class="align-middle">글목록</span>
             </button>
@@ -113,7 +114,7 @@
           var str = `
           <div class="my-2">
             <input type="file" name="files" multiple>
-            <button type="button" class="btn btn-primary btn-sm delete-file">
+            <button type="button" class="btn background-purple text-white btn-sm delete-file">
                <i class="bi bi-calendar2-x"></i>
                <span class="align-middle">삭제</span>
             </button>

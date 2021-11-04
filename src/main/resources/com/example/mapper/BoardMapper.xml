@@ -88,10 +88,10 @@
 				subject LIKE CONCAT('%',#{keyword},'%')
 			</if>
 			<if test="type == 'content'.toString()">
-				subject LIKE CONCAT('%',#{keyword},'%')
+				content LIKE CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="type == 'mid'.toString()">
-				subject LIKE CONCAT('%',#{keyword},'%')
+				mid LIKE CONCAT('%', #{keyword},'%')
 			</if>
 		</where>
 	</select>
