@@ -6,8 +6,8 @@
 
 	<insert id="insertProfilepic">
 		<![CDATA[
-			INSERT INTO profilepic
-			VALUES (#{mid}, #{uuid}, #{uploadpath}, #{filename}
+			INSERT INTO profilepic (mid, uuid, uploadpath, filename)
+			VALUES (#{mid}, #{uuid}, #{uploadpath}, #{filename})
 		]]>
 	</insert>
 	
