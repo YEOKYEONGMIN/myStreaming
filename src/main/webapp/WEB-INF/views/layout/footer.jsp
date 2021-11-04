@@ -15,5 +15,5 @@
 	<script src="../resources/js/jquery.serializeObject.min.js"></script>
 	<script src="../resources/js/init.js"></script>
 	<script src="../resources/js/login.js"></script>
-
+	<script src="../resources/js/search.js"></script>
 
