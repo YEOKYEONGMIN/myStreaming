@@ -140,6 +140,7 @@ function addOrDeleteBookmarkYoutube(youtubeId, youtubeName, profileImageUrl){
             console.log(data);
 			if(data.msg == 'failed'){
 				$i.removeClass('fas fa-star').addClass('far fa-star');
+				$('#loginModal').modal('show');
 			}
         }
     });
