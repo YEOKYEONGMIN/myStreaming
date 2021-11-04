@@ -31,8 +31,11 @@
 <%--===============================네브바 수정===============================--%>
 <div class="p-lg-2 p-md-3 p-sm-3 p-1 navbar-header ">
     <div class="col-2 logo">
-        <img src="/resources/images/tempLogo2.png" alt="로고">
-        <span>myStreaming</span>
+        <a class="btn" href="/" style="color: black">
+            <img src="/resources/images/tempLogo2.png" alt="로고" >
+            <span>myStreaming</span>
+        </a>
+
     </div>
     <div class="navbar-header-search col-xl-4 col-lg-4 col-md-5 col-sm-7 col-9 mx-auto">
                 <div class="input-icon ">
@@ -53,6 +56,9 @@
                         <a class="btn btn-primary" href="/member/register">회원가입</a>
                     </c:when>
                     <c:otherwise>
+<%-- 임시--%>
+                        <a class="btn btn-primary" href="/member/logout">로그아웃</a>
+
                         <!-- Nav Item - Alerts -->
 <%--                        <li class="nav-item dropdown no-arrow mx-1"><a--%>
 <%--                                class="nav-link dropdown-toggle" href="#" id="alertsDropdown"--%>

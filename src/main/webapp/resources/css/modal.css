@@ -95,7 +95,6 @@
     display: flex;
     /*justify-content: space-between;*/
     align-items: center;
-    height: 135px!important;
     border: 0;
 }
 
@@ -146,4 +145,79 @@
 #searchModal .modal-body{
     display: flex;
     flex-direction: column;
+}
+
+#searchModal .search-result-container{
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px rgb(248,248,246);
+}
+
+#searchModal .search-result-class{
+    font-weight: bold;
+    font-size: 14px;
+}
+#searchModal .delete-span{
+    color: lightgray;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#searchModal .search-results{
+    display:flex;
+    flex-direction: column;
+}
+#searchModal .search-result-one{
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-size: 14px;
+}
+#searchModal .search-result-one .search-value:hover{
+    font-weight: 590;
+    cursor: pointer;
+}
+
+#searchModal .search-result-one .delete-span{
+    font-size: 25px!important;
+}
+
+#searchModal .custom-button:focus,.custom-button:active{
+    background-color: #EFEFEF;
+    outline: none !important;
+    box-shadow: none;!important;
+}
+
+#searchModal .custom-button{
+    background-color: #F8F8F8;
+    border-radius: 20px;
+}
+#searchModal .custom-button:hover{
+    background-color: #EFEFEF;
+}
+
+#searchModal .search-timer{
+    margin-left: 5px;
+    color: lightgray;
+    font-size: 12px;
+}
+
+#searchModal .search-rank-num{
+    width: 18px;
+    margin-right: 8px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    color: rgb(255, 86, 0);
+}
+
+#searchModal .search-rank-one{
+    display: flex;
+    padding: 8px 0;
+}
+#searchModal .search-rank-word{
+    flex: 1
+}
+#searchModal .search-rank-word:hover{
+    font-weight: 590;
+    cursor: pointer;
 }
