@@ -3,36 +3,42 @@ package com.example.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
-import com.example.mapper.MemberMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.domain.SearchVO;
+import com.example.service.SearchService;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-
+	
+	@Autowired
+	private SearchService searchService;
+	
 	@GetMapping(value = {"/","/index"})
-	public String home() {
+	public String home(HttpSession session) {
 		System.out.println("home() 호출됨...");
-
-
+		List<SearchVO> searchList = searchService.getPopularSearch();
+		
+		if(session.getAttribute("searchList") == null) {
+			if(searchList != null) {
+				session.setAttribute("searchList", searchList);
+			}
+		}
+		
 		return "index";
 //		return "redirect:index";
 	}

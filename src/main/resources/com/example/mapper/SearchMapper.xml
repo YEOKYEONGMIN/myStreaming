@@ -23,7 +23,7 @@
   
   <select id="getPopularSearch" resultType="searchVO">
   	<![CDATA[
- 		SELECT * FROM search ORDER BY count DESC limit 10
+ 		SELECT * FROM search ORDER BY count DESC, regDate ASC limit 10;
  	]]>
   </select>
   
