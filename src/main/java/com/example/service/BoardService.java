@@ -73,7 +73,7 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 		
 		//새로운 insert글번호
 		public int getNextNum() {
-			return boardMapper.getNextnum();
+			return boardMapper.getNextNum();
 			
 		}
 		

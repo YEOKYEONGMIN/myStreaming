@@ -1,7 +1,9 @@
+
 package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,13 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -46,51 +56,31 @@ public class BoardController {
 	@Autowired
 	private AttachService attachService;
 
-	@GetMapping("/list ?") // 글목록 요청
-	public String list(Criteria cri, Model model) {// Model(jsp데이터 전달까지 같이)에 주입한것을 스프링이안전하게 보냄
-
-		System.out.println("list()호출됨");// 향후 게시판에 해당하는 jsp파일이름으로 고쳐야함
-
-		// board테이블에서 (검색어가 있으면)검색,페이징 적용한글 리스트 가져오기
+	@GetMapping("/list")
+	public String list(Criteria cri, Model model) {
+		System.out.println("list() 호출됨...");
+		
+		// board 테이블에서 전체글 리스트로 가져오기 
 		List<BoardVO> boardList = boardService.getBoards(cri);
+		
 
-		// ================================ 게시글 추가 부분=========================================
-		// 게시글 없으면 100개 넣기 (테스트 진행을 위해서 임시로 추가)
-		if (boardList.isEmpty()) { // 게시글 하나도 없을 경우
-			for (int i = 1; i <= 100; i++) {
-				// insert할 새 글번호 가져오기
-				int num = boardService.getNextNum();
-
-				BoardVO boardVO = new BoardVO();
-				boardVO.setNum(i);
-				boardVO.setMid("테스트");
-				boardVO.setSubject(i + "번글");
-				boardVO.setContent("테스트 내용 " + i);
-				boardVO.setRegDate(new Date(System.currentTimeMillis()));
-				boardVO.setReRef(num);
-				boardVO.setReLev(0);
-				boardVO.setReSeq(0);
-				boardService.addBoard(boardVO);
-			}
-
-		} // if
-
+		
 		boardList = boardService.getBoards(cri); // 게시글 추가될시 새로 불러옴
-		// =====================================게시글 추가부분 끝================================================
-
+		
+		
 		// 검색유형, 검색어가 있으면 적용하여 글개수 가져오기
-		int totalCount = boardService.getCountBySearch(cri);
-
-		// 페이지 블록 정보 객체 준비, 필요한 정보를 생성자로 전달
+		int totalCount = boardService.getCountBySearch(cri); 
+		
+		// 페이지블록 정보 객체준비. 필요한 정보를 생성자로 전달.
 		PageDTO pageDTO = new PageDTO(cri, totalCount);
-
-		// 뷰에서 사용할 데이터를 Model객체에 저장 - > 스프링(dispatcher servlet)이 requestScope로 옮겨줌
-		model.addAttribute("boardList", boardList);// el언어로 requestScope.boardList로 접근
-		model.addAttribute("pageMarker", pageDTO);
-
-		return "board/??";
-
-	}// getBoards
+		
+		// 뷰에서 사용할 데이터를 Model 객체에 저장 -> 스프링이 requestScope로 옮겨줌
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageMaker", pageDTO);
+		
+		return "board/boardList";
+		
+	} // list
 
 	// 상세보기
 	@GetMapping("/content")
@@ -98,7 +88,7 @@ public class BoardController {
 		
 		
 		
-		if(boardVO.isSecret() == true) {//비밀글일
+		if(boardVO.getSecret() == 1) {//비밀글일
 			if(boardVO.getMid() == "admin" || session.getId() == boardVO.getMid()) {
 				// 조회수 1 증가시키기
 				boardService.updateReadcount(num);
@@ -113,10 +103,10 @@ public class BoardController {
 				model.addAttribute("attachCount", boardVO.getAttachList().size());
 				model.addAttribute("pageNum", pageNum); // 컨트롤러에서 쓰이지 않음, 받은 값을 jsp로 전달
 
-				return "board/content";
+				return "board/boardContent";
 			}else if(boardVO.getMid() != session.getId() || session.getId() == null) {
 				
-				return "board/list";
+				return "board/boardList";
 			}
 			
 		
@@ -128,7 +118,7 @@ public class BoardController {
 			boardService.updateReadcount(num);
 
 			// join 쿼리문으로 게시판 글과 첨부파일 리스트 정보 가져오기
-			boardVO = boardService.getBoard(num);
+			boardVO = boardService.getBoardAndAttaches(num);
 			System.out.println(boardVO);
 
 			model.addAttribute("board", boardVO);
@@ -137,7 +127,7 @@ public class BoardController {
 			model.addAttribute("attachCount", boardVO.getAttachList().size());
 			model.addAttribute("pageNum", pageNum); // 컨트롤러에서 쓰이지 않음, 받은 값을 jsp로 전달
 
-			return "board/content";
+			return "board/boardContent";
 		
 				
 		
@@ -147,12 +137,12 @@ public class BoardController {
 //=======================글쓰기 메소드 관련=================================================	
 
 	// 새로운 주글(qna)쓰기 폼 화면 요청
-	@GetMapping("/write?")
+	@GetMapping("/write")
 	public String write(@ModelAttribute("pageNum") String pageNum) {
 
 		System.out.println("write()form호출");
 
-		return "board/?";
+		return "board/boardWrite";
 	} // write
 
 	// "년/월/일" 형식의 폴더명을 리턴하는 메소드
@@ -188,7 +178,7 @@ public class BoardController {
 
 		System.out.println("첨부파일 갯수 :" + files.size());
 
-		String uploadFolder = "C:/myStream/upload";// 업로드 기준경로
+		String uploadFolder = "C:/project_myStreaming/upload";// 업로드 기준경로
 
 		// 파일업로드 생성경로
 		File uploadPath = new File(uploadFolder, getFolder());// C://(폴더명)/upload/2021/10/29
@@ -225,7 +215,7 @@ public class BoardController {
 
 			if (isImage == true) {
 				// 생성할 파일
-				File outFile = new File(uploadPath, "th_" + uploadFileName);// th_가 붙을경우 썸네일 이미지
+				File outFile = new File(uploadPath, "s_" + uploadFileName);// s_가 붙을경우 썸네일 이미지
 				Thumbnailator.createThumbnail(file, outFile, 100, 100);// 썸네일 이미지파일 생성하기
 
 			} // if
@@ -250,11 +240,12 @@ public class BoardController {
 	@PostMapping("/write")
 	public String write(List<MultipartFile> files, BoardVO boardVO, HttpServletRequest request, RedirectAttributes rttr)
 			throws IllegalStateException, IOException { // 배열로 받아도 된다.(MultipartFile[] multipartFile)
-
+		
+		System.out.println("post write call...");
 		// 스프링(mvc 모듈) 웹에서는 클라이언트(사용자)로부터 넘어오는 file 타입 input 요소의 갯수만큼
 		// MultipartFile 타입의 객체로 전달받게 됨.
 
- // insert할 새 글번호 가져오기
+		// insert할 새 글번호 가져오기
 		int num = boardService.getNextNum();
 
 		// 첨부파일 업로드(썸네일 이미지 생성) 후 attachList 리턴하는 메소드
@@ -265,7 +256,7 @@ public class BoardController {
 		// 때문에 제외!
 		boardVO.setNum(num); // 글 번호, 위에 int num으로 설정해놨기 때문에 그냥 그거 받으면 된다!
 		boardVO.setReadcount(0);// 새글은 0
-		boardVO.setSecret(boardVO.isSecret());//booelan은 get이 아니라 is로 받을
+		boardVO.setSecret(boardVO.getSecret());//booelan은 get이 아니라 is로 받을
 		boardVO.setRegDate(new Date());
 		boardVO.setReRef(num); // 주글일 경우 글그룹 번호는 글번호와 동일함
 		boardVO.setReLev(0); // 주글일 경우 들여쓰기 레벨은 0
@@ -283,6 +274,8 @@ public class BoardController {
 		// 이렇게만 적으면 된다.
 		rttr.addAttribute("num", boardVO.getNum());// key = num, value= baordVO.getNum()
 		rttr.addAttribute("pageNum", 1);// 새글 쓰는것이기 때문에 1
+		rttr.addAttribute("secret", boardVO.getSecret());//비밀글설정
+		
 
 		return "redirect:/board/content";
 	} // write
@@ -298,7 +291,7 @@ public class BoardController {
 			return;
 		}
 
-		String basePath = "C:/";// ?? 업로드 경로 정해질 경우 수정 사항!
+		String basePath = "C:/project_myStreaming/upload";// ?? 업로드 경로 정해질 경우 수정 사항!
 
 		for (AttachVO attachVO : attachList) {
 
@@ -310,7 +303,7 @@ public class BoardController {
 			// 첨부파일이 이미지일 경우 썸네일 이미지 파일도 삭제
 			if (attachVO.getFiletype().equals("I")) {
 				// 썸네일 이미지 파일 여부 확인후 삭제
-				File thumbnailFile = new File(uploadpath, "th_" + filename);
+				File thumbnailFile = new File(uploadpath, "s_" + filename);
 				if (thumbnailFile.exists() == true) {
 					thumbnailFile.delete();
 				} // if
@@ -335,7 +328,7 @@ public class BoardController {
 
 	}// remove
 
-	@GetMapping("/modify ?")
+	@GetMapping("/modify")
 	public String modifyFrom(int num, String pageNum, Model model) {
 
 		// 글과 첨부파일 가져오기
@@ -343,47 +336,68 @@ public class BoardController {
 
 		// view에 보내지는것
 		model.addAttribute("board", boardVO);// 게시글
+		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("attachList", boardVO.getAttachList());// 첨부파일
 
-		return "board/modify?";
+		return "board/boardModify";
 
 	}// modifyForm()
 
-	@PostMapping("/modify") // files name 속성보고 고치기!(input type name?)
-	// String delfile은 modify.jsp보고 고치기
-	public void modify(List<MultipartFile> files, BoardVO boardVO,
-			@RequestParam(required = false, defaultValue = "1") String pageNum,
-			@RequestParam(name = "delfile", required = false) List<String> deletUuidList,
-			HttpServletRequest request)throws IllegalStateException, IOException {// 파일 각각이 MultipartFile로 들어옴
-
-		// 1.신규 첨부파일 업로드하기. 신규파일 정보 리스트 가져오기.
-		List<AttachVO> newAttachList = uploadFilesAndGetAttachList(files, boardVO.getNum());// 내부적으로 파일 업로드 할때 예외발생 ->
-																							// 프론트컨트롤러로 넘기기
-		System.out.println("POST modify - 신규 첨부파일 업로드 완료~");
-
-		// 2.삭제 할 첨부파일 삭제하기(썸네일 이미지도 삭제)
-		List<AttachVO>deleteAttachList = null;
+	@PostMapping("/modify")
+	public String modify(List<MultipartFile> files, BoardVO boardVO, String pageNum,
+			@RequestParam(name = "delfile", required = false) List<String> delUuidList,
+			@RequestParam(name = "secret1", required = false) boolean secret1,
+			HttpServletRequest request, RedirectAttributes rttr ) throws IllegalStateException, IOException {
 		
-		if(deletUuidList != null && deletUuidList.size() > 0) {
-			deleteAttachList = attachService.getAttachesByUuids(deletUuidList);
+		//비밀
+		if(secret1) {
 			
-			deleteAttachFiles(deleteAttachList);//첨부파일(썸네일도 삭제 )삭제하기
-		}//if
-		
-		System.out.println("POST modify  기존 첨부 파일 삭제");
-		
-		//3.테이블 작업
-		//boardVO 게시글 수정
-		//attach 테이블에 신규 파일 정보(newAttachList)를 insert, 삭제할 정보 delete
+			boardVO.setSecret(1);
+			
+		}else {
+			boardVO.setSecret(0);
+		}
 		
 		
-		//글번호에 해당하는 게시글 수정, 첨부파일 정보 수정(insert,delete ) - 트랜잭션처리
-		boardService.updateBoardAndInsertAttachesAndDeleteAttaches(boardVO, newAttachList, deletUuidList);
 		
-		System.out.println("post modify -테이블 수정 완료");
-		//update
-
-	}// modify
+		
+		
+		// 1) 신규 첨부파일 업로드하기. 신규파일정보 신규리스트에 추가.
+		List<AttachVO> newAttachList = uploadFilesAndGetAttachList(files, boardVO.getNum());
+		System.out.println("================ POST modify - 첨부파일 업로드 완료 ================");
+		
+		System.out.println("pageNum=" +pageNum);
+		// 2) 삭제할 첨부파일 삭제하기(썸네일 이미지도 삭제). 삭제파일정보 삭제리스트에 추가
+		// ================== 첨부파일 삭제 ==================
+		// 삭제할 첨부파일정보 리스트 가져오기
+		List<AttachVO> delAttachList = null;
+		
+		if (delUuidList != null) {
+			delAttachList = attachService.getAttachesByUuids(delUuidList);
+			
+			deleteAttachFiles(delAttachList); // 첨부파일(썸네일도 삭제) 삭제하기
+		}
+		System.out.println("================ POST modify - 첨부파일 삭제 완료 ================");
+		
+		
+		// 3) boardVO 준비해서  첨부파일 신규리스트, 삭제리스트와 함께
+		//    테이블 글 수정(update)을 트랜잭션 단위로 처리
+		
+		// ===== update할 BoardVO 객체 데이터 설정 ======
+		boardVO.setRegDate(new Date());
+		
+		
+		// 글번호에 해당하는 글정보 수정. 첨부파일정보 수정(insert, delete) - 트랜잭션 단위 처리
+		boardService.updateBoardAndInsertAttachesAndDeleteAttaches(boardVO, newAttachList, delUuidList);
+		System.out.println("================ POST modify - 테이블 수정 완료 ================");
+		
+		// 리다이렉트 쿼리스트링 정보 설정
+		rttr.addAttribute("num", boardVO.getNum());
+		rttr.addAttribute("pageNum", pageNum);
+		
+		// 상세보기 화면으로 리다이렉트 이동
+		return "redirect:/board/content";
+	} // modify
 	
 	
 	
@@ -396,12 +410,7 @@ public class BoardController {
 		
 		System.out.println("replayForm()호출!");
 	
-//		model.addAttribute("reRef", reRef);
-//		model.addAttribute("reLev", reLev);
-//		model.addAttribute("reSeq", reSeq);
-//		model.addAttribute("pageNum", pageNum);
-		
-		return "board/replyWrite??";
+		return "board/replyWrite";
 	} // replyForm
 	
 	
@@ -417,11 +426,11 @@ public class BoardController {
 		// 첨부파일 업로드(썸네일 생성) 후 attachList 리턴
 		List<AttachVO> attachList = uploadFilesAndGetAttachList(files, num);
 		
-		// ========= insert 할 답글 BoardVO 객체 데이터 설정 =========
+		// insert 할 답글 BoardVO 객체 데이터 설정
 		
 		boardVO.setNum(num);
 		boardVO.setReadcount(0);
-		boardVO.isSecret();
+		boardVO.setSecret(0);
 		boardVO.setRegDate(new Date());
 		boardVO.setAttachList(attachList); // 첨부파일 정보 리스트 저장
 		
@@ -433,15 +442,72 @@ public class BoardController {
 		boardService.addReplyAndAttaches(boardVO);
 		//=========================================================
 		
-		// 리다이렉트 시 서버에 전달할 데이터를 rttr에 저장하면 스프링이 자동으로 쿼리스트링으로 변환하여 처리해준다.
+		// 리다이렉트시 서버에 전달할 데이터를 rttr에 저장하면 스프링이 자동으로 쿼리스트링으로 변환하여 처리해준다.
 		rttr.addAttribute("num", boardVO.getNum());
 		rttr.addAttribute("pageNum", pageNum);
 		
 		return "redirect:/board/content";
 	} // reply
 	
+	@GetMapping("/display")
+	@ResponseBody  // 컨트롤러 메소드가 리턴하는 데이터 자체를 바로 응답으로 주고자 할 경우 사용함
+	public ResponseEntity<byte[]> getImageFile(String fileName) throws IOException {
+		System.out.println("fileName : " + fileName);
+		
+		File file = new File("C:/project_myStreaming/upload", fileName);
+		System.out.println("실제 이미지 파일 경로 : " + file.getPath());
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		String contentType = Files.probeContentType(file.toPath());
+		headers.add("Content-Type", contentType); // "image/jpeg"  "image/png"  "image/gif"
+		
+		byte[] imageData = FileCopyUtils.copyToByteArray(file);
+		System.out.println("imageDate"+ imageData );
+		
+		ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(imageData, headers, HttpStatus.OK);
+		return responseEntity;
+	} // getImageFile
 	
 	
 	
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName) throws UnsupportedEncodingException {
+		System.out.println("fileName : " + fileName);
+		
+		File file = new File("C:/project_myStreaming/upload", fileName);
+		
+		Resource resource = new FileSystemResource(file);
+		System.out.println("resource : " + resource);
+		
+		if (resource.exists() == false) { // 다운로드할 파일이 존재하지 않으면
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND); // 404 코드. 자원없음 응답코드 보내고 종료.
+		}
+		
+		// 다운로드할 파일이 존재하면
+		String resourceName = resource.getFilename();
+		System.out.println("resourceName : " + resourceName);
+		// resourceName : 7f34243e-d680-451e-b935-02ad55345ece_학습안내서.pdf
+		
+		int beginIndex = resourceName.indexOf("_") + 1;
+		String originFilename = resourceName.substring(beginIndex);  // 순수 파일명 구하기
+		System.out.println("originFilename : " + originFilename);  // "학습안내서.pdf"
+		
+		// 다운로드 파일명의 문자셋을 "utf-8"에서 "iso-8859-1"로 변환하기
+		String downloadName = new String(originFilename.getBytes("utf-8"), "iso-8859-1");
+		System.out.println("downloadName : " + downloadName);
+		
+		HttpHeaders headers = new HttpHeaders();
+		//headers.add("Content-Type", "application/octet-stream"); // 애노테이션의 produces 속성으로 대체함
+		headers.add("Content-Disposition", "attachment; filename=" + downloadName); // 다운로드 파일명을 헤더에 설정하기
+		
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	} // downloadFile
+	
+	
+	
+
+
 
 }
