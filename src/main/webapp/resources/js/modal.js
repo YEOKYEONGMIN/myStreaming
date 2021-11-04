@@ -29,9 +29,7 @@ navbarSearch.on("focus", function () {
     $('.search-time').empty();
     $('.search-time').append(time);
 
-    let searchList = returnJsonSearchList();
-    recentSearch(searchList);
-    console.log(searchList);
+
 })
 
 function getTime() {
@@ -43,43 +41,75 @@ function getTime() {
 }
 
 //===================검색 히스토리 구현
-
-
-$('#search-button').on("click", function (e) {
-    let searchList = returnJsonSearchList();
-    recentSearch(searchList);
-    console.log(searchList);
-});
-
-function returnJsonSearchList() {
-    let jsonSearchList;
-    let strSearchList = localStorage.getItem("searchListJson");
-    let searchValue = $('#searchModalInput').val();
-    if(strSearchList != null){
-        jsonSearchList = JSON.parse(strSearchList);
-        let index = Object.keys(jsonSearchList).length + 1;
-        if(searchValue !== ""){
-            jsonSearchList[index] = searchValue;
-        }
-    }else {
-        jsonSearchList = JSON.parse(JSON.stringify({1: searchValue}));
-    }
-    strSearchList = JSON.stringify(jsonSearchList);
-    localStorage.setItem("searchListJson",strSearchList);
-    return jsonSearchList;
+let searchList;
+let searchResults = $('.search-results');
+let searchResultContainer = $('#search-recent-container')
+if(localStorage.getItem("recentSearch") != null){
+    searchList = localStorage.getItem("recentSearch").split(",");
+}else {
+    searchList = [];
 }
 
-function recentSearch(jsonSearchList) {
-    $('.search-results').empty();
-    let count = Object.keys(jsonSearchList).length;
+$('#search-recent-deleteAll').on("click",function () {
+    searchResults.empty();
+    searchResultContainer.hide();
+    localStorage.removeItem("recentSearch");
+    searchList = [];
+})
 
-    for(let i=count;i>count-3;i--){
-        let tag = `       <div class="search-result-one">
-                            <span class="search-value">${jsonSearchList[i]}</span>
+$('#search-button').on("click", function (e) {
+
+    let searchWord = $('#searchModalInput').val();
+    if(searchWord != ""){
+        searchResultContainer.show();
+        let dupIndex = dupCheck(searchWord);
+        addToList(dupIndex,searchWord);
+        let strSearchList = searchList.toString();
+        localStorage.setItem("recentSearch",strSearchList);
+        addRecentSearch();
+    }
+});
+
+function dupCheck(searchWord) {
+   return searchList.indexOf(searchWord);
+}
+function addToList(dupIndex,searchWord) {
+    if(dupIndex == -1){
+        searchList.push(searchWord);
+    }else if(dupIndex == 0){
+        searchList.shift();
+        searchList.push(searchWord);
+    } else{
+        searchList.splice(dupIndex,dupIndex);
+        searchList.push(searchWord);
+    }
+}
+
+function addRecentSearch() {
+    searchResults.empty();
+    let strRecentSearch = localStorage.getItem("recentSearch");
+    let arrayRecentSearch = strRecentSearch.split(",");
+    let count = arrayRecentSearch.length;
+
+    if(count<4){
+        for(let i=0;i<count;i++){
+            let tag = `       <div class="search-result-one">
+                            <span class="search-value">${arrayRecentSearch[i]}</span>
                             <span class="delete-span"><i class="bi bi-x"></i></span>
                         </div>`;
-        $('.search-results').append(tag);
+            searchResults.prepend(tag);
+        }
+    } else {
+        for(let i=count;i>count-3;i--){
+            let tag = `       <div class="search-result-one">
+                            <span class="search-value">${arrayRecentSearch[i]}</span>
+                            <span class="delete-span"><i class="bi bi-x"></i></span>
+                        </div>`;
+            searchResults.append(tag);
+        }
     }
+
+
 
 
 }

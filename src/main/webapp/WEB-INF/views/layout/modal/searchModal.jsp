@@ -25,10 +25,10 @@
 
             </div>
             <div class="modal-body col-4 m-auto">
-                <div class="search-result-container">
+                <div id="search-recent-container" class="search-result-container">
                     <div style="display: flex;justify-content: space-between">
                         <span class="search-result-class">최근 검색어</span>
-                        <span class="delete-span">전체 삭제</span>
+                        <span id="search-recent-deleteAll" class="delete-span">전체 삭제</span>
                     </div>
                     <div class="search-results">
 

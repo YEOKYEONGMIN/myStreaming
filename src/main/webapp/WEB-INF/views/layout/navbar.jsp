@@ -56,6 +56,9 @@
                         <a class="btn btn-primary" href="/member/register">회원가입</a>
                     </c:when>
                     <c:otherwise>
+<%-- 임시--%>
+                        <a class="btn btn-primary" href="/member/logout">로그아웃</a>
+
                         <!-- Nav Item - Alerts -->
 <%--                        <li class="nav-item dropdown no-arrow mx-1"><a--%>
 <%--                                class="nav-link dropdown-toggle" href="#" id="alertsDropdown"--%>
