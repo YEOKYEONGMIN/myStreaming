@@ -26,11 +26,19 @@ navbarSearch.on("focus", function () {
     console.log("클릭")
     $('#searchModal').modal('show')
     searchModalInput.focus();
+    let time = getTime();
 
-
+    $('.search-time').empty();
+    $('.search-time').append(time);
 })
 
-
+function getTime() {
+    let today = new Date();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    minutes = Math.floor(minutes/10)*10;
+    return hours + ":" + minutes;
+}
 
 
 
