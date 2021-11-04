@@ -41,7 +41,7 @@
 
         <div class="join-body">
 
-            <form action="/member/modify" method="POST">
+            <form action="/member/modify" method="POST" enctype="multipart/form-data">
             	<fieldset> 
             	<legend>필수 입력란</legend>
 
@@ -72,6 +72,23 @@
 				
 				<fieldset id="Optional"> 
             	<legend>선택 입력란</legend>
+            	<div class="form-group">
+                    <c:choose>
+	                  	<c:when test="${ not empty profilepic }">
+	           				<li>
+	               				<a href="/imgView?fileName=profilepic/${ profilepic.uploadpath }/${ profilepic.uuid }_${ profilepic.filename }">
+	               					<img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }">
+	               				</a>
+	               			</li>
+	           			</c:when>
+	           			<c:otherwise>
+	           				프로필 사진 없음
+	           			</c:otherwise>
+           			</c:choose>
+           			<input type="file" name="file">
+                </div>
+            	
+            	
                 <div class="form-group">
                     <label for="modifyName">이름</label>
                     <input type="text" class="form-control" id="modifyName" name="name" value="${ member.name }">
@@ -96,6 +113,11 @@
 	                        <option value="M">남자</option>
 	                        <option value="W" selected>여자</option>
                     	</c:when>
+                    	<c:otherwise>
+                    		<option value="N">선택안함</option>
+	                        <option value="M">남자</option>
+	                        <option value="W">여자</option>
+                    	</c:otherwise>
                     </c:choose>
                     </select>
                 </div>

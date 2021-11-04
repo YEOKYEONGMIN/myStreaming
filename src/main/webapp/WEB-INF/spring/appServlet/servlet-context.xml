@@ -39,7 +39,7 @@
 			<beans:bean class = "com.example.interceptor.RememberIdInterceptor"/>
 		</interceptor>
 		
-		<interceptor>
+ 		<interceptor>
 			<mapping path="/member/*"/>
 			<mapping path="/board/*"/>
 			<exclude-mapping path="/member/login"/>
