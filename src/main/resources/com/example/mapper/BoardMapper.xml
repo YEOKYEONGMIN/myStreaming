@@ -62,7 +62,7 @@
 	<update id="updateBoard">
 	<![CDATA[
 		UPDATE board
-		SET subject =  #{subject}, content = #{content} , #{secret}
+		SET subject =  #{subject}, content = #{content} , secret = #{secret}
 		WHERE num = #{num}
 	]]>
 	</update>
@@ -71,8 +71,9 @@
 	<update id="updateReSeqPlusOne">
 	<![CDATA[
 		UPDATE board
-		SET re_seq =  re_seq +1
-		WHERE re_ref = {reRef}
+		SET re_seq = re_seq + 1
+		WHERE re_ref = #{reRef}
+		AND re_seq > #{reSeq}
 	]]>
 	</update>
 
@@ -87,10 +88,10 @@
 				subject LIKE CONCAT('%',#{keyword},'%')
 			</if>
 			<if test="type == 'content'.toString()">
-				subject LIKE CONCAT('%',#{keyword},'%')
+				content LIKE CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="type == 'mid'.toString()">
-				subject LIKE CONCAT('%',#{keyword},'%')
+				mid LIKE CONCAT('%', #{keyword},'%')
 			</if>
 		</where>
 	</select>

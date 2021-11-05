@@ -22,7 +22,7 @@ public interface BoardMapper {// 실행의 기준은 interface이다(xml과 inte
 	int getCountAll();
 
 	// 그다음 글번호 만들어서 가져오기
-	int getNextnum();
+	int getNextNum();
 
 	// 주글 쓰기
 	void addBoard(BoardVO boardVO);
