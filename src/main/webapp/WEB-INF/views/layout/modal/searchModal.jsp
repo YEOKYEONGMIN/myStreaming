@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,7 +13,7 @@
 
                     <div class="offset-1 col-4 search-bar">
                         <div class="input-icon">
-                            <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?" name="search">
+                            <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?" name="keyword">
                             <a class="append-icon" id="search-button"><i class="bi bi-search"></i></a>
                         </div>
                         <div>
@@ -57,38 +57,10 @@
                     </div>
                     <div class="search-rank-container" style="display: flex">
                         <div class="search-rank-left" style="display: flex;flex-direction: column;flex: 1">
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">1</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">2</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">3</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">4</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">5</span><span class="search-rank-word">풍월량</span>
-                            </div>
+                            
                         </div>
                         <div class="search-rank-right" style="display: flex;flex-direction: column;flex: 1">
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">6</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">7</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">8</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">9</span><span class="search-rank-word">풍월량</span>
-                            </div>
-                            <div class="search-rank-one">
-                                <span class="search-rank-num">10</span><span class="search-rank-word">풍월량</span>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

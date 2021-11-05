@@ -48,5 +48,9 @@
 
 	<!-- @Component 계열 클래스를 스캔해서 스프링 빈으로 등록하고 의존관계 주입시킴 -->
 	<context:component-scan base-package="com.example.service" />
+	
+	<context:component-scan base-package="com.example.task"></context:component-scan>
+	<!-- Quartz의 @Scueduled 애노테이션 기능 활성화 -->
+	<task:annotation-driven/>
 
 </beans>

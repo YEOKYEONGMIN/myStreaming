@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SearchMapper">
+  
+ 	
+	<update id="updateCount">
+	<![CDATA[
+		UPDATE search
+		SET count =  count +1 , regDate = #{regDate}
+		WHERE keyword = #{keyword} 
+	]]>
+	</update>
+  
+  <update id="countReset">
+	<![CDATA[
+		update search set count = 0
+	]]>
+	</update>
+  
+  
+  <select id="getPopularSearch" resultType="searchVO">
+  	<![CDATA[
+ 		SELECT * FROM search ORDER BY count DESC, regDate ASC limit 10;
+ 	]]>
+  </select>
+  
+  <select id="existKeyword" resultType="int">
+  	<![CDATA[
+ 		SELECT count(*) FROM search WHERE keyword = #{keyword}
+ 	]]>
+  </select>
+
+  <select id="getSeachVO" resultType="searchVO">
+  <![CDATA[
+  		SELECT * FROM search WHERE keyword = #{keyword}
+  ]]>
+  </select>
+  
+</mapper>

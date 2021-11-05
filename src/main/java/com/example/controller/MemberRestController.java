@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.domain.BookmarkVO;
 import com.example.domain.MemberVO;
+import com.example.domain.SearchVO;
 import com.example.service.BookmarkService;
 import com.example.service.MemberService;
+import com.example.service.SearchService;
 import com.example.util.JScript;
 
 import java.util.HashMap;
@@ -37,6 +39,7 @@ public class MemberRestController {
 	private MemberService memberService;
 	@Autowired
 	private BookmarkService bookmarkService;
+	
 	
 	// 모든 멤버 가져오기
 	@GetMapping(value = "/members", 
@@ -109,6 +112,7 @@ public class MemberRestController {
 		if(bookmarkList != null) {
 			session.setAttribute("bookmarkList", bookmarkList);
 		}
+		
 		
 		if (rememberId) {
 			Cookie cookie = new Cookie("userId", id);
