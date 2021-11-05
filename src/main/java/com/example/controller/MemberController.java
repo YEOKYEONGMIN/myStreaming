@@ -3,6 +3,8 @@ package com.example.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,9 +88,11 @@ public class MemberController {
 
 		// 회원수정 화면에 필요시 정보 넘겨줄 용도
 		String id = (String) session.getAttribute("id");
-		MemberVO member = memberService.getMemberById(id);
+		MemberVO member = memberService.getMemberAndProfilepic(id);
+		ProfilepicVO profilepic = member.getProfilepicVO();
 
 		model.addAttribute("member", member);
+		model.addAttribute("profilepic", profilepic);
 
 	} // modifyForm
 
@@ -111,7 +115,6 @@ public class MemberController {
 	@PostMapping("/register")
 	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 
-		int memberCount = memberService.getMemberCount(memberVO.getId());
 		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
 
 		// 회원가입 처리
@@ -146,7 +149,7 @@ public class MemberController {
 			return pageBack(msg);
 		}
 
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, member.getId());
 
 			if (map.get("result").toString().equals("failed")) {
@@ -154,7 +157,7 @@ public class MemberController {
 				return pageBack(msg);
 			}
 
-			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepicVO");
+			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepic");
 
 			if (profilepic == null) {
 				profilepicService.insertProfilepic(newProfilepic);
@@ -276,16 +279,16 @@ public class MemberController {
 		return isImage;
 	} // end of checkImageType
 	
+	// 파일업로드와 프로필사진 정보 가져오는 메소드
 	private Map<String, Object> uploadProfilepicAndGetProfilepic(MultipartFile pic, String id) throws IllegalStateException, IOException {
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		MemberVO memberVO = memberService.getMemberAndProfilepic(id);
-		ProfilepicVO profilepicVO = memberVO.getProfilepicVO();
 		
 		// C:/upload/profilepic/[유저 아이디]
-		String path = "C:/project_myStreaming/upload/profilepic/" + id;
+		String path = "C:/project_myStreaming/upload/profilepic";
+		String picPath = id + "_pic";
 		
-		File uploadPath = new File(path);
+		File uploadPath = new File(path, picPath);
 		
 		if (!uploadPath.exists()) {
 			uploadPath.mkdirs();
@@ -309,10 +312,13 @@ public class MemberController {
 		File thumb = new File(uploadPath, "s_" + uploadFilename);
 		Thumbnailator.createThumbnail(uploadFile, thumb, 200, 300);
 		
+		ProfilepicVO profilepicVO = new ProfilepicVO();
 		profilepicVO.setMid(id);
 		profilepicVO.setUuid(uuid.toString());
-		profilepicVO.setUploadpath(path);
+		profilepicVO.setUploadpath(picPath);
 		profilepicVO.setFilename(originalFilename);
+		
+		System.out.println("profilepicVO: " + profilepicVO);
 		
 		resultMap.put("result", "success");
 		resultMap.put("profilepic", profilepicVO);
@@ -324,16 +330,19 @@ public class MemberController {
 	private void deleteProfilepic(ProfilepicVO profilepicVO) {
 		
 		String delFileUuid = profilepicVO.getUuid();
-		String path = "C:/upload/profilepic/" + profilepicVO.getMid();
+		String path = "C:/project_mystreaming/upload/profilepic/" + profilepicVO.getUploadpath();
+		System.out.println("path: " + path);
 		
 		File delFile = new File(path, delFileUuid + "_" + profilepicVO.getFilename());
 		File delThumbFile = new File (path, "s_" + delFileUuid + "_" + profilepicVO.getFilename());
 		
 		if (delFile.exists()) {
 			delFile.delete();
+			System.out.println("이미지파일 삭제 성공");
 		}
 		if (delThumbFile.exists()) {
 			delThumbFile.delete();
+			System.out.println("썸네일 이미지파일 삭제 성공");
 		}
 		
 	} // deleteProfilepic

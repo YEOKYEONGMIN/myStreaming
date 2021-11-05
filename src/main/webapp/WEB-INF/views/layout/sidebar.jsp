@@ -18,11 +18,21 @@
                 	<c:when test="${ not empty bookmarkList }">
                 		<div class="nav__bookmark">
                 		<c:forEach var="bookmark" items="${ bookmarkList }">
-
+                			<c:if test="${not empty bookmark.streamerLogin }">
 								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow" id="nav__follow${bookmark.streamerId}" target="_blank">
-								 <img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
+								<img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
 								class="nav_name">${ bookmark.streamerName }</span>
+								<span class="twitchIs_live" id="${bookmark.streamerName}"></span>
 								</a>
+							</c:if>
+							<c:if test="${ empty bookmark.streamerLogin }">
+								<a href="https://www.youtube.com/channel/${bookmark.streamerId}" class="nav__follow" id="nav__follow${bookmark.streamerId}" target="_blank">
+							 	<img class="nav__img" alt="사진" src="${bookmark.profileImageUrl }"> <span
+								class="nav_name">${ bookmark.streamerName }</span>
+								<span class="youtubeIs_live" id="isLive${bookmark.streamerName}"></span>
+								</a>
+							</c:if>
+							
                 		</c:forEach>
                 		</div>
                 	</c:when>
