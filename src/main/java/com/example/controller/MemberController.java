@@ -60,7 +60,7 @@ public class MemberController {
 
 	} // loginForm
 
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public String logoutForm(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
 		session.invalidate(); // 세션 비우기 (로그인 정보 비우기)
@@ -79,7 +79,7 @@ public class MemberController {
 			} // for
 		} // if
 
-		return "redirect:/member/login";
+		return "redirect:/";
 	} // logoutForm
 
 	@GetMapping("/modify")
