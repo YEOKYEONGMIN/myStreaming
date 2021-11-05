@@ -33,11 +33,11 @@ public class HomeController {
 		System.out.println("home() 호출됨...");
 		List<SearchVO> searchList = searchService.getPopularSearch();
 		
-		if(session.getAttribute("searchList") == null) {
-			if(searchList != null) {
-				session.setAttribute("searchList", searchList);
-			}
-		}
+		
+		if(searchList != null) {
+			session.setAttribute("searchList", searchList);
+		}		
+			
 		
 		return "index";
 //		return "redirect:index";
