@@ -27,7 +27,7 @@
   
     <div class="row text-center text-md-left mt-3 pb-3">
 
-  
+
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
         <h6 class="text-uppercase mb-4 font-weight-bold">myStreaming</h6>
         <p class="title1">myStraming은 무한한 콘텐츠를 담고 있는 플레이 버튼을 통해 더 즐거운 세상,더 큰 세상으로 안내하고 하는 지향점을 표현합니다.</p>
