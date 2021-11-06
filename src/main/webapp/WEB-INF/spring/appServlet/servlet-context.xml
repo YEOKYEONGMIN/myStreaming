@@ -32,7 +32,6 @@
    <beans:bean id="AdminInterceptor" class="com.example.interceptor.AdminInterceptor"/>
    
    
-   
    <!-- 인터셉터 : 스프링이 관리 -->
    <interceptors>
       <interceptor>
