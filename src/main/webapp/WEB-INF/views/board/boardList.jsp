@@ -32,7 +32,7 @@
       
        <!-- 글목록 테이블 -->
          <table class="table table-hover" id="board">
-            <thead class="thead-dark">
+            <thead class="ackground-purple text-white ">
                <tr>
                   <th scope="col" class="text-center">번호</th>
                   <th scope="col" class="text-center">제목</th>
@@ -90,12 +90,11 @@
          <%--페이지 --%>
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-              
-              <%-- 이전 --%>
+               <%-- 이전 --%>
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
-                 <a class="page-link href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
+              	<a class="page-link" href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
               </li>
-              
+             
               <%-- 시작페이지 번호 ~ 끝페이지 번호 --%>
               <c:forEach var="i" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"><%--step = 1은 증가 --%>
                  <li class="page-item ${ (pageMaker.cri.pageNum eq i) ? 'active' : '' }">
