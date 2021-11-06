@@ -28,8 +28,6 @@
             
       <div class="clearfix"></div>
    
-      
-      
        <!-- 글목록 테이블 -->
          <table class="table table-hover" id="board">
             <thead class="ackground-purple text-white ">

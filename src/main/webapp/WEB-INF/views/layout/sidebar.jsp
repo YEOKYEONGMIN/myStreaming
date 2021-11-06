@@ -43,6 +43,7 @@
 			</c:if>
 
 			
+			
 			<div class="nav__list">
 				<a href="#" class="nav__link nav_active"> <ion-icon
 						name="home-outline" class="nav__icon"></ion-icon> <span

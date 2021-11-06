@@ -20,7 +20,6 @@
 <link href="/resources/css/footer.css" rel="stylesheet"/>
 
 
-
 <footer class="page-footer font-small mdb-color pt-4 site-footer font_1">
 
   <div class="container text-center text-md-left">
