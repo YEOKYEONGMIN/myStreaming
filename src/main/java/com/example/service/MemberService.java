@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
 import com.example.mapper.MemberMapper;
 
@@ -63,5 +64,36 @@ public class MemberService {
 	public MemberVO getMemberAndProfilepic(String id) {
 		return memberMapper.getMemberAndProfilepic(id);
 	} // getMemberAndProfilepic
+	
+//  관리자제외 모든 회원정보 조회
+    public List<MemberVO> getMembersNotadmin(Criteria cri) {
+       return memberMapper.getMembersNotadmin(cri);
+    } // getMembers
+    
+    // 페이징, 검색어 적용하여 멤버 목록 가져오기
+    public List<MemberVO> getMembers(Criteria cri) {
+          // 시작 행번호 (MySQL의 LIMIT절의 시작행번호)
+
+          // 한 페이지당 글개수(amount)가 10개씩일때
+          // 1 페이지 -> 0
+          // 2 페이지 -> 10
+          // 3 페이지 -> 20
+          // 4 페이지 -> 30
+          
+          // 가져올 글의 시작 행번호
+          int startRow = (cri.getPageNum() - 1) * cri.getAmount();//getPageNum , getAmount(10개로 고정)는 사용자로 부터 받음
+          cri.setStartRow(startRow);
+          
+          //boardMapper db처리
+          List<MemberVO> memberList = memberMapper.getMembersWithPaging(cri);
+          return memberList;
+          
+       } // getMembers
+    
+    // 페이징, 검색을(검색유형 검색어) 적용하여 멤버 개수 가져오기
+          public int getCountBySearch(Criteria cri) {
+             int count = memberMapper.getCountBySearch(cri);
+             return count;
+          }
 	
 }

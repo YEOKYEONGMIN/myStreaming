@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
 
 public interface MemberMapper {
@@ -51,5 +52,14 @@ public interface MemberMapper {
 	// 회원 갯수
 	@Select("SELECT count(*) AS cnt FROM member")
 	int getCountAllMembers();
+	
+	  // 관리자 제외 모든 회원정보 조회
+	   List<MemberVO> getMembersNotadmin(Criteria cri);
+	   
+	// 페이징으로 글 가져오기
+	   List<MemberVO> getMembersWithPaging(Criteria cri);
+	   
+	   // 검색어가 적용된 전체 멤버 개수 가져오기 :조건(where 절)에 따라서 문장이 바뀐다 -> 동적 sql문
+	   int getCountBySearch(Criteria cri);
 	
 }

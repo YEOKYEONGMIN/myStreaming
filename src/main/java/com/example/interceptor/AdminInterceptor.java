@@ -20,7 +20,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 	
 	String id = (String)session.getAttribute("id");
 	// admin이 아니면 관리자페이지 x
-	if(id == null || id != "admin") {
+	if(id == null && id != "admin") {
 		
 	response.sendRedirect("/");//
 	return false;
