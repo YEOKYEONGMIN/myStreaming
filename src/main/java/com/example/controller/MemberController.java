@@ -191,6 +191,7 @@ public class MemberController {
 			}
 			
 			session.setAttribute("profilepic", newProfilepic);
+			
 		} // if (!file.isEmpty())
 
 		memberService.updateById(memberVO);
