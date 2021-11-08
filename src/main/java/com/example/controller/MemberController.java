@@ -118,7 +118,7 @@ public class MemberController {
 	// ========================= POST 요청 모음 =========================
 	// 회원가입 처리
 	@PostMapping("/register")
-	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
+	public ResponseEntity<String> register(MultipartFile file, MemberVO memberVO, String passwd2) throws IllegalStateException, IOException { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 
 		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
 
@@ -131,6 +131,20 @@ public class MemberController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String date = sdf.format(new Date());
 		memberVO.setRegDate(date);
+		
+		if (file != null && !file.isEmpty()) {
+			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, memberVO.getId());
+
+			if (map.get("result").toString().equals("failed")) {
+				msg = "프로필 사진은 이미지 파일로 업로드 해주세요.";
+				return pageBack(msg);
+			}
+
+			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepic");
+
+			profilepicService.insertProfilepic(newProfilepic);
+			
+		}
 
 		memberService.register(memberVO);
 
