@@ -10,7 +10,6 @@
 <head>
     <title>관리자 페이지</title>
     <jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
-    <jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp"/>
     <link href="../resources/css/admin.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>

@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>QnA글쓰기</title>
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
-<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp" />
 </head>
 <body>
    <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
