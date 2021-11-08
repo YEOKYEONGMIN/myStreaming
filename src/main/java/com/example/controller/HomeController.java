@@ -12,12 +12,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.MemberVO;
 import com.example.domain.SearchVO;
 import com.example.service.SearchService;
+import com.example.util.JScript;
 
 /**
  * Handles requests for the application home page.
@@ -39,6 +42,20 @@ public class HomeController {
 		}		
 			
 		
+		return "index";
+//		return "redirect:index";
+	}
+	@GetMapping(value = {"/home"})
+	public String login(HttpSession session, Model model) {
+		System.out.println("home() 호출됨...");
+		List<SearchVO> searchList = searchService.getPopularSearch();
+		
+		
+		if(searchList != null) {
+			session.setAttribute("searchList", searchList);
+		}		
+		model.addAttribute("login", "login");
+
 		return "index";
 //		return "redirect:index";
 	}

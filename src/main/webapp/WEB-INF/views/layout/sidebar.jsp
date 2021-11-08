@@ -47,49 +47,16 @@
 				<a href="#" class="nav__link nav_active"> <ion-icon
 						name="home-outline" class="nav__icon"></ion-icon> <span
 					class="nav_name">Dashboard</span>
-				</a> <a href="#" class="nav__link"> <ion-icon
-						name="chatbubbles-outline" class="nav__icon"></ion-icon> <span
-					class="nav_name">Messenger</span>
-				</a>
-
-				<div href="#" class="nav__link" id="collapse">
-					<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">Boards</span>
-
-					<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-					<ul class="collapse__menu">
-						<a href="/board/list" class="collapse__sublink">Q&A</a>
-						<a href="#" class="collapse__sublink">Group</a>
-						<a href="#" class="collapse__sublink">Members</a>
-					</ul>
-				</div>
-
-				<a href="#" class="nav__link"> <ion-icon
-						name="pie-chart-outline" class="nav__icon"></ion-icon> <span
-					class="nav_name">Analytics</span>
-				</a>
-
-				<div href="#" class="nav__link" id="collapse">
-					<ion-icon name="people-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">Team</span>
-
-					<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-					<ul class="collapse__menu">
-						<a href="#" class="collapse__sublink">Data</a>
-						<a href="#" class="collapse__sublink">Group</a>
-						<a href="#" class="collapse__sublink">Members</a>
-					</ul>
-				</div>
-
-				<a href="#" class="nav__link"> <ion-icon name="settings-outline"
-						class="nav__icon"></ion-icon> <span class="nav_name">Settings</span>
-				</a>
+				</a> <a href="/board/list" class="nav__link"> <ion-icon
+						name="folder-outline" class="nav__icon"></ion-icon> <span
+					class="nav_name">Q&A</span>
+				</a>	
 			</div>
-			<a href="#" class="nav__link"> <ion-icon name="log-out-outline"
+			<c:if test="${not empty id }">
+			<a href="member/logout" class="nav__link"> <ion-icon name="log-out-outline"
 					class="nav__icon"></ion-icon> <span class="nav_name">Log out</span>
 			</a>
+			</c:if>
 		</div>
 	</nav>
 </div>
