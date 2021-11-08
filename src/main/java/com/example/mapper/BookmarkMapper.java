@@ -33,4 +33,7 @@ public interface BookmarkMapper {
 	int getCountbyIdAndStreamerId(@Param("mid") String mid,
 			@Param("streamerId") String streamerId);
 	
+	@Delete("DELETE FROM bookmark WHERE mid = #{mid} ")
+	void deleteById(String mid);
+	
 }
