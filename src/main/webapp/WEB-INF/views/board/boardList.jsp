@@ -29,7 +29,7 @@
    
        <!-- 글목록 테이블 -->
          <table class="table table-hover" id="board">
-            <thead class="ackground-purple text-white ">
+            <thead class="background-purple text-white ">
                <tr>
                   <th scope="col" class="text-center">번호</th>
                   <th scope="col" class="text-center">제목</th>
