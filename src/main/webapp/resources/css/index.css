@@ -1,0 +1,44 @@
+.carousel-container-red{
+    align-items: center;
+    width: 100%;
+    position: relative;
+    border-radius: 20px;
+    border: solid 2px red;
+    max-height: 500px;
+    margin-top:100px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 100px 20px;
+}
+
+.platform-logo-twitch{
+    z-index: 100;
+    background-color: white;
+    position: absolute;
+    top: -15%;
+    right: 46%;
+    padding: 20px;
+}
+
+.platform-logo-youtube{
+    z-index: 100;
+    background-color: white;
+    position: absolute;
+    top: -9%;
+    right: 44%;
+    padding: 20px;
+}
+
+.carousel-container-purple{
+    align-items: center;
+    width: 100%;
+    position: relative;
+    border-radius: 20px;
+    border: solid 2px rgb(100,65,165);
+    max-height: 500px;
+    margin-top:100px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 100px 20px;
+}
+

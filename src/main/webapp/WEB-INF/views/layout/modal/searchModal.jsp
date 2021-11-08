@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -14,7 +14,8 @@
 
                     <div class="offset-1 col-4 search-bar">
                         <div class="input-icon">
-                            <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?" name="keyword">
+                            <input type="text" class="form-control" id="searchModalInput" placeholder="어떤 방송을 찾고계신가요?"
+                                   name="keyword">
                             <a class="append-icon" id="search-button"><i class="bi bi-search"></i></a>
                         </div>
                         <div>
@@ -56,30 +57,32 @@
                             기준
                         </span>
                     </div>
-                   	
+
                     <div class="search-rank-container" style="display: flex">
-                    	<c:if test="${empty searchList }">
-                    		<span>인기검색어 집계중입니다.</span>
-                    	</c:if>
-                    	<c:if test="${not empty searchList }">
-                    		<div class="search-rank-left" style="display: flex;flex-direction: column;flex: 1">
-                    		<c:set var="i" value="0"/>
-                    		<c:forEach  var="search" items="${ searchList }" begin="0"  end="4" step="1">
-                            	<div class="search-rank-one">
-                	 				<span class="search-rank-num">${i=i+1}</span><span class="search-rank-word">${search.keyword}</span>
-            					</div>
-                        	</c:forEach>
-                 			</div>
-                        		<div class="search-rank-right" style="display: flex;flex-direction: column;flex: 1">
-                            <c:forEach  var="search" items="${ searchList }" begin="5"  end="9" step="1">	
-                            	<div class="search-rank-one">
-                	 				<span class="search-rank-num">${i=i+1}</span><span class="search-rank-word">${search.keyword}</span>
-            					</div>
-                        	</c:forEach>
-                        	</div>
+                        <c:if test="${empty searchList }">
+                            <span>인기검색어 집계중입니다.</span>
+                        </c:if>
+                        <c:if test="${not empty searchList }">
+                            <div class="search-rank-left" style="display: flex;flex-direction: column;flex: 1">
+                                <c:set var="i" value="0"/>
+                                <c:forEach var="search" items="${ searchList }" begin="0" end="4" step="1">
+                                    <div class="search-rank-one">
+                                        <span class="search-rank-num">${i=i+1}</span><span class="search-rank-word"
+                                                                                           onclick="clickSearch('${search.keyword}')">${search.keyword}</span>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="search-rank-right" style="display: flex;flex-direction: column;flex: 1">
+                                <c:forEach var="search" items="${ searchList }" begin="5" end="9" step="1">
+                                    <div class="search-rank-one">
+                                        <span class="search-rank-num">${i=i+1}</span><span class="search-rank-word"
+                                                                                           onclick="clickSearch('${search.keyword}')">${search.keyword}</span>
+                                    </div>
+                                </c:forEach>
+                            </div>
                         </c:if>
                     </div>
-                    
+
                 </div>
 
             </div>

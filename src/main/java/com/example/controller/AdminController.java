@@ -4,10 +4,7 @@ import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
 import com.example.domain.PageDTO;
 import com.example.domain.ProfilepicVO;
-import com.example.service.AttachService;
-import com.example.service.BoardService;
-import com.example.service.MemberService;
-import com.example.service.ProfilepicService;
+import com.example.service.*;
 import com.example.util.JScript;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -45,6 +42,8 @@ public class AdminController {
 	private BoardService boardService;
 	@Autowired
 	private AttachService attachService;
+	@Autowired
+	private BookmarkService bookmarkService;
 
     @GetMapping("main")
     public String adminMainForm(){
@@ -127,6 +126,7 @@ public class AdminController {
 					int boardNum = Integer.parseInt(sNum);
 					boardService.deleteBoardAndAttaches(boardNum);
 				}
+				bookmarkService.deleteById(id);
 			memberService.deleteById(id);
 			}
 		}

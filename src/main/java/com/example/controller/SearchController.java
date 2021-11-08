@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/search/*")
 public class SearchController {
 
-    @GetMapping("{searchWords}")
-    public void searchFrom(@PathVariable("searchWords") String searchWords){
+    @GetMapping("/search")
+    public void searchFrom(String keyword){
+
+        System.out.println(keyword);
 
     }
 

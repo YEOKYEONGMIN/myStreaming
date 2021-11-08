@@ -20,7 +20,7 @@ function createYoutubeCard(data){
 				<div class="carousel-item">
 	                <div class="cards-wrapper">
                         <div class="card mt-2 mb-5">
-                            <div class="custom-shadow">
+                            <div class="custom-shadow-youtube">
                                 <a href="https://www.youtube.com/watch?v=${data.items[i].snippet.resourceId.videoId}" target="_blank">
                                 <img src="${data.items[i].snippet.thumbnails.medium.url}"
                                     class="card-img-top" alt="...">
@@ -45,7 +45,7 @@ function createYoutubeCard(data){
                         </div>
                         
 	                   <div class="card mt-2 mb-5">
-                            <div class="custom-shadow">
+                            <div class="custom-shadow-youtube">
                                 <a href="https://www.youtube.com/watch?v=${data.items[i+1].snippet.resourceId.videoId}" target="_blank">
                                 <img src="${data.items[i+1].snippet.thumbnails.medium.url}"
                                     class="card-img-top" alt="...">
@@ -70,7 +70,7 @@ function createYoutubeCard(data){
                         </div>
                         
                         <div class="card mt-2 mb-5">
-                            <div class="custom-shadow">
+                            <div class="custom-shadow-youtube">
                                 <a href="https://www.youtube.com/watch?v=${data.items[i+2].snippet.resourceId.videoId}" target="_blank">
                                 <img src="${data.items[i+2].snippet.thumbnails.medium.url}"
                                     class="card-img-top" alt="...">
@@ -95,7 +95,7 @@ function createYoutubeCard(data){
                         </div>
                         
                         <div class="card mt-2 mb-5">
-                            <div class="custom-shadow">
+                            <div class="custom-shadow-youtube">
                                 <a href="https://www.youtube.com/watch?v=${data.items[i+3].snippet.resourceId.videoId}" target="_blank">
                                 <img src="${data.items[i+3].snippet.thumbnails.medium.url}"
                                     class="card-img-top" alt="...">

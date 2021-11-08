@@ -14,53 +14,54 @@
 <div class="p-lg-2 p-md-3 p-sm-3 p-1 navbar-header ">
     <div class="col-2 logo">
         <a class="btn" href="/" style="color: black">
-            <img src="/resources/images/tempLogo2.png" alt="로고" >
+            <img src="/resources/images/tempLogo2.png" alt="로고">
             <span>myStreaming</span>
         </a>
 
     </div>
     <div class="navbar-header-search col-xl-4 col-lg-4 col-md-5 col-sm-7 col-9 mx-auto">
-                <div class="input-icon ">
-                    <input type="text" class="form-control" id="navbarSearch" placeholder="어떤 방송을 찾고계신가요?" name="search">
-                    <span class="append-icon"><i class="bi bi-search"></i></span>
-                </div>
+        <div class="input-icon ">
+            <input type="text" class="form-control" id="navbarSearch" placeholder="어떤 방송을 찾고계신가요?" name="search">
+            <span class="append-icon"><i class="bi bi-search"></i></span>
+        </div>
     </div>
     <div class="navbar-header-btn col-2">
-                <c:if test="${sessionScope.id eq 'admin'}">
-                    <div>
-                        <a class="btn btn-primary" href="/admin/main">관리자 페이지</a>
+        <c:choose>
+            <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
+                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>
+                &nbsp; &nbsp;
+                <a class="btn btn-primary" href="/member/register">회원가입</a>
+            </c:when>
+            <c:otherwise>
+                <div class="dropdown">
+                    <div class="round-img dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                         aria-expanded="false">
+                        <c:choose>
+                            <c:when test="${ not empty profilepic }">
+                                <img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }"
+                                     height="50px">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="../../../resources/images/defaultProfile.png" height="50px">
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                </c:if>
-                <c:choose>
-                    <c:when test="${ sessionScope.id eq null || sessionScope.id eq 'null'}">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#loginModal">로그인</button>
-                        &nbsp; &nbsp;
-                        <a class="btn btn-primary" href="/member/register">회원가입</a>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="dropdown">
-                            <div class="round-img dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                            	<c:choose>
-                            		<c:when test="${ not empty profilepic }">
-                            			<img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }" height="50px">
-                            		</c:when>
-                            		<c:otherwise>
-                            			<img src="../../../resources/images/defaultProfile.png" height="50px">
-                            		</c:otherwise>
-                            	</c:choose>
-                            </div>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/member/modify">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 회원정보 수정
-                                </a>
-                                <a class="dropdown-item" href="/member/logout">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    로그아웃
-                                </a>
-                            </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <c:if test="${sessionScope.id eq 'admin'}">
+                            <a class="dropdown-item" href="/admin/main">
+                                <i class="bi bi-lock fa-sm fa-fw mr-2 text-gray-400"></i>관리자 페이지</a>
+                        </c:if>
+                        <a class="dropdown-item" href="/member/modify">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 회원정보 수정
+                        </a>
+                        <a class="dropdown-item" href="/member/logout">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            로그아웃
+                        </a>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 
 </div>
@@ -110,7 +111,7 @@
 <%--</nav>--%>
 
 
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
 <script src="../../../resources/js/modal.js"></script>

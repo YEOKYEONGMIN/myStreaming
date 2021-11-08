@@ -59,19 +59,19 @@
 
               <%-- 이전 --%>
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
-                 <a class="page-link" href="${ (pageMaker.prev) ? '/admin/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">이전</a>
+                 <a class="page-link" href="${ (pageMaker.prev) ? '/admin/list?pageNum=' += (pageMaker.startPage - 1) : '' }#member">이전</a>
               </li>
 
               <%-- 시작페이지 번호 ~ 끝페이지 번호 --%>
               <c:forEach var="i" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"><%--step = 1은 증가 --%>
                  <li class="page-item ${ (pageMaker.cri.pageNum eq i) ? 'active' : '' }">
-                    <a class="page-link " href="/admin/list?pageNum=${ i }&type=${ pageMaker.cri.type }&keyword=${ pageMaker.cri.keyword }#member">${ i }</a>
+                    <a class="page-link " href="/admin/list?pageNum=${ i }#member">${ i }</a>
                  </li>
               </c:forEach>
 
               <%-- 다음 --%>
               <li class="page-item ${ (pageMaker.next) ? '' : 'disabled' }">
-                 <a class="page-link " href="${ (pageMaker.next) ? '/admin/list?pageNum=' += (pageMaker.endPage + 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">다음</a>
+                 <a class="page-link " href="${ (pageMaker.next) ? '/admin/list?pageNum=' += (pageMaker.endPage + 1) : '' }#member">다음</a>
               </li>
 
               </ul>
@@ -80,7 +80,7 @@
 
 
 				<div class="memberCheck">
-					<button class="btn btn-primary member-delete" id="admin-delete">회원탈퇴
+					<button class="btn btn-primary member-delete" id="admin-delete">회원삭제
 					</button>
 				</div>
 			</div>

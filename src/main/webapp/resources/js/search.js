@@ -1,6 +1,9 @@
+function clickSearch(keyword) {
+		$('#searchModalInput').val(keyword);
+
+}
 
 $(function() {
-
 timer = setInterval( function () {
 
     $.ajax({
@@ -13,14 +16,21 @@ timer = setInterval( function () {
         	$('.search-rank-one').remove();
         	for(let i=0; i<data.length;i++){
 				let str = `
-					<div class="search-rank-one">
-                		 <span class="search-rank-num">${i+1}</span><span class="search-rank-word">${data[i].keyword}</span>
+					<div class="search-rank-one" >
+                		 <span class="search-rank-num">${i+1}</span>
+                		 <span class="search-rank-word" id="${i+1}+${data[i].keyword}">${data[i].keyword}</span>
             		</div>
 				`
 	        if(i<5){
 	        	$('.search-rank-left').append(str);
+				$('#'+(i+1)+(data[i].keyword)).on("click",function () {
+					$('#searchModalInput').val(data[i].keyword);
+				})
 			}else{
 				$('.search-rank-right').append(str);
+				$('#'+(i+1)+(data[i].keyword)).on("click",function () {
+					$('#searchModalInput').val(data[i].keyword);
+				})
 			}
 		}
     }
@@ -49,4 +59,6 @@ $('#search-button').on('click',function(){
     	}
 	});
 	$('#searchModalInput').val("");
+
+	location.href='/search/search?keyword='+keyword;
 });
