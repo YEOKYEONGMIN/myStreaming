@@ -4,7 +4,10 @@ import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
 import com.example.domain.PageDTO;
 import com.example.domain.ProfilepicVO;
+import com.example.service.AttachService;
+import com.example.service.BoardService;
 import com.example.service.MemberService;
+import com.example.service.ProfilepicService;
 import com.example.util.JScript;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -36,6 +39,12 @@ public class AdminController {
 
     @Autowired
     private MemberService memberService;
+	@Autowired
+	private ProfilepicService profilepicService;
+	@Autowired
+	private BoardService boardService;
+	@Autowired
+	private AttachService attachService;
 
     @GetMapping("main")
     public String adminMainForm(){
@@ -47,12 +56,9 @@ public class AdminController {
     public String adminListForm(Criteria cri,Model model){
 
         List<MemberVO> memberList = memberService.getMembersNotadmin(cri);
-       // memberList = memberService.getMembers(cri);
-        
-        //검색유형, 검색어가 있으면 적용하여 글개수 가져오기
         int totalCount = memberService.getCountBySearch(cri);
         
-        //페이지 블록 정보 객체 준비, 피요한 정보를 생성자로 전달
+
         PageDTO pageDTO = new PageDTO(cri, totalCount);
         
         model.addAttribute("memberList", memberList);
@@ -107,38 +113,24 @@ public class AdminController {
     }
     
     @PostMapping("/remove")//삭제
-	public ResponseEntity<String> remove(@RequestParam(name = "chk", required = false)String id,String passwd, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response) {
-    	
-    	String[] id_string = request.getParameterValues("valueArr");
-        int size = id_string.length;
-        for(int i=0; i<size; i++) {
-        	memberService.deleteById(id_string[i]);
-        }
-	
-    	
-    	
-		//MemberVO memberVO = memberService.getMemberById(id);
-		//ProfilepicVO profilepicVO = profilepicService.getProfilepicByMid(id);
+	public ResponseEntity<String> remove( HttpServletRequest request) {
 
-		// 세션비우기
-		//session.invalidate();
-		
-		// 로그인 상태유지용 쿠키가 있으면 삭제처리하기
-		// 쿠키값 가져오기
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("loginId")) {
-					cookie.setMaxAge(0); // 쿠키 유효기간 0초 설정(삭제 의도)
-					cookie.setPath("/");
-					response.addCookie(cookie); // 응답객체에 추가하기
+		String[] idArr = request.getParameterValues("chk");
+
+		if(idArr != null){
+			for (String id : idArr) {
+			profilepicService.deleteProfilepicById(id);
+
+			List<String> boardNumList = boardService.getBoardNumById(id);
+
+				for (String sNum : boardNumList) {
+					int boardNum = Integer.parseInt(sNum);
+					boardService.deleteBoardAndAttaches(boardNum);
 				}
+			memberService.deleteById(id);
 			}
 		}
-		//deleteProfilepic(profilepicVO);
-		//profilepicService.deleteprofilepicByMid(id); // 프로필 이미지 삭제하기
-		memberService.deleteById(id);
+
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "text/html; charset=UTF-8");
@@ -148,26 +140,8 @@ public class AdminController {
 		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
 
 	}
-    
-//  //게시물 선택삭제(참고용 홈페이지:https://won-percent.tistory.com/48)
-//    @RequestMapping(value = "/delete")
-//    public String ajaxTest(HttpServletRequest request,HttpServletResponse response,
-//    		@RequestParam(name = "chk", required = false)String id)throws IllegalStateException, IOException{
-//            
-//        String[] ajaxMsg = request.getParameterValues("valueArr");
-//        int size = ajaxMsg.length;
-//        for(int i=0; i<size; i++) {
-//        	memberService.deleteById(ajaxMsg[i]);
-//        }
-//        return "redirect:list";
-//    }
-    
-    
-    
-    
-    
-    
-    
+
+
     
 	// 페이지 뒤로가기 처리 메소드
 	private ResponseEntity<String> pageBack(String msg) {

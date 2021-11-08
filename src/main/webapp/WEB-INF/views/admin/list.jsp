@@ -1,12 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>회원 목록</title>
-<jsp:include page="/WEB-INF/views/layout/Header.jsp" />
-<jsp:include page="/WEB-INF/views/layout/modal/loginModal.jsp" />
-<link href="../resources/css/admin.css" type="text/css" rel="stylesheet"
-	media="screen,projection" />
+    <title>회원 목록</title>
+    <jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
+    <link href="../resources/css/admin.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
@@ -47,30 +45,30 @@
 								<td>${member.gender}</td>
 								<td>${member.regDate}</td>
 								<td class="d-flex justify-content-center"><input
-									type="checkbox" name="chk" id="chk"
+									type="checkbox" name="chk"
 									aria-label="Checkbox for following text input"
 									value="${member.id}"></td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
-				
+
 				 <%--페이지 --%>
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-              
+
               <%-- 이전 --%>
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
                  <a class="page-link" href="${ (pageMaker.prev) ? '/admin/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">이전</a>
               </li>
-              
+
               <%-- 시작페이지 번호 ~ 끝페이지 번호 --%>
               <c:forEach var="i" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"><%--step = 1은 증가 --%>
                  <li class="page-item ${ (pageMaker.cri.pageNum eq i) ? 'active' : '' }">
                     <a class="page-link " href="/admin/list?pageNum=${ i }&type=${ pageMaker.cri.type }&keyword=${ pageMaker.cri.keyword }#member">${ i }</a>
                  </li>
               </c:forEach>
-              
+
               <%-- 다음 --%>
               <li class="page-item ${ (pageMaker.next) ? '' : 'disabled' }">
                  <a class="page-link " href="${ (pageMaker.next) ? '/admin/list?pageNum=' += (pageMaker.endPage + 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">다음</a>
@@ -78,20 +76,20 @@
 
               </ul>
             </nav>
-				
-				
-				
+
+
+
 				<div class="memberCheck">
-					<button class="btn btn-primary member-delete" value="선택삭제" onclick="report()">회원탈퇴
+					<button class="btn btn-primary member-delete" id="admin-delete">회원탈퇴
 					</button>
 				</div>
 			</div>
 		</form>
 
-	</div>
+</div>
 
 
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 </body>
 </html>
 
@@ -116,14 +114,11 @@
 			}
 		});
 
-		//하위 전체 선택시 전체버튼 선택 
-		$checkBody
-				.click(function() {//데이터 있는곳
+		//하위 전체 선택시 전체버튼 선택
+		$checkBody.click(function() {//데이터 있는곳
 					var tdInput_Length = $checkBody.length; // td 에 있는 input 갯수
 					var tdInput_Check_Length = $("#checkBoard tbody td input[type='checkbox']:checked").length; // td 에 있는 선택된 input 갯수
 
-					console.log(tdInput_Length);
-					console.log(tdInput_Check_Length);
 
 					if (tdInput_Length == tdInput_Check_Length) {
 						//$checkHead.addClass("active");
@@ -143,7 +138,7 @@
 	$(function(){
 			var chkObj = document.getElementsByName("chk");//td:id를 chk라 설정
 			var rowCnt = chkObj.length;
-			
+
 			$("input[name='allCheck']").click(function(){//th:id를 allCheck라 설정
 				var chk_listArr = $("input[name='chk']");
 				for (var i=0; i<chk_listArr.length; i++){
@@ -159,62 +154,21 @@
 				}
 			});
 		});
-		function report(){//버튼 onclick = report()
-			var url = "/admin/remove";    // Controller로 보내고자 하는 URL
-			var valueArr = new Array();
-		    var list = $("input[name='chk']");
-		    for(var i = 0; i < list.length; i++){
-		        if(list[i].checked){ //선택되어 있으면 배열에 값을 저장함
-		            valueArr.push(list[i].value);
-		        }
-		    }
-		    if (valueArr.length == 0){
-		    	alert("선택된 글이 없습니다.");
-		    }
-		    else{
-				var check = confirm("정말 삭제하시겠습니까?");				 
-				$.ajax({
-				    url :"/admin/remove",                    // 전송 URL
-				    type : 'POST',                // POST 방식
-				    traditional : true,
-				    data :{
-				    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-				    },
-				    	
-	                success: function(jdata){
-	                    if(jdata = 1) {
-	                        alert("삭제 성공");
-	                        location.replace("/admin/list") //홈화면으로 간다.
-	                    }
-	                    else{
-	                        alert("삭제 실패");
-	                    }
-	                }
-				});
-			}
+
+	$('#admin-delete').on("click",function (e) {
+		e.preventDefault();
+		let list = $("input[name='chk']");
+
+		if (list.length == 0){
+			alert("선택된 글이 없습니다.");
 		}
-	
-	
-	
-	
+		else{
+			let check = confirm("정말 삭제하시겠습니까?");
+			if(check){
+				$('#frm').submit();
+			}
 
-</script>
+		}
+	})
 
-<!-- 체크박스 전체선택 -->
-<!-- <script type="text/javascript">
-$(document).ready(function() {
-	$("#allCheck").click(function() {
-		if ($("#allCheck").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
-	});
-	
-	$("input[name=chk]").click(function() {
-		var total = $("input[name=chk]").length;
-		var checked = $("input[name=chk]:checked").length;
-
-		if(total != checked) $("#allCheck").prop("checked", false);
-		else $("#allCheck").prop("checked", true); 
-	});
-</script>
-
-<script src="../../../resources/js/jquery-3.6.0.js"></script> -->
+    </script>
