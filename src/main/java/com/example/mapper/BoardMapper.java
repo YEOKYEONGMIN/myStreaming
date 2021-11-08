@@ -19,7 +19,7 @@ public interface BoardMapper {// 실행의 기준은 interface이다(xml과 inte
     @Delete("DELETE FROM board WHERE num = #{num}")
     void deleteBoardByNum(int num);
 
-    @Select("SELECT bno FROM board WHERE mid = #{mid}")
+    @Select("SELECT num FROM board WHERE mid = #{mid}")
     List<String> getBoardNumById(String mid);
 
     // 전체글 개수 가져오기

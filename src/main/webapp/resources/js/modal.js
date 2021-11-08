@@ -37,6 +37,10 @@ navbarSearch.on("focus", function () {
 
 })
 
+$('.modal-close-span').on("click",function () {
+    searchModalInput.val("");
+})
+
 function getTime() {
     let today = new Date();
     let hours = today.getHours();
@@ -73,6 +77,7 @@ $('#search-button').on("click", function (e) {
         let strSearchList = searchList.toString();
         localStorage.setItem("recentSearch", strSearchList);
         addRecentSearch();
+
     }
     
 });
@@ -103,14 +108,22 @@ function addRecentSearch() {
         return
     } else if (count < 4) {
         for (let i = 0; i < count; i++) {
-            let tag = `       <div class="search-result-one"}>
-                            <span class="search-value">${arrayRecentSearch[i]}</span>
-                            <span class="delete-span" id="${arrayRecentSearch[i]}"><i class="bi bi-x"></i></span>
+            let tag = `       <div class="search-result-one" id="${arrayRecentSearch[i]}">
+                            <span class="search-value" >${arrayRecentSearch[i]}</span>
+                            <span class="delete-span" ><i class="bi bi-x"></i></span>
                         </div>`;
             searchResults.prepend(tag);
             if($('.search-results').children().length>0){
                 let id = arrayRecentSearch[i];
-                $('#'+id).on("click", function () {
+                let search_div = $('#'+id);
+                let search_value = search_div.children().first();
+                let search_delete = search_div.children().last();
+
+                search_value.on("click",function () {
+                    $('#searchModalInput').val(id);
+                })
+
+                search_delete.on("click", function () {
                     $(this).parent('div').remove();
                     let deleteIndex = dupCheck(arrayRecentSearch[i]);
                     if (deleteIndex == 0) {
@@ -132,7 +145,15 @@ function addRecentSearch() {
             searchResults.append(tag);
             if($('.search-results').children().length>0){
                 let id = arrayRecentSearch[i];
-                $('#'+id).on("click",function () {
+                let search_div = $('#'+id);
+                let search_value = search_div.children().first();
+                let search_delete = search_div.children().last();
+
+                search_value.on("click",function () {
+                    $('#searchModalInput').val(id);
+                })
+
+                search_delete.on("click", function () {
                     $(this).parent('div').remove();
                     let deleteIndex = dupCheck(arrayRecentSearch[i]);
                     if (deleteIndex == 0) {

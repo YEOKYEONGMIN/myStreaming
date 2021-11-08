@@ -89,6 +89,19 @@
       <![CDATA[
          SELECT * 
          FROM member 
+      ]]>
+      <where>
+         <if test="type == 'id'.toString()">
+            subject LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+         <if test="type == 'name'.toString()">
+            content LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+         <if test="type == 'nickname'.toString()">
+            mid LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+      </where>
+      <![CDATA[
          ORDER BY id ASC 
          LIMIT #{startRow}, #{amount} 
          

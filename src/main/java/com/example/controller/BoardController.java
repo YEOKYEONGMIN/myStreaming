@@ -63,7 +63,7 @@ public class BoardController {
 		List<BoardVO> boardList = boardService.getBoards(cri);
 
 		// 검색유형, 검색어가 있으면 적용하여 글개수 가져오기
-		int totalCount = boardService.getCountBySearch(cri); 
+		int totalCount = boardService.getCountBySearch(cri);
 		
 		// 페이지블록 정보 객체준비. 필요한 정보를 생성자로 전달.
 		PageDTO pageDTO = new PageDTO(cri, totalCount);
