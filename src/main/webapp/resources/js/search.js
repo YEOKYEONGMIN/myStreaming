@@ -43,7 +43,7 @@ $('#search-button').on('click',function(){
     	dataType:"JSON",
     	method: 'POST',
     	success: function (data) {
-       		console.log("키워드")
+       		console.log("키워드 등록")
         	console.log(data);
         	
     	}

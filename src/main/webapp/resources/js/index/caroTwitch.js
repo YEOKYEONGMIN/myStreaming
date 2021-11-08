@@ -11,6 +11,10 @@ $.ajax({
         createCard(data);
         twitchbookmarkChk();
 
+        for(let i=0;i<100;i++){
+			addStreamer(data.data[i].user_name,data.data[i].user_id,data.data[i].user_login);
+		  }
+
     }
 });
 
@@ -253,3 +257,23 @@ function twitchIsLive(streamerId, streamerLogin) {
     });
 }
 
+function addStreamer(name,id,login){
+	
+	let Streamer = JSON.stringify({
+        name: name,
+        id: id,
+        login: login
+    })
+	$.ajax({
+        url: '/Streamer/add',
+        contentType: 'application/json; charset=UTF-8',
+        data:Streamer,
+        method: 'POST',
+        success: function (data) {
+            console.log("스트리머 등록시키기")
+            console.log(data);
+            
+			
+        }
+    });
+}
