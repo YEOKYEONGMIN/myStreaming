@@ -29,7 +29,7 @@
         <!-- 파일 하나당 허용크기는 임시로 10MB -->
         <!-- 모든 파일 업로드 허용크기는 임시로 30MB (첨부파일 3개) -->
     	<multipart-config>
-    		<location>C:/myStreaming/upload/</location>
+    		<location>C:/project_myStreaming/upload/temp</location>
     		<file-size-thresold>5242880</file-size-thresold>
     		<max-file-size>10485760</max-file-size>
     		<max-request-size>31457280</max-request-size>
