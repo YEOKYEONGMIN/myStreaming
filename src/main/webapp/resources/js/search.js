@@ -41,8 +41,6 @@ timer = setInterval( function () {
 
 });
 
-
-
 $('#search-button').on('click',function(){
 	let keyword = $('#searchModalInput').val();
 	keyword = keyword.trim();
@@ -57,48 +55,11 @@ $('#search-button').on('click',function(){
     	success: function (data) {
        		console.log("키워드 등록")
         	console.log(data);
-        	
     	}
 	});
-	$.ajax({
-    	url: '/Streamer/'+name,
-    	dataType:"JSON",
-    	method: 'GET',
-    	success: function (data) {
-       		console.log("db 서치값")
-        	console.log(data);
-        	searchStreamer(data.streamerList[0]);
-        	searchYoutuber(name);
-    	}
-	});
-
 
 	$('#searchModalInput').val("");
 
 	location.href='/search/search?keyword='+keyword;
 });
 
-function searchStreamer(streamerId){
-
-	$.ajax({
-        url: '/api/twitch/user/' + streamerId,
-        dataType: "JSON",
-        method: 'GET',
-        success: function (data) {
-            console.log("프로필 데이터")
-            console.log(data);
-        }
-    });
-}
-function searchYoutuber(searchName){
-	 $.ajax({
-    url: '/api/youtube/search/'+searchName,
-    dataType:"JSON",
-    method: 'GET',
-    success: function (data) {
-        console.log("youtube 데이터")
-        console.log(data);
-
-        }
-	});
-}
