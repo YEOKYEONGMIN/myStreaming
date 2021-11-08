@@ -16,6 +16,7 @@
 	<script src="../resources/js/init.js"></script>
 	<script src="../resources/js/login.js"></script>
 	<script src="../resources/js/search.js"></script>
+	<script src="../resources/js/searchChannel.js"></script>
 
 <link href="/resources/css/footer.css" rel="stylesheet"/>
 
