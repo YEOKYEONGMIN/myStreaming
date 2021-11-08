@@ -79,6 +79,8 @@
 	<select id="getMembersNotadmin" resultType="memberVO">
       <![CDATA[
          SELECT * FROM member WHERE id != 'admin'
+         ORDER BY reg_date
+         LIMIT #{startRow}, #{amount}
       ]]>
    </select>
    
@@ -101,7 +103,8 @@
       </where>
       <![CDATA[
          ORDER BY id ASC 
-         LIMIT #{startRow}, #{amount}
+         LIMIT #{startRow}, #{amount} 
+         
       ]]>
    </select>
    
@@ -110,7 +113,7 @@
    <![CDATA[
       SELECT COUNT(*) AS cnt
       FROM member
-   ]]>
+		]]>
    </select>
    
    
