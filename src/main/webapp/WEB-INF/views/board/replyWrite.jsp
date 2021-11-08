@@ -14,7 +14,7 @@
 </head>
 <body>
    <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
-	<jsp:include page="/WEB-INF/views/layout/carousel.jsp" />
+
 
    <hr>
    <div class="container">

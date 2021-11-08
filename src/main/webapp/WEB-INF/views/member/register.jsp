@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>회원가입</title>
@@ -40,7 +41,7 @@
 
         <div class="join-body">
 
-            <form action="/member/register" method="POST">
+            <form action="/member/register" method="POST" enctype="multipart/form-data">
             	<fieldset> 
             	<legend>필수 입력란</legend>
 
@@ -93,9 +94,25 @@
 				
 				<fieldset id="Optional"> 
             	<legend>선택 입력란</legend>
+        	    <div class="form-group">
+        	    	<label for="joinProfilepic">프로필 사진 첨부</label>
+           			<input type="file" name="file" id="joinProfilepic">
+                </div>
+            	
+            	
                 <div class="form-group">
                     <label for="joinName">이름</label>
-                    <input type="email" class="form-control" id="joinName" name="name">
+                    <input type="text" class="form-control" id="joinName" name="name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinNick">닉네임</label>
+                    <input type="text" class="form-control" id="joinNick" name="nickname">
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinBirth">생일</label>
+                    <input type="text" class="form-control" id="joinBirth" name="birthday" placeholder="YYYY-MM-DD">
                 </div>
 
                 <div class="form-group">

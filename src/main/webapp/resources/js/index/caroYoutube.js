@@ -18,63 +18,106 @@ function createYoutubeCard(data){
     for(let i=0;i<19;i+=4){
         let str = `
 				<div class="carousel-item">
-	            <div class="cards-wrapper">
-	                <div class="card">
-	                    <img src="${data.items[i].snippet.thumbnails.medium.url}"
-	                        class="card-img-top" alt="...">
-	                    <span class="live">생방송</span>
-	                    <div class="card-body">
-	                        <h5 class="card-title">${data.items[i].snippet.videoOwnerChannelTitle}</h5>
-	                        <p class="card-text">${data.items[i].snippet.title}</p>
-	                        <div class="card_link">
-	                        <a href="https://www.youtube.com/watch?v=${data.items[i].snippet.resourceId.videoId}" id="btn_link" target="_blank">방송보러 가기</a>
-	                    	<i class="far fa-star bookmark" id="bookmark${data.items[i].snippet.videoOwnerChannelId}"
-	                    		onclick="BookmarkYoutube('${data.items[i].snippet.videoOwnerChannelId}', '${data.items[i].snippet.videoOwnerChannelTitle}');"></i>
-	                    	</div>
-	                    </div>
-	                </div>
-	                <div class="card">
-	                    <img src="${data.items[i+1].snippet.thumbnails.medium.url}"
-	                        class="card-img-top" alt="...">
-	                    <span class="live">생방송</span>
-	                    <div class="card-body">
-	                        <h5 class="card-title">${data.items[i+1].snippet.videoOwnerChannelTitle}</h5>
-	                        <p class="card-text">${data.items[i+1].snippet.title}</p>
-	                        <div class="card_link">
-	                        <a href="https://www.youtube.com/watch?v=${data.items[i+1].snippet.resourceId.videoId}" id="btn_link" target="_blank">방송보러 가기</a>
-	                    	<i class="far fa-star bookmark" id="bookmark${data.items[i+1].snippet.videoOwnerChannelId}"
-	                    		onclick="BookmarkYoutube('${data.items[i+1].snippet.videoOwnerChannelId}', '${data.items[i+1].snippet.videoOwnerChannelTitle}');"></i>
-	                    	</div>
-	                    </div>
-	                </div>
-	                <div class="card">
-	                    <img src="${data.items[i+2].snippet.thumbnails.medium.url}"
-	                        class="card-img-top" alt="...">
-	                    <span class="live">생방송</span>
-	                    <div class="card-body">
-	                        <h5 class="card-title">${data.items[i+2].snippet.videoOwnerChannelTitle}</h5>
-	                        <p class="card-text">${data.items[i+2].snippet.title}</p>
-	                        <div class="card_link">
-	                        <a href="https://www.youtube.com/watch?v=${data.items[i+2].snippet.resourceId.videoId}" id="btn_link" target="_blank">방송보러 가기</a>
-	                    	<i class="far fa-star bookmark" id="bookmark${data.items[i+2].snippet.videoOwnerChannelId}"
-	                    		onclick="BookmarkYoutube('${data.items[i+2].snippet.videoOwnerChannelId}', '${data.items[i+2].snippet.videoOwnerChannelTitle}');"></i>
-	                    	</div>
-	                    </div>
-	                </div>
-	                <div class="card">
-	                    <img src="${data.items[i+3].snippet.thumbnails.medium.url}"
-	                        class="card-img-top" alt="...">
-	                    <span class="live">생방송</span>
-	                    <div class="card-body">
-	                        <h5 class="card-title">${data.items[i+3].snippet.videoOwnerChannelTitle}</h5>
-	                        <p class="card-text">${data.items[i+3].snippet.title}</p>
-	                        <div class="card_link">
-	                        <a href="https://www.youtube.com/watch?v=${data.items[i+3].snippet.resourceId.videoId}" id="btn_link" target="_blank">방송보러 가기</a>
-	                    	<i class="far fa-star bookmark" id="bookmark${data.items[i+3].snippet.videoOwnerChannelId}"
-	                    		onclick="BookmarkYoutube('${data.items[i+3].snippet.videoOwnerChannelId}', '${data.items[i+3].snippet.videoOwnerChannelTitle}');"></i>
-	                    	</div>
-	                    </div>
-	                </div>
+	                <div class="cards-wrapper">
+                        <div class="card mt-2 mb-5">
+                            <div class="custom-shadow">
+                                <a href="https://www.youtube.com/watch?v=${data.items[i].snippet.resourceId.videoId}" target="_blank">
+                                <img src="${data.items[i].snippet.thumbnails.medium.url}"
+                                    class="card-img-top" alt="...">
+                                    </a>
+                                <span class="live">생방송</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="my-1"> 
+                                     <span class="card-text">${data.items[i].snippet.title}</span>
+                                </div>
+                                <div class="card_link my-1">
+                                <div>
+                                 <span class="card-title">${data.items[i].snippet.videoOwnerChannelTitle}</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-star bookmark" id="bookmark${data.items[i].snippet.videoOwnerChannelId}"
+                                    onclick="BookmarkYoutube('${data.items[i].snippet.videoOwnerChannelId}', '${data.items[i].snippet.videoOwnerChannelTitle}');">
+                                    </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+	                   <div class="card mt-2 mb-5">
+                            <div class="custom-shadow">
+                                <a href="https://www.youtube.com/watch?v=${data.items[i+1].snippet.resourceId.videoId}" target="_blank">
+                                <img src="${data.items[i+1].snippet.thumbnails.medium.url}"
+                                    class="card-img-top" alt="...">
+                                    </a>
+                                <span class="live">생방송</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="my-1"> 
+                                     <span class="card-text">${data.items[i+1].snippet.title}</span>
+                                </div>
+                                <div class="card_link my-1">
+                                <div>
+                                 <span class="card-title">${data.items[i+1].snippet.videoOwnerChannelTitle}</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-star bookmark" id="bookmark${data.items[i+1].snippet.videoOwnerChannelId}"
+                                    onclick="BookmarkYoutube('${data.items[i+1].snippet.videoOwnerChannelId}', '${data.items[i+1].snippet.videoOwnerChannelTitle}');">
+                                    </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-2 mb-5">
+                            <div class="custom-shadow">
+                                <a href="https://www.youtube.com/watch?v=${data.items[i+2].snippet.resourceId.videoId}" target="_blank">
+                                <img src="${data.items[i+2].snippet.thumbnails.medium.url}"
+                                    class="card-img-top" alt="...">
+                                    </a>
+                                <span class="live">생방송</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="my-1"> 
+                                     <span class="card-text">${data.items[i+2].snippet.title}</span>
+                                </div>
+                                <div class="card_link my-1">
+                                <div>
+                                 <span class="card-title">${data.items[i+2].snippet.videoOwnerChannelTitle}</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-star bookmark" id="bookmark${data.items[i+2].snippet.videoOwnerChannelId}"
+                                    onclick="BookmarkYoutube('${data.items[i+2].snippet.videoOwnerChannelId}', '${data.items[i+2].snippet.videoOwnerChannelTitle}');">
+                                    </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-2 mb-5">
+                            <div class="custom-shadow">
+                                <a href="https://www.youtube.com/watch?v=${data.items[i+3].snippet.resourceId.videoId}" target="_blank">
+                                <img src="${data.items[i+3].snippet.thumbnails.medium.url}"
+                                    class="card-img-top" alt="...">
+                                    </a>
+                                <span class="live">생방송</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="my-1"> 
+                                     <span class="card-text">${data.items[i+3].snippet.title}</span>
+                                </div>
+                                <div class="card_link my-1">
+                                <div>
+                                 <span class="card-title">${data.items[i+3].snippet.videoOwnerChannelTitle}</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-star bookmark" id="bookmark${data.items[i+3].snippet.videoOwnerChannelId}"
+                                    onclick="BookmarkYoutube('${data.items[i+3].snippet.videoOwnerChannelId}', '${data.items[i+3].snippet.videoOwnerChannelTitle}');">
+                                    </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 	            </div>
 	        </div>
 			`

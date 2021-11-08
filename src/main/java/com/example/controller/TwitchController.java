@@ -44,7 +44,7 @@ public class TwitchController {
             header.add("Client-Id","tndi9eyjj74s1q8zf1a8qnmmhywup9");
             HttpEntity<?> entity = new HttpEntity<>(header);
 
-            String url = "https://api.twitch.tv/helix/streams?language=ko";
+            String url = "https://api.twitch.tv/helix/streams?language=ko&first=100";
 
             UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
             //이 한줄의 코드로 API를 호출해 MAP타입으로 전달 받는다.

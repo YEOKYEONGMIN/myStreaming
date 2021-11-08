@@ -93,6 +93,16 @@
                     <label for="modifyName">이름</label>
                     <input type="text" class="form-control" id="modifyName" name="name" value="${ member.name }">
                 </div>
+                
+                <div class="form-group">
+                    <label for="modifyNick">닉네임</label>
+                    <input type="text" class="form-control" id="modifyNick" name="nickname" value="${ member.nickname }">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modifyBirth">생일</label>
+                    <input type="text" class="form-control" id="modifyBirth" name="birthday" value="${ member.birthday }" placeholder="YYYY-MM-DD">
+                </div>
 
                 <div class="form-group">
                     <label for="modifyGender">성별</label>

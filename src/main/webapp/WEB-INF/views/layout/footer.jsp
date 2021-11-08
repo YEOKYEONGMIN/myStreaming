@@ -23,22 +23,20 @@
 
 <footer class="page-footer font-small mdb-color pt-4 site-footer font_1">
 
- 
+
   <div class="container text-center text-md-left">
 
   
     <div class="row text-center text-md-left mt-3 pb-3">
 
-      
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
         <h6 class="text-uppercase mb-4 font-weight-bold">myStreaming</h6>
         <p class="title1">myStraming은 무한한 콘텐츠를 담고 있는 플레이 버튼을 통해 더 즐거운 세상,더 큰 세상으로 안내하고 하는 지향점을 표현합니다.</p>
       </div>
-    
+
 
       <hr class="w-100 clearfix d-md-none">
 
-    
       <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
         <h6 class="text-uppercase mb-4 font-weight-bold">HOME</h6>
         <p>
@@ -54,11 +52,9 @@
           <a href="#!">앱다운로드</a>
         </p>
       </div>
-      
 
       <hr class="w-100 clearfix d-md-none">
 
-    
       <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
         <h6 class="text-uppercase mb-4 font-weight-bold">지원</h6>
         <p>
@@ -75,10 +71,10 @@
         </p>
       </div>
 
-  
+
+    
       <hr class="w-100 clearfix d-md-none">
 
-      <!-- Grid column -->
       <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
         <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
         <p class="i-color">
@@ -91,7 +87,7 @@
         <p class="i-color">
           <i class="fas fa-print mr-3"></i> + 051-927-3496</p>
       </div>
-   
+
 
     </div>
  
@@ -99,12 +95,13 @@
     <hr>
 
  
+
     <div class="row d-flex align-items-center">
 
       
       <div class="col-md-7 col-lg-8">
 
-      
+
         <p class="text-center text-md-left">© 2021 Copyright:
           <a href="/">
             <strong> myStreaming.com</strong>
@@ -114,7 +111,6 @@
       </div>
      
 
-  
       <div class="col-md-5 col-lg-4 ml-lg-0">
 
        
@@ -137,7 +133,9 @@
             </li>
             <li class="list-inline-item">
               <a class="btn-floating btn-sm rgba-white-slight mx-1">
-                <i class="fab fa-linkedin-in"></i>
+
+               <i class="bi bi-youtube"></i>
+
               </a>
             </li>
           </ul>
@@ -147,7 +145,6 @@
     
 
     </div>
-   
 
   </div>
 
