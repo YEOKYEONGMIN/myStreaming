@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>회원정보수정하기 </title>
-	<jsp:include page="/WEB-INF/views/layout/Header.jsp"/>
+	<title>회원정보 수정하기</title>
+	<jsp:include page="/WEB-INF/views/layout/Header.jsp" />
+	<link href="../resources/css/register.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />

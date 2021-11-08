@@ -68,6 +68,14 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 
 <script>
+
+	$(function () {
+	    $('[data-toggle="tooltip"]').tooltip()
+	})
+	
+	$('.carousel').carousel({
+	    interval: 3000
+	})
     
     $('#btnRemove').on('click', function(event) {
     	if (!confirm('회원탈퇴 하시겠습니까?')) {

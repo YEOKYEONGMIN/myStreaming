@@ -135,16 +135,16 @@
                 <div class="form-group">
                     <div>
                     <span>
-                        알람 수신
+                        이메일 수신
                     </span>
                     </div>
                     <div class="form-check">
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="alarmYes" name="customRadioInline" class="custom-control-input">
+                            <input type="radio" id="alarmYes" name="recvEmail" value="Y" class="custom-control-input" ${ member.recvEmail eq 'Y' ? 'checked' : '' }>
                             <label class="custom-control-label" for="alarmYes">예</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="alarmNo" name="customRadioInline" class="custom-control-input">
+                            <input type="radio" id="alarmNo" name="recvEmail" value="N" class="custom-control-input" ${ member.recvEmail eq 'N' ? 'checked' : '' }>
                             <label class="custom-control-label" for="alarmNo">아니요</label>
                         </div>
                     </div>

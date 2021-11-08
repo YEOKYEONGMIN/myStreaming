@@ -128,7 +128,6 @@ public class MemberController {
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
 		
-
 		memberVO.setRegDate(new Date());
 		
 		if (file != null && !file.isEmpty()) {
