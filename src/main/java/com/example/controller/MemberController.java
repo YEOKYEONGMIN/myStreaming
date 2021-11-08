@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,7 +59,7 @@ public class MemberController {
 
 	} // loginForm
 
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public String logoutForm(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
 		session.invalidate(); // 세션 비우기 (로그인 정보 비우기)
@@ -128,6 +127,10 @@ public class MemberController {
 		String passwd = memberVO.getPasswd();
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(new Date());
+		memberVO.setRegDate(date);
 
 		memberService.register(memberVO);
 
