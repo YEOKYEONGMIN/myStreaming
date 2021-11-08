@@ -3,7 +3,6 @@ package com.example.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,9 +127,7 @@ public class MemberController {
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(new Date());
-		memberVO.setRegDate(date);
+		memberVO.setRegDate(new Date());
 		
 		if (file != null && !file.isEmpty()) {
 			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, memberVO.getId());
@@ -193,7 +190,7 @@ public class MemberController {
 			session.setAttribute("profilepic", newProfilepic);
 			
 		} // if (!file.isEmpty())
-
+		
 		memberService.updateById(memberVO);
 
 		return pageRedirect(msg, "/");

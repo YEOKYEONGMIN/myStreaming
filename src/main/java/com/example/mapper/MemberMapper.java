@@ -12,8 +12,8 @@ import com.example.domain.MemberVO;
 public interface MemberMapper {
 	
 	// 회원 하나 추가
-	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date) "
-			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate})")
+	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date, recv_email) "
+			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate}, #{recvEmail})")
 	int addMember(MemberVO memberVO);
 	
 	// 회원 하나 삭제
@@ -26,7 +26,7 @@ public interface MemberMapper {
 	
 	// 멤버 수정 (아이디 비밀번호를 제외한 정보들 수정)
 	@Update("UPDATE member SET name=#{name}, nickname=#{nickname}, birthday=#{birthday}, "
-			+ "gender=#{gender}, email=#{email} WHERE id = #{id}")
+			+ "gender=#{gender}, recv_email=#{recvEmail}, email=#{email} WHERE id = #{id}")
 	void updateMemberById(MemberVO memberVO);
 	
 	// 비밀번호만 수정
