@@ -95,7 +95,17 @@
             	<legend>선택 입력란</legend>
                 <div class="form-group">
                     <label for="joinName">이름</label>
-                    <input type="email" class="form-control" id="joinName" name="name">
+                    <input type="text" class="form-control" id="joinName" name="name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modifyNick">닉네임</label>
+                    <input type="text" class="form-control" id="joinNick" name="nickname">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modifyBirth">생일</label>
+                    <input type="text" class="form-control" id="joinBirth" name="birthday" placeholder="YYYY-MM-DD">
                 </div>
 
                 <div class="form-group">

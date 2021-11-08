@@ -13,14 +13,15 @@ public class AdminInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {// request, response는 톰캣이 주는 객체 , object(최종적으로 호출할 컨트롤러? 관리)
 
-		System.out.println("LoginCheckInterceptor()호출");
+		System.out.println("AdminInterceptor()호출");
 		
 	//요청 객체로부터 세션 참조 가져오기
 	HttpSession session = request.getSession();
 	
 	String id = (String)session.getAttribute("id");
+	System.out.println(id);
 	// admin이 아니면 관리자페이지 x
-	if(id == null || id != "admin") {
+	if(id == null && id != "admin") {
 		
 	response.sendRedirect("/");//
 	return false;

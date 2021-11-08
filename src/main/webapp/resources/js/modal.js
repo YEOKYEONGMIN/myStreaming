@@ -74,7 +74,7 @@ $('#search-button').on("click", function (e) {
         localStorage.setItem("recentSearch", strSearchList);
         addRecentSearch();
     }
-    $('#searchModalInput').val("");
+    
 });
 
 function dupCheck(searchWord) {
