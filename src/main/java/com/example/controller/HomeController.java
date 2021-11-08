@@ -43,11 +43,11 @@ public class HomeController {
 //		return "redirect:index";
 	}
 	
-	@GetMapping("/imgView")
+	@GetMapping("/display")
 	@ResponseBody
 	public ResponseEntity<byte[]> getImageFile(String fileName) throws IOException {
 		
-		File source = new File("C:/project_mystreaming/upload", fileName);
+		File source = new File("C:/project_myStreaming/upload", fileName);
 		
 		HttpHeaders headers = new HttpHeaders();
 		

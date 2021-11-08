@@ -9,7 +9,7 @@
 <title>QnA게시판</title>
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 </head>
-<body>
+<body id="body-pd">
    <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
    <div class="container">
 
@@ -135,7 +135,7 @@
    </div>
 
 
- 
+ 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
    <script>
    
    $('#btnSearch').on('click',function(){
