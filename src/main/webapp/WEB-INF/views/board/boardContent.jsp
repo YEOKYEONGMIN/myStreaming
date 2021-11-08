@@ -17,7 +17,7 @@
 <body id="boay-pd">
 	
 	<jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
-	<jsp:include page="/WEB-INF/views/layout/carousel.jsp" />
+
 
 	<div class="container">
 	<h3 class="text-center board-title">Q&A 상세보기</h3>
