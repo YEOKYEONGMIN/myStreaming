@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import java.util.List;
 
+import com.example.domain.BoardVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -61,5 +62,7 @@ public interface MemberMapper {
 	   
 	   // 검색어가 적용된 전체 멤버 개수 가져오기 :조건(where 절)에 따라서 문장이 바뀐다 -> 동적 sql문
 	   int getCountBySearch(Criteria cri);
+
+
 	
 }

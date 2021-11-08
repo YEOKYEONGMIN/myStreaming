@@ -128,9 +128,8 @@ public class MemberController {
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(new Date());
-		memberVO.setRegDate(date);
+
+		memberVO.setRegDate(new Date());
 		
 		if (file != null && !file.isEmpty()) {
 			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, memberVO.getId());

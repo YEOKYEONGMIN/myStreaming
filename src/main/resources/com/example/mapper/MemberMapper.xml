@@ -76,7 +76,7 @@
 	
 	<select id="getMembersNotadmin" resultType="memberVO">
       <![CDATA[
-         SELECT * FROM member WHERE id != "admin"
+         SELECT * FROM member WHERE id != 'admin'
       ]]>
    </select>
    
@@ -121,6 +121,9 @@
             mid LIKE CONCAT('%', #{keyword},'%')
          </if>
       </where>
+	   <![CDATA[
+			LIMIT #{startRow}, #{amount}
+		]]>
    </select>
    
    
