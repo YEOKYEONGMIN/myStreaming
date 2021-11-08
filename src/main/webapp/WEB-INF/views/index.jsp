@@ -39,10 +39,14 @@
     </div>
 
 </div>
-
+	
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 <script src="../../resources/js/index/index.js"></script>
-
+	<c:if test="${not empty login }">
+		<script>
+		 	$('#loginModal').modal('show');
+		</script>
+	</c:if>
 
 </body>
 </html>

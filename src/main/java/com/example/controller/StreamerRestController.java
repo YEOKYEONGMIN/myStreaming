@@ -28,7 +28,6 @@ public class StreamerRestController {
 	@PostMapping(value = "/add", 
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Map<String, Object>> addKeyword(@RequestBody TwitchStreamerVO twitchStreamerVO) {
-		System.out.println("스트리머 추가 ");
 		String msg = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		int count = twitchStreamerService.getCountbyName(twitchStreamerVO.getName());
