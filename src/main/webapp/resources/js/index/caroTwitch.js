@@ -270,8 +270,7 @@ function addStreamer(name,id,login){
         data:Streamer,
         method: 'POST',
         success: function (data) {
-            console.log("스트리머 등록시키기")
-            console.log(data);
+           
             
 			
         }

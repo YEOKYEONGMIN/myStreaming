@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <html>
 <head>
     <title>회원 목록</title>
@@ -43,7 +45,7 @@
 								<td>${member.email}</td>
 								<td>${member.birthday}</td>
 								<td>${member.gender}</td>
-								<td>${member.regDate}</td>
+								<td><fmt:formatDate value="${ member.regDate }" pattern="yyyy.MM.dd" /></td>
 								<td class="d-flex justify-content-center"><input
 									type="checkbox" name="chk"
 									aria-label="Checkbox for following text input"
@@ -59,19 +61,19 @@
 
               <%-- 이전 --%>
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
-                 <a class="page-link" href="${ (pageMaker.prev) ? '/admin/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">이전</a>
+                 <a class="page-link" href="${ (pageMaker.prev) ? '/admin/list?pageNum=' += (pageMaker.startPage - 1) : ''}#member">이전</a>
               </li>
 
               <%-- 시작페이지 번호 ~ 끝페이지 번호 --%>
               <c:forEach var="i" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }" step="1"><%--step = 1은 증가 --%>
                  <li class="page-item ${ (pageMaker.cri.pageNum eq i) ? 'active' : '' }">
-                    <a class="page-link " href="/admin/list?pageNum=${ i }&type=${ pageMaker.cri.type }&keyword=${ pageMaker.cri.keyword }#member">${ i }</a>
+                    <a class="page-link " href="/admin/list?pageNum=${ i }#member">${ i }</a>
                  </li>
               </c:forEach>
 
               <%-- 다음 --%>
               <li class="page-item ${ (pageMaker.next) ? '' : 'disabled' }">
-                 <a class="page-link " href="${ (pageMaker.next) ? '/admin/list?pageNum=' += (pageMaker.endPage + 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#member">다음</a>
+                 <a class="page-link " href="${ (pageMaker.next) ? '/admin/list?pageNum=' += (pageMaker.endPage + 1) : ''}#member">다음</a>
               </li>
 
               </ul>

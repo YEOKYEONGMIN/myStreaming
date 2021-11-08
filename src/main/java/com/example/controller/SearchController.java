@@ -11,7 +11,8 @@ public class SearchController {
 
     @GetMapping("{searchWords}")
     public void searchFrom(@PathVariable("searchWords") String searchWords){
-
+    	
+    	
     }
 
 }
