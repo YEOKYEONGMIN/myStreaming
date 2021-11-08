@@ -2,9 +2,11 @@ package com.example.controller;
 
 import com.example.domain.BookmarkVO;
 import com.example.domain.MemberVO;
+import com.example.domain.ProfilepicVO;
 import com.example.domain.SearchVO;
 import com.example.service.BookmarkService;
 import com.example.service.MemberService;
+import com.example.service.ProfilepicService;
 import com.example.service.SearchService;
 import com.example.util.JScript;
 
@@ -39,6 +41,8 @@ public class MemberRestController {
 	private MemberService memberService;
 	@Autowired
 	private BookmarkService bookmarkService;
+	@Autowired
+	private ProfilepicService profilepicService;
 	
 	
 	// 모든 멤버 가져오기
@@ -81,9 +85,9 @@ public class MemberRestController {
 		System.out.println("id: " + id +" passwd : "+ passwd  );
 		// 비밀번호 비교를 위해 들고오기
 		MemberVO member = memberService.getMemberById(id);
-		System.out.println(member);
+
 		int memberCount = memberService.getMemberCount(id);
-		System.out.println(memberCount);
+
 		boolean checkPasswd = false;
 		
 		// 일치하는 회원정보가 있으면
@@ -105,8 +109,13 @@ public class MemberRestController {
 		}
 		
 		// 아이디가 존재하고 비밀번호 일치시
-		session.setAttribute("id", id); 
+		session.setAttribute("id", id);
+
+		ProfilepicVO profilepicVO = profilepicService.getProfilepicById(id);
+		String profile = profilepicVO.getUploadpath() + profilepicVO.getFilename();
 		
+		session.setAttribute("profile",profile);
+
 		List<BookmarkVO> bookmarkList = bookmarkService.getBookmarkById(id);
 		System.out.println(bookmarkList);
 		if(bookmarkList != null) {

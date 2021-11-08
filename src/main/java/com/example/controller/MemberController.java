@@ -223,59 +223,55 @@ public class MemberController {
 	
 	
 
-	// 관리자 기능
-	@PostMapping("/login")
-	public ResponseEntity<String> login(String id, String passwd, String rememberMe, HttpSession session,
-			HttpServletResponse response) {
 
-		MemberVO memberVO = memberService.getMemberById(id);
-
-		boolean isPasswdSame = false;
-		String message = "";
-
-		if (memberVO.getId() == "admin") {
-			isPasswdSame = BCrypt.checkpw(passwd, memberVO.getPasswd());
-
-			if (isPasswdSame == false) { // 비밀번호 일치하지 않음
-				message = "비밀번호가 일치하지 않습니다.";
-			} // if
-		} // if
-
-		// 로그인 실패시 비밀번호 틀렸을때
-		if (isPasswdSame == false) {
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-Type", "text/html; charset=UTF-8");
-
-			String str = JScript.back(message);
-
-			return new ResponseEntity<String>(str, headers, HttpStatus.OK);
-		}
-
-		// 로그인 성공시, 로그인 인증하기
-		session.setAttribute("id", id);
-
-		// 로그인 상태유지가 체크되었으면
-		if (rememberMe != null) {
-			Cookie cookie = new Cookie("id", id); // 로그인 아이디로 쿠키정보 생성
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 10); // 초단위. 60초 * 10 -> 10분
-
-			response.addCookie(cookie); // 응답객체에 쿠키를 추가해놓으면 최종응답시 쿠키를 클라이언트에게 전송해줌
-		}
-
-		// 관리자가 썸네일 필요 한가?
-//		// 썸네일
-//		ProfilePicVO profilePicVO =  profilePicService.getProfilePic(id);
-//		// 로그인 성공시 썸네일
-//		session.setAttribute("profilePicVO", profilePicVO);
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "text/html; charset=UTF-8");
-
-		String str = JScript.href("관리자 입장!", "/member/adminlist");
-
-		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
-	} // login
+//	@PostMapping("/login")
+//	public ResponseEntity<String> login(String id, String passwd, String rememberMe, HttpSession session,
+//			HttpServletResponse response) {
+//
+//		MemberVO memberVO = memberService.getMemberById(id);
+//
+//		boolean isPasswdSame = false;
+//		String message = "";
+//
+//		if (memberVO.getId() == "admin") {
+//			isPasswdSame = BCrypt.checkpw(passwd, memberVO.getPasswd());
+//
+//			if (isPasswdSame == false) { // 비밀번호 일치하지 않음
+//				message = "비밀번호가 일치하지 않습니다.";
+//			} // if
+//		} // if
+//
+//		// 로그인 실패시 비밀번호 틀렸을때
+//		if (isPasswdSame == false) {
+//			HttpHeaders headers = new HttpHeaders();
+//			headers.add("Content-Type", "text/html; charset=UTF-8");
+//
+//			String str = JScript.back(message);
+//
+//			return new ResponseEntity<String>(str, headers, HttpStatus.OK);
+//		}
+//
+//		// 로그인 성공시, 로그인 인증하기
+//		session.setAttribute("id", id);
+//
+//		// 로그인 상태유지가 체크되었으면
+//		if (rememberMe != null) {
+//			Cookie cookie = new Cookie("id", id); // 로그인 아이디로 쿠키정보 생성
+//			cookie.setPath("/");
+//			cookie.setMaxAge(60 * 10); // 초단위. 60초 * 10 -> 10분
+//
+//			response.addCookie(cookie); // 응답객체에 쿠키를 추가해놓으면 최종응답시 쿠키를 클라이언트에게 전송해줌
+//		}
+//
+//
+//
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("Content-Type", "text/html; charset=UTF-8");
+//
+//		String str = JScript.href("로그인성공", "/member/adminlist");
+//
+//		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
+//	} // login
 
 	@PostMapping("/adminModify") // 고객 정보 수정 저장 처리 요청
 	public String adminModify(MemberVO memberVO) {
