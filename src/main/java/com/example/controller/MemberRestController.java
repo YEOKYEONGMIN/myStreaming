@@ -116,6 +116,7 @@ public class MemberRestController {
 			session.setAttribute("profilepic", profilepicVO);
 		}
 
+
 		List<BookmarkVO> bookmarkList = bookmarkService.getBookmarkById(id);
 		System.out.println(bookmarkList);
 		if(bookmarkList != null) {
