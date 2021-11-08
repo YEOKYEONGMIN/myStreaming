@@ -87,7 +87,7 @@
          <%--페이지 --%>
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-               <%-- 이전 --%>
+
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
               	<a class="page-link" href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
               </li>
