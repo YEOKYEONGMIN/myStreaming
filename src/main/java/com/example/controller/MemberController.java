@@ -155,7 +155,8 @@ public class MemberController {
 	// 로그인은 MemberRestController에서 처리
 	
 	@PostMapping(value = "/modify")
-	public ResponseEntity<String> modify(MultipartFile file, MemberVO memberVO) throws IOException {
+	public ResponseEntity<String> modify(MultipartFile file, MemberVO memberVO,
+			HttpSession session) throws IOException {
 		MemberVO member = memberService.getMemberAndProfilepic(memberVO.getId());
 		ProfilepicVO profilepic = member.getProfilepicVO();
 
@@ -188,6 +189,8 @@ public class MemberController {
 				deleteProfilepic(profilepic);
 				profilepicService.updateProfilepic(newProfilepic);
 			}
+			
+			session.setAttribute("profilepic", newProfilepic);
 		} // if (!file.isEmpty())
 
 		memberService.updateById(memberVO);
