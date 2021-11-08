@@ -40,7 +40,14 @@
                     <c:otherwise>
                         <div class="dropdown">
                             <div class="round-img dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../../resources/images/defaultProfile.png" height="50px">
+                            	<c:choose>
+                            		<c:when test="${ not empty profilepic }">
+                            			<img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }" height="50px">
+                            		</c:when>
+                            		<c:otherwise>
+                            			<img src="../../../resources/images/defaultProfile.png" height="50px">
+                            		</c:otherwise>
+                            	</c:choose>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/member/modify">
