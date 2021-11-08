@@ -72,7 +72,7 @@ public class MemberService {
         int startRow = (cri.getPageNum() - 1) * cri.getAmount();
         cri.setStartRow(startRow);
 
-        return memberMapper.getMembersWithPaging(cri);
+        return memberMapper.getMembersNotadmin(cri);
     } // getMembers
 
     public List<MemberVO> getMembers(Criteria cri) {
