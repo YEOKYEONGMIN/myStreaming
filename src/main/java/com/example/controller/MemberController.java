@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,7 +59,7 @@ public class MemberController {
 
 	} // loginForm
 
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public String logoutForm(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
 		session.invalidate(); // 세션 비우기 (로그인 정보 비우기)
@@ -103,9 +102,15 @@ public class MemberController {
 	} // changePasswdForm
 
 	@GetMapping("/remove")
-	public void removeForm() {
+	public void removeForm(HttpSession session, Model model) {
 
 		System.out.println("회원탈퇴 화면 호출 확인...");
+		
+		String id = (String) session.getAttribute("id");
+		MemberVO member = memberService.getMemberById(id);
+		
+		model.addAttribute("member", member);
+		
 	} // removeForm
 
 	// ========================== GET 요청 끝 ==========================
@@ -122,6 +127,10 @@ public class MemberController {
 		String passwd = memberVO.getPasswd();
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(new Date());
+		memberVO.setRegDate(date);
 
 		memberService.register(memberVO);
 
@@ -172,6 +181,45 @@ public class MemberController {
 		return pageRedirect(msg, "/");
 
 	} // modify
+	
+	@PostMapping(value = "/remove")
+	public ResponseEntity<String> remove(HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, MemberVO memberVO) {
+		
+		MemberVO member = memberService.getMemberAndProfilepic(memberVO.getId());
+		ProfilepicVO profilepic = member.getProfilepicVO();
+		String msg = "회원탈퇴에 성공하였습니다.";
+		
+		if (!BCrypt.checkpw(memberVO.getPasswd(), member.getPasswd())) {
+			msg = "비밀번호가 틀립니다.";
+			return pageBack(msg);
+		}
+		
+		// 프로필사진 업로드 되있을 경우 삭제
+		if (profilepic != null) {
+			profilepicService.deleteProfilepicById(memberVO.getId());
+			deleteProfilepic(profilepic);
+		}
+		
+		memberService.deleteById(member.getId());
+		
+		session.invalidate(); 
+
+		Cookie[] cookies = request.getCookies();
+
+		if (cookies != null) {
+			for (Cookie c : cookies) {
+				// 쿠키이름은 userId로
+				if (c.getName().equals("userId")) {
+					c.setMaxAge(0);
+					c.setPath("/");
+					response.addCookie(c);
+				}
+			} // for
+		} // if
+		
+		return pageRedirect(msg, "/");
+	} // remove
 	
 	
 
