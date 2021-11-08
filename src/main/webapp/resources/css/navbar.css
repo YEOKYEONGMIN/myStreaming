@@ -42,3 +42,7 @@
         display: list-item!important;
     }
 }
+
+.round-img img{
+    border-radius: 50%;
+}
