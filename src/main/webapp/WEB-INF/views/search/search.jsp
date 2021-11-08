@@ -14,29 +14,16 @@
 
 <div class="my-5 mx-5 px-5">
     <%--    <input type="hidden" id="keyword" value="${keyword}">--%>
-
+	<input type="hidden" id="keyword" value="${keyword}">
+	
     <div class="platform-container" style="display: flex;flex-direction: column">
 
         <div class="platform-title my-5">
             <span> 트위치 검색 결과</span>
         </div>
 
-        <div class="channel-container" style="display: flex;">
-            <div class="channel-img">
-                <img src="../../../resources/images/defaultProfile.png">
-            </div>
-            <div class="mx-4" style="display: flex;flex-direction: column">
-                <div class="channel-title">
-                    <span>
-                        풍월량
-                    </span>
-                </div>
-                <div class="channel-description my-3">
-                    <span>
-                        풍월량 방송
-                    </span>
-                </div>
-            </div>
+        <div class="channel-container" id="twitchChannel" style="display: flex;">
+            
         </div>
     </div>
 
@@ -48,22 +35,8 @@
                 <span> 유튜브 검색 결과</span>
             </div>
 
-            <div class="channel-container" style="display: flex;">
-                <div class="channel-img">
-                    <img src="../../../resources/images/defaultProfile.png">
-                </div>
-                <div class="mx-4" style="display: flex;flex-direction: column">
-                    <div class="channel-title">
-                    <span>
-                        풍월량
-                    </span>
-                    </div>
-                    <div class="channel-description my-3">
-                    <span>
-                        풍월량 방송
-                    </span>
-                    </div>
-                </div>
+            <div class="channel-container" id="youtubeChannel" style="display: flex;">
+                
             </div>
         </div>
 
@@ -71,8 +44,6 @@
 
 </div>
 
-
-</div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 <script src="../../resources/js/index/index.js"></script>
