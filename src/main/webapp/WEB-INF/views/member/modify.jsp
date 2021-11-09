@@ -76,8 +76,8 @@
                     <c:choose>
 	                  	<c:when test="${ not empty profilepic }">
 	           				<li>
-	               				<a href="/imgView?fileName=profilepic/${ profilepic.uploadpath }/${ profilepic.uuid }_${ profilepic.filename }">
-	               					<img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }">
+	               				<a href="/display?fileName=profilepic/${ profilepic.uploadpath }/${ profilepic.uuid }_${ profilepic.filename }">
+	               					<img src="/display?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }">
 	               				</a>
 	               			</li>
 	           			</c:when>

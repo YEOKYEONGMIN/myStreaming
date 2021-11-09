@@ -38,7 +38,7 @@
                          aria-expanded="false">
                         <c:choose>
                             <c:when test="${ not empty profilepic }">
-                                <img src="/imgView?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }"
+                                <img src="/display?fileName=profilepic/${ profilepic.uploadpath }/s_${ profilepic.uuid }_${ profilepic.filename }"
                                      height="50px">
                             </c:when>
                             <c:otherwise>
