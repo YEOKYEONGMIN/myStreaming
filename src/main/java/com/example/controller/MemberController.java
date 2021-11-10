@@ -117,7 +117,8 @@ public class MemberController {
 	// ========================= POST 요청 모음 =========================
 	// 회원가입 처리
 	@PostMapping("/register")
-	public ResponseEntity<String> register(MultipartFile file, MemberVO memberVO, String passwd2) throws IllegalStateException, IOException { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
+	public ResponseEntity<String> register(MultipartFile file, MemberVO memberVO, String passwd2,
+			HttpSession session) throws IllegalStateException, IOException { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 
 		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
 
@@ -140,6 +141,8 @@ public class MemberController {
 			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepic");
 
 			profilepicService.insertProfilepic(newProfilepic);
+			
+			session.setAttribute("profilepic", newProfilepic);
 			
 		}
 
