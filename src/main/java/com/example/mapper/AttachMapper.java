@@ -34,8 +34,8 @@ public interface AttachMapper {
 	List<AttachVO> getAttachesByUploadpath(String uploadpath);
 
 	// 특정 게시글번호에 해당하는 첨부파일들 삭제하기
-	@Delete("DELETE FROM attach WHERE bno = #{bno} ")
-	void deleteAttachesByBno(int bno);
+	@Delete("DELETE FROM attach WHERE bno = #{num}")
+	void deleteAttachesByBno(int num);
 
 	// uuid에 해당하는 첨부파일 한개 삭제하기
 	@Delete("DELETE FROM attach WHERE uuid = #{uuid} ")

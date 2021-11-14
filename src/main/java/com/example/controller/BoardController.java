@@ -58,18 +58,12 @@ public class BoardController {
 
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
-		System.out.println("list() 호출됨...");
 		
 		// board 테이블에서 전체글 리스트로 가져오기 
 		List<BoardVO> boardList = boardService.getBoards(cri);
-		
 
-		
-		boardList = boardService.getBoards(cri); // 게시글 추가될시 새로 불러옴
-		
-		
 		// 검색유형, 검색어가 있으면 적용하여 글개수 가져오기
-		int totalCount = boardService.getCountBySearch(cri); 
+		int totalCount = boardService.getCountBySearch(cri);
 		
 		// 페이지블록 정보 객체준비. 필요한 정보를 생성자로 전달.
 		PageDTO pageDTO = new PageDTO(cri, totalCount);

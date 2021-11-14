@@ -3,7 +3,6 @@ package com.example.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,7 +117,8 @@ public class MemberController {
 	// ========================= POST 요청 모음 =========================
 	// 회원가입 처리
 	@PostMapping("/register")
-	public ResponseEntity<String> register(MemberVO memberVO, String passwd2) { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
+	public ResponseEntity<String> register(MultipartFile file, MemberVO memberVO, String passwd2,
+			HttpSession session) throws IllegalStateException, IOException { // 비밀번호 확인란 name명은 임의로 passwd2로 처리
 
 		String msg = "회원가입을 완료하였습니다."; // 보낼 메세지
 
@@ -128,9 +128,23 @@ public class MemberController {
 		String pwHash = BCrypt.hashpw(passwd, BCrypt.gensalt());
 		memberVO.setPasswd(pwHash);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(new Date());
-		memberVO.setRegDate(date);
+		memberVO.setRegDate(new Date());
+		
+		if (file != null && !file.isEmpty()) {
+			Map<String, Object> map = uploadProfilepicAndGetProfilepic(file, memberVO.getId());
+
+			if (map.get("result").toString().equals("failed")) {
+				msg = "프로필 사진은 이미지 파일로 업로드 해주세요.";
+				return pageBack(msg);
+			}
+
+			ProfilepicVO newProfilepic = (ProfilepicVO) map.get("profilepic");
+
+			profilepicService.insertProfilepic(newProfilepic);
+			
+			session.setAttribute("profilepic", newProfilepic);
+			
+		}
 
 		memberService.register(memberVO);
 
@@ -141,7 +155,7 @@ public class MemberController {
 	// 로그인은 MemberRestController에서 처리
 	
 	@PostMapping(value = "/modify")
-	public ResponseEntity<String> modify(MultipartFile file, MemberVO memberVO) throws IOException {
+	public ResponseEntity<String> modify(HttpSession session, MultipartFile file, MemberVO memberVO) throws IOException {
 		MemberVO member = memberService.getMemberAndProfilepic(memberVO.getId());
 		ProfilepicVO profilepic = member.getProfilepicVO();
 
@@ -174,6 +188,8 @@ public class MemberController {
 				deleteProfilepic(profilepic);
 				profilepicService.updateProfilepic(newProfilepic);
 			}
+			
+			session.setAttribute("profilepic", newProfilepic);
 		} // if (!file.isEmpty())
 
 		memberService.updateById(memberVO);

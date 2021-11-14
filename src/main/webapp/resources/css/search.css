@@ -1,0 +1,13 @@
+.channel-title span{
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.channel-img img{
+    border-radius: 50%;
+}
+
+.platform-title{
+    font-size: 30px;
+    font-weight: 900;
+}

@@ -2,18 +2,20 @@ package com.example.mapper;
 
 import java.util.List;
 
+import com.example.domain.BoardVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
 
 public interface MemberMapper {
 	
 	// 회원 하나 추가
-	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date) "
-			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate})")
+	@Insert("INSERT INTO member (id, passwd, name, nickname, birthday, gender, email, reg_date, recv_email) "
+			+ "VALUES (#{id}, #{passwd}, #{name}, #{nickname}, #{birthday}, #{gender}, #{email}, #{regDate}, #{recvEmail})")
 	int addMember(MemberVO memberVO);
 	
 	// 회원 하나 삭제
@@ -26,7 +28,7 @@ public interface MemberMapper {
 	
 	// 멤버 수정 (아이디 비밀번호를 제외한 정보들 수정)
 	@Update("UPDATE member SET name=#{name}, nickname=#{nickname}, birthday=#{birthday}, "
-			+ "gender=#{gender}, email=#{email} WHERE id = #{id}")
+			+ "gender=#{gender}, recv_email=#{recvEmail}, email=#{email} WHERE id = #{id}")
 	void updateMemberById(MemberVO memberVO);
 	
 	// 비밀번호만 수정
@@ -51,5 +53,16 @@ public interface MemberMapper {
 	// 회원 갯수
 	@Select("SELECT count(*) AS cnt FROM member")
 	int getCountAllMembers();
+	
+	  // 관리자 제외 모든 회원정보 조회
+	   List<MemberVO> getMembersNotadmin(Criteria cri);
+	   
+	// 페이징으로 글 가져오기
+	   List<MemberVO> getMembersWithPaging(Criteria cri);
+	   
+	   // 검색어가 적용된 전체 멤버 개수 가져오기 :조건(where 절)에 따라서 문장이 바뀐다 -> 동적 sql문
+	   int getCountBySearch(Criteria cri);
+
+
 	
 }

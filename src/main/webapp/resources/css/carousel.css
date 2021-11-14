@@ -95,6 +95,7 @@
     transform: translate(6px,-6px);
     transition: .3s ease;
 }
+
 .card-body div{
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -109,4 +110,23 @@
 .card-body .card-title{
     text-overflow: ellipsis;
     font-size: 14px;
+}
+
+/*유튜브 하버*/
+
+.custom-shadow-youtube{
+    transition: .5s ease;
+}
+
+.custom-shadow-youtube:hover{
+    box-shadow:
+            -1px 1px rgb(255,00,000),
+            -2px 2px rgb(255,00,000),
+            -3px 3px rgb(255,00,000),
+            -4px 4px rgb(255,00,000),
+            -5px 5px rgb(255,00,000),
+            -6px 6px rgb(255,00,000);
+    -webkit-transform: translate(6px,-6px);
+    transform: translate(6px,-6px);
+    transition: .3s ease;
 }

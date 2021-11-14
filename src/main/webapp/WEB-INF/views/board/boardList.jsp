@@ -29,7 +29,7 @@
    
        <!-- 글목록 테이블 -->
          <table class="table table-hover" id="board">
-            <thead class="ackground-purple text-white ">
+            <thead class="background-purple text-white ">
                <tr>
                   <th scope="col" class="text-center">번호</th>
                   <th scope="col" class="text-center">제목</th>
@@ -87,7 +87,7 @@
          <%--페이지 --%>
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-               <%-- 이전 --%>
+
               <li class="page-item ${ (pageMaker.prev) ? '' : 'disabled' }">
               	<a class="page-link" href="${ (pageMaker.prev) ? '/board/list?pageNum=' += (pageMaker.startPage - 1) += '&type=' += pageMaker.cri.type += '&keyword=' += pageMaker.cri.keyword : '' }#board">이전</a>
               </li>

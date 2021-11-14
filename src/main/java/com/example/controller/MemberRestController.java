@@ -110,11 +110,12 @@ public class MemberRestController {
 		
 		// 아이디가 존재하고 비밀번호 일치시
 		session.setAttribute("id", id);
+		
+		ProfilepicVO profilepicVO = profilepicService.getProfilepicById(id);
+		if (profilepicVO != null) {
+			session.setAttribute("profilepic", profilepicVO);
+		}
 
-//		ProfilepicVO profilepicVO = profilepicService.getProfilepicById(id);
-//		String profile = profilepicVO.getUploadpath() + profilepicVO.getFilename();
-//		
-//		session.setAttribute("profile",profile);
 
 		List<BookmarkVO> bookmarkList = bookmarkService.getBookmarkById(id);
 		System.out.println(bookmarkList);

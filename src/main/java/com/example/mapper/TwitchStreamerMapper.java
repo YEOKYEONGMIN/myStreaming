@@ -14,8 +14,7 @@ public interface TwitchStreamerMapper {
 	void addStramer(TwitchStreamerVO twitchStreamerVO);
 	
 	
-	@Select("SELECT * FROM twitchstreamer "
-			+"WHERE name LIKE '%#{name}% ")
+	
 	List<String> searchStreamer(String name);
 	
 	@Select("SELECT count(*) FROM twitchstreamer "

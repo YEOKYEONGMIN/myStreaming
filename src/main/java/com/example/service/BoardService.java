@@ -18,10 +18,12 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 	
 	@Autowired
 	private BoardMapper boardMapper;
-	
 	@Autowired
 	private AttachMapper attachMapper;
-	
+
+	public List<String> getBoardNumById(String mid){
+		return boardMapper.getBoardNumById(mid);
+	}
 	
 	//테스트용 임시로 구현
 	public void addBoard(BoardVO boardVO) {
@@ -76,11 +78,7 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 			return boardMapper.getNextNum();
 			
 		}
-		
-		
-		
-		
-		
+
 		//게시글 한개와 첨부파일(여러개)가져오기
 		public BoardVO getBoardAndAttaches(int num) {
 			BoardVO boardVO = boardMapper.getBoardAndAttaches(num);//join쿼리로 데이터 가져옴
@@ -114,8 +112,8 @@ public class BoardService {//스프링이 관리하는 객체는 싱글톤 설�
 			attachMapper.deleteAttachesByBno(num);
 			boardMapper.deleteBoardByNum(num);
 		} // deleteBoardAndAttaches
-		
-		
+
+
 		@Transactional//글번호에 해당하는 게시글 수정, 첨부파일 정보 수정(insert,delete ) - 트랜잭션처리
 		public void updateBoardAndInsertAttachesAndDeleteAttaches(BoardVO boardVO, List<AttachVO> newAttachList, List<String> deletUuidList) {
 			if (newAttachList != null && newAttachList.size() > 0) {

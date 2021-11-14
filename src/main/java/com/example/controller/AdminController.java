@@ -1,8 +1,10 @@
 package com.example.controller;
 
+import com.example.domain.Criteria;
 import com.example.domain.MemberVO;
+import com.example.domain.PageDTO;
 import com.example.domain.ProfilepicVO;
-import com.example.service.MemberService;
+import com.example.service.*;
 import com.example.util.JScript;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -33,6 +36,14 @@ public class AdminController {
 
     @Autowired
     private MemberService memberService;
+	@Autowired
+	private ProfilepicService profilepicService;
+	@Autowired
+	private BoardService boardService;
+	@Autowired
+	private AttachService attachService;
+	@Autowired
+	private BookmarkService bookmarkService;
 
     @GetMapping("main")
     public String adminMainForm(){
@@ -41,17 +52,23 @@ public class AdminController {
     }
 
     @GetMapping("list")
-    public String adminListForm(Model model){
+    public String adminListForm(Criteria cri,Model model){
 
-        List<MemberVO> memberList = memberService.getMembers();
+        List<MemberVO> memberList = memberService.getMembersNotadmin(cri);
+        int totalCount = memberService.getCountBySearch(cri);
+        
+
+        PageDTO pageDTO = new PageDTO(cri, totalCount);
+        
         model.addAttribute("memberList", memberList);
+        model.addAttribute("pageMaker", pageDTO);
 
 
         return "/admin/list";
     }
 
-
-
+   
+    
     @GetMapping("/modify")//관리자 변경 화면
     public String adminModifyForm(MemberVO memberVO, Model model) throws Exception{
         System.out.println("관리자 변경 화면 호출확인~");
@@ -94,40 +111,38 @@ public class AdminController {
         return "/member/adminDetail";
     }
     
-    @PostMapping("/remove")
-	public ResponseEntity<String> remove(String id, String passwd, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response) {
-		MemberVO memberVO = memberService.getMemberById(id);
-		//ProfilepicVO profilepicVO = profilepicService.getProfilepicByMid(id);
+    @PostMapping("/remove")//삭제
+	public ResponseEntity<String> remove( HttpServletRequest request) {
 
-		// 세션비우기
-		session.invalidate();
+		String[] idArr = request.getParameterValues("chk");
 
-		// 로그인 상태유지용 쿠키가 있으면 삭제처리하기
-		// 쿠키값 가져오기
-		Cookie[] cookies = request.getCookies();
+		if(idArr != null){
+			for (String id : idArr) {
+			profilepicService.deleteProfilepicById(id);
 
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("loginId")) {
-					cookie.setMaxAge(0); // 쿠키 유효기간 0초 설정(삭제 의도)
-					cookie.setPath("/");
-					response.addCookie(cookie); // 응답객체에 추가하기
+			List<String> boardNumList = boardService.getBoardNumById(id);
+
+				for (String sNum : boardNumList) {
+					int boardNum = Integer.parseInt(sNum);
+					boardService.deleteBoardAndAttaches(boardNum);
 				}
+				bookmarkService.deleteById(id);
+			memberService.deleteById(id);
 			}
 		}
-		//deleteProfilepic(profilepicVO);
-		//profilepicService.deleteprofilepicByMid(id); // 프로필 이미지 삭제하기
-		memberService.deleteById(id);
+
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "text/html; charset=UTF-8");
 
-		String str = JScript.href("회원탈퇴 처리되었습니다.!", "/");
+		String str = JScript.href("회원탈퇴 처리되었습니다.!", "/admin/list");
 
 		return new ResponseEntity<String>(str, headers, HttpStatus.OK);
 
 	}
+
+
+    
 	// 페이지 뒤로가기 처리 메소드
 	private ResponseEntity<String> pageBack(String msg) {
 		HttpHeaders headers = new HttpHeaders();

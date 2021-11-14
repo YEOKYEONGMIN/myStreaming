@@ -48,6 +48,9 @@ public class BookmarkService {
 		return bookmarkMapper.getCountbyIdAndStreamerId(mid, streamerId);
 	}
 	
+	public void deleteById(String mid) {
+		bookmarkMapper.deleteById(mid);
+	}
 
 
 }

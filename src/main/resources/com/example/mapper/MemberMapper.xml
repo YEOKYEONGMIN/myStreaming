@@ -40,6 +40,7 @@
 		<result column="gender" property="gender" />
 		<result column="email" property="email" />
 		<result column="reg_Date" property="regDate" />
+		<result column="recv_email" property="recvEmail" />
 		
 		<association property="profilepicVO" javaType="profilepicVO">
 			<id column="mid" property="mid" />
@@ -65,6 +66,7 @@
 		<result column="gender" property="gender" />
 		<result column="email" property="email" />
 		<result column="reg_Date" property="regDate" />
+		<result column="recv_email" property="recvEmail" />
 		
 		<association property="profilepicVO" javaType="profilepicVO">
 			<id column="mid" property="mid" />
@@ -73,5 +75,47 @@
 			<result column="filename" property="filename" />
 		</association>
 	</resultMap>
+	
+	<select id="getMembersNotadmin" resultType="memberVO">
+      <![CDATA[
+         SELECT * FROM member WHERE id != 'admin'
+         ORDER BY reg_date
+         LIMIT #{startRow}, #{amount}
+      ]]>
+   </select>
+   
+    <!-- 페이징으로 글 가져 오기 -->
+   <select id="getMembersWithPaging" resultType="memberVO">
+      <![CDATA[
+         SELECT * 
+         FROM member 
+      ]]>
+      <where>
+         <if test="type == 'id'.toString()">
+            subject LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+         <if test="type == 'name'.toString()">
+            content LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+         <if test="type == 'nickname'.toString()">
+            mid LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+      </where>
+      <![CDATA[
+         ORDER BY id ASC 
+         LIMIT #{startRow}, #{amount} 
+         
+      ]]>
+   </select>
+   
+   <!--검색어가 적용된 전체 멤버 개수 가져오기 -->
+   <select id="getCountBySearch" resultType="int">
+   <![CDATA[
+      SELECT COUNT(*) AS cnt
+      FROM member
+		]]>
+   </select>
+   
+   
 	
 </mapper>
