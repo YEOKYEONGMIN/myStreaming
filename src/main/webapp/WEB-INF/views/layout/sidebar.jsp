@@ -14,9 +14,10 @@
 					<span class="nav_name">팔로우 중인 채널</span>
 					</span>
 				</div>
+				<div class="nav__bookmark">
 				<c:choose>
                 	<c:when test="${ not empty bookmarkList }">
-                		<div class="nav__bookmark">
+                		
                 		<c:forEach var="bookmark" items="${ bookmarkList }">
                 			<c:if test="${not empty bookmark.streamerLogin }">
 								<a href="https://www.twitch.tv/${bookmark.streamerLogin}" class="nav__follow" id="nav__follow${bookmark.streamerId}" target="_blank">
@@ -34,12 +35,11 @@
 							</c:if>
 							
                 		</c:forEach>
-                		</div>
                 	</c:when>
-                	<c:otherwise>
-
-                	</c:otherwise>
+                	
+                
                 </c:choose>
+                </div>
 			</c:if>
 
 			
